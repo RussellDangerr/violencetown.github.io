@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violencetown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Splash screen -->
+    <div id="splash">
+        <div id="splash-inner">
+            <div id="splash-title">VIOLENCETOWN</div>
+            <div id="splash-sub">You are a taxi driver. Things have gone wrong.</div>
+            <button id="splash-go">LET'S GO</button>
+            <div id="splash-hint">or press Space</div>
+        </div>
+    </div>
+
+    <div id="game-wrapper" class="hidden">
+        <!-- Top bar -->
+        <header id="top-bar">
+            <span id="game-title">VIOLENCETOWN</span>
+            <span id="biome-label">—</span>
+            <div id="top-controls">
+                <button id="new-game" title="New Game">NEW</button>
+            </div>
+        </header>
+
+        <!-- Main layout: sidebar + canvas + log -->
+        <div id="main-layout">
+
+            <!-- Left sidebar: status -->
+            <aside id="left-panel">
+                <div class="panel-header">STATUS</div>
+                <div id="status-panel"></div>
+
+                <div class="panel-header" style="margin-top: 12px;">CONTROLS</div>
+                <div id="controls-help">
+                    <div class="help-row"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</div>
+                    <div class="help-row"><kbd>E</kbd> Pick up</div>
+                    <div class="help-row"><kbd>Space</kbd> Execute tick</div>
+                    <div class="help-row"><kbd>Esc</kbd> Cancel</div>
+                    <div class="help-row"><kbd>P</kbd> Pause</div>
+                </div>
+            </aside>
+
+            <!-- Center: canvas + tick bar + action queue -->
+            <div id="center-column">
+                <div id="canvas-container">
+                    <div id="tick-bar"></div>
+                    <canvas id="game-canvas"></canvas>
+                </div>
+                <div id="action-queue-container">
+                    <span class="queue-label">NEXT ACTION:</span>
+                    <div id="action-queue">
+                        <span class="queue-empty">No action queued — you'll stand still</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: text log -->
+            <aside id="right-panel">
+                <div class="panel-header">LOG</div>
+                <div id="text-log"></div>
+            </aside>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
