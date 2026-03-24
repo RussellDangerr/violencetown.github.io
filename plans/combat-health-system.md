@@ -1,55 +1,95 @@
 # Feature: Combat & Health System
 **Phase:** Phase 2 — Life in the City
 **Priority:** Critical
-**Status:** Design (core rules decided)
+**Status:** Research
 
 ---
 
-## Core Combat Rules — DECIDED
+## Gate 1: Research & Discovery
 
-These are locked in. No further design debate needed on the fundamentals.
+### Genre References
 
-### Health
-- **Everything has 100 HP.** Players, NPCs, rats, cheese, The Duke — 100 HP across the board.
-- Simple, universal, easy to reason about. No stat bloat.
+1. **Cataclysm: Dark Days Ahead** — Turn-based roguelike with transparent combat math. Every hit connects, damage is deterministic based on weapon/armor values. Players can mentally model outcomes before committing. The transparency builds trust and rewards system mastery.
 
-### Damage
-- Damage is dealt as **single numbers.** You hit for 3, for 7, for 12. Clean, readable.
-- **There is no missing.** Every attack connects. Every swing lands.
-- The variance is in **how hard you hit**, not whether you hit.
-- This keeps combat feeling responsive and removes the frustration of whiffed attacks in a tick-based system where every action is precious.
+2. **Brogue** — Minimal stat roguelike where combat is lethal and readable. No stat bloat — HP is low, damage is clear, armor is flat reduction. Every encounter is a meaningful decision because the numbers are small enough to reason about.
 
-### Armor
-- Armor is a **flat damage reduction.** If you have 3 armor and take 7 damage, you take 4.
-- No percentages, no diminishing returns, no armor penetration (yet).
-- Armor can reduce damage to a **minimum of 1** — you always take at least 1 damage per hit. Nothing is invincible.
-- This makes armor feel tangible: "I have 5 armor" means every hit hurts 5 less. Players can do that math instantly.
+3. **Dwarf Fortress (Adventure Mode)** — Everything in the world uses the same combat system. A rat biting cheese and a warrior swinging a sword resolve through identical mechanics. Universal rules create emergent stories.
 
-### Why This Works
-- **Transparency:** The player always knows exactly what happened and why. No hidden rolls, no RNG frustration.
-- **Tick economy:** In a 10-second tick system, every queued action matters. Missing would feel awful. Hitting for less still feels like progress.
-- **Damage numbers as teaching tool:** The rat eating cheese shows damage numbers in the world before the player ever fights. With this system, those numbers are immediately understandable.
-- **Armor as meaningful loot:** Finding armor is exciting because the math is obvious. "I went from taking 7 to taking 2 per hit" is a clear power spike.
+4. **Caves of Qud** — Tick-based combat where action economy matters more than raw stats. Missing is possible but rare; the drama comes from what you choose to do with limited actions, not RNG rolls.
 
-### Combat Formula
-```
-actual_damage = max(1, raw_damage - target_armor)
-```
+5. **Into the Breach** — Perfect information combat. The player always knows exactly what will happen. No hidden rolls. This creates puzzle-like tactical depth from simple rules.
 
-That's it. One line. The entire combat damage model.
+### Player Experience Goal
+
+"Every hit lands, every number makes sense, and the player can do the math in their head — combat feels like chess, not slot machines."
+
+### Technical Feasibility
+
+**Affected Modules:**
+- `player.js` — Needs HP (already has hp/maxHp stub), armor stat, `takeDamage()` method, attack action type in the queue
+- `data.js` — Weapon damage values already exist on item definitions (pipe: 8, knife: 12, crowbar: 10). Need armor values on NPC definitions (not yet created)
+- `map.js` — NPCs will exist on tiles; combat needs to check adjacent tiles for targets. Ground item drops on death
+- `ui.js` — Damage numbers in the text log. Potentially floating damage on canvas (stretch goal). HP bar already rendered in status panel
+- `main.js` — Tick resolution needs to process combat actions alongside movement. Action queue already supports one action per tick
+
+**Known Constraints:**
+- 10-second tick system means combat is slow and deliberate — every action is precious. This is a feature, not a bug, but it means "missing" would feel terrible (validates the no-miss design)
+- Single action per tick: player must choose between moving and attacking. No attack-of-opportunity or multi-action turns
+- Seeded RNG (Mulberry32) must be used for any damage variance to maintain determinism
+
+**What Already Exists:**
+- Player has `hp` and `maxHp` fields (player.js)
+- Items have `damage` values in data.js (pipe: 8, knife: 12, crowbar: 10)
+- Action queue system processes one action per tick
+- Text log can display combat messages
+- Status panel shows HP
+
+### Scope — Minimum Viable Feature
+
+**In scope:**
+- Universal 100 HP for all entities (player and NPCs)
+- Flat armor as damage reduction: `actual = max(1, raw - armor)`
+- Player attack action: queue "attack [direction]" like movement
+- Melee combat only (adjacent tiles)
+- Damage sourced from equipped weapon (or bare hands fallback: 1-3 damage)
+- Combat messages in text log ("You hit the Rat for 7 damage. The Rat has 43 HP.")
+- NPC death: remove from map, drop loot on tile
+- Player taking damage from NPCs (resolved on NPC's tick action)
+
+**Out of scope for this pass:**
+- Ranged combat
+- Critical hits or damage variance beyond weapon range
+- Status effects (poison, bleed, stun)
+- Armor degradation
+- Environmental damage from hazard tiles (sludge/radiation) — separate feature
+- Combat AI beyond "attack adjacent player" — that's the NPC AI brief's territory
+- Floating damage numbers on canvas (text log only for MVF)
+- Weapon durability
+
+### Risk Assessment
+
+| Risk | Severity | Mitigation |
+|------|----------|------------|
+| **Combat feels too slow at 10s ticks** | High | The tick timer already has urgency flash at 2s. Combat log messages should be punchy and dramatic to make each tick feel weighty. If needed, tick speed could be a future tuning knob, but don't optimize prematurely. |
+| **NPC system dependency** | High | Combat requires NPCs to exist on the map. This feature MUST be developed after or alongside NPC Spawning. Define the combat interface (takeDamage, getArmor, isDead) so both features can develop against the contract. |
+| **Action queue complexity** | Medium | Currently the queue handles move/wait/pickup. Adding "attack" is straightforward, but resolving attack vs. move when an NPC is on an adjacent tile needs clear priority rules. Design: if player moves into an occupied tile, it becomes an attack. Simple, discoverable. |
 
 ---
 
-## Open Design Questions (For Later)
-- What determines raw_damage? Weapon base damage? Weapon + player stat?
-- Do different weapons have different damage ranges or fixed values?
-- Can armor degrade (fits with Phase 3 bag damage / item durability)?
-- Do environmental hazards (sludge, radiation) use this same system?
-- Critical hits? Or does "no missing, variable damage" already cover that design space?
+## Design Decisions — LOCKED
+
+These were decided in earlier design sessions and are not open for debate:
+
+- **100 HP universal.** Players, NPCs, rats, cheese, everything.
+- **No missing.** Every attack connects. Variance is in damage amount, not hit chance.
+- **Flat armor.** `actual_damage = max(1, raw_damage - target_armor)`. One line. Done.
+- **Damage as single numbers.** You hit for 7. Clean, readable, no dice notation.
+
+## Open Questions (For Gate 2)
+
+- What determines raw_damage range? Weapon base ± small variance via seeded RNG?
+- Bare hands damage: fixed 1, or 1-3 range?
+- Do different weapons have different attack speeds (multi-tick cooldowns)?
+- Can armor degrade? (Fits Phase 3 bag damage / item durability)
+- Do environmental hazards use this same damage formula?
 - How does this scale into Phase 5 taxi-mounted weapons?
-
-## Integration Notes
-- player.js: Add HP (100), armor stat, takeDamage() method
-- NPCs: Same HP/armor model — defined per NPC type in data.js
-- ui.js: Damage numbers displayed in log and potentially as floating canvas text
-- Rat + cheese demo: Cheese has 100 HP, rat deals small damage per tick, player watches HP tick down

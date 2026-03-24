@@ -5,118 +5,90 @@
 
 ---
 
-## Overview
+## Gate 1: Research & Discovery
 
-The game needs to feel like the old days — you open it, you're playing. No friction. The menu screen, origin selection, and session management all work together to get the player into the world fast while giving each run a unique identity.
+### Genre References
 
----
+1. **Caves of Qud** — Character creation IS worldbuilding. Your origin (True Kin vs. Mutant, village selection) determines starting location, gear, and abilities. Each origin feels like a different game for the first 30 minutes. The randomness within each archetype keeps replayability high.
 
-## Feature 1: Origin Stories
+2. **Hades** — No menu friction. You die, you're back in the hub, you pick your weapon, you go. The "menu" is a place in the game world. Conversations happen while you prep for the next run. Zero loading screens between decision and action.
 
-**Player Experience Goal:** "Every run starts with a different hand of cards — where you are and what you're holding shapes how you play."
+3. **Spelunky 2** — Shortcut system lets experienced players skip to later areas, but starting from the beginning is the default. The game opens fast — press start, you're playing. Character selection is cosmetic but instant.
 
-### Design Notes
-- On new game, the player selects (or is assigned) an origin
-- The origin determines:
-  - **Starting location** — drops you in a specific biome/neighborhood on the map
-  - **Starting items** — a random assortment of randomly generated items, including some valuable crafting supplies
-- Item generation should pull from biome-appropriate loot tables but with origin-specific weighting
-- Some origins might start you with a strong weapon but no consumables, others with great crafting materials but nothing to defend yourself
-- The randomness within each origin keeps replayability high — same origin, different hand every time
+4. **Nethack** — Role/race/alignment selection creates hundreds of starting combinations from a simple menu. Each combination changes starting inventory and early strategy dramatically. Proves that origin diversity doesn't require complex UI.
 
-### Questions to Resolve in Design Phase
-- How many origins? (Suggestion: one per biome — Stealville street kid, Sludgeworks scavenger, Glow mutant, Downtown hustler, Outskirts drifter)
-- Are origins purely mechanical or do they come with flavor text / backstory?
-- Do origins affect faction reputation starting values?
-- How does origin interact with The Duke and the gas station anchor?
+5. **Risk of Rain 2** — Character select screen shows the world behind it. You're already looking at the environment while choosing. The menu IS the game — you just haven't started yet.
 
----
+### Player Experience Goal
 
-## Feature 2: Instant Session Management
+"Open the game, make two choices, and you're playing in under 10 seconds — but those two choices make every run feel different."
 
-**Player Experience Goal:** "Open the game, you're playing in 2 seconds. Your old run is right where you left it, or a new one is one click away."
+### Technical Feasibility
 
-### Design Notes
-- LocalStorage already handles save/load — this is about the UX flow
-- On launch, detect if a saved session exists:
-  - **Session found:** Show option to continue OR start new (no mandatory menu crawl)
-  - **No session:** Drop straight into origin selection → play
-- "Continue" should feel instant — load state, render map, go
-- "New Game" should feel almost as fast — pick origin, generate, go
-- No unskippable intros, no mandatory tutorials, no loading screens that aren't actually loading
-- The splash screen flavor text can stay but should be skippable with any key
+**Affected Modules:**
+- `main.js` — Game state flow needs a new state between splash and play: origin selection. Currently goes splash → start → running. Needs splash → menu → running. Save detection logic for continue vs. new game
+- `player.js` — Starting position must be set by origin (currently hardcoded to gas station 14,17). Starting inventory (currently empty — pickup exists but no inventory storage yet)
+- `map.js` — Gas station at chunk (0,0) is the anchor point. Origins could start player at different world coordinates, but the gas station remains the narrative hub. Biome at starting position must match the origin
+- `data.js` — Needs origin definitions: name, description, starting worldX/worldY, starting item table with weights. Biome loot tables already exist and can be leveraged for origin-specific starting gear
+- `ui.js` — Menu screen rendering. Could reuse the canvas for a gas station scene, or use DOM overlay. Text log not needed during menu. Status panel hidden until game starts
+- `style.css` — Menu screen styling, origin selection UI
 
-### Technical Notes
-- Current save system: LocalStorage with world seed, player state, nearby chunks
-- Need to version saves so old sessions can be detected as incompatible gracefully
-- Multiple save slots are NOT needed — one active run at a time fits the roguelike model
+**Known Constraints:**
+- The gas station at (0,0) never regenerates — it's the fixed anchor. Menu screen can render it as the backdrop
+- LocalStorage save system is simple (one slot). Continue/New Game detection is just checking if `violencetown_save` key exists
+- No inventory system yet — starting items would go to ground at spawn point until Phase 3 inventory grid exists
+- Canvas is 504x504px (21×21 tiles at 24px). Menu scene must work within this or use a separate rendering approach
 
----
+**What Already Exists:**
+- Splash screen with flavor text and "click to start" (index.html + style.css)
+- Gas station defined at chunk (0,0) with special tiles (gas_pump, counter)
+- 5 biomes defined with distinct palettes and loot tables
+- 10 items with metadata (damage, heal, fuel, tags)
+- Save/load system with localStorage
+- "New Game" button that clears save and reloads
 
-## Feature 3: Starting Zone NPCs — Rats & Cheese
+### Scope — Minimum Viable Feature
 
-**Player Experience Goal:** "Before you fight anything dangerous, you see how the world works by watching a rat eat cheese."
+**In scope:**
+- 5 origins, one per biome:
+  - **Stealville Street Kid** — starts in Stealville, knife + bandage
+  - **Sludgeworks Scavenger** — starts in Sludgeworks, crowbar + scrap
+  - **Glow Mutant** — starts in The Glow, pipe + matches
+  - **Downtown Hustler** — starts in Downtown, bottle + shoes
+  - **Outskirts Drifter** — starts in Outskirts, fuel_can + bandage
+- Gas station menu screen replacing current splash:
+  - "Where do you want to go?" → origin/biome selection (5 choices)
+  - "Who are you?" → text input for player name (or skip for random)
+  - "Continue" button if save exists
+  - Rat eating cheese idle animation (simple canvas loop or CSS animation)
+- Instant session flow: detect save → show continue option or origin select → play
+- Starting items placed on ground at spawn tile (until inventory exists)
+- Origin stored in save data for display in status panel
 
-### Design Notes
-- Several NPCs populate the area around every starting zone
-- **Rats nibbling on cheese** serve as the player's first encounter with the damage system:
-  - The rat is actively eating (taking bite damage from... itself? the cheese? environmental tick?)
-  - Player can see **damage numbers** floating or logged as the rat eats
-  - Player can see **structural change** — the cheese visually depletes, the rat's state changes
-  - This teaches the combat system passively — the player sees numbers and cause/effect before they're involved
-- Rats are low-threat NPCs the player can engage to test combat themselves
-- Other starting zone NPCs could include stray dogs, pigeons, or wandering civilians depending on biome
-
-### Why Rats + Cheese
-- Universal game language — players understand rats as tutorial enemies
-- Shows the damage system is always running, not just player-triggered
-- Demonstrates that the world has its own life happening around you
-- Gives the player agency: watch, or intervene
-
----
-
-## Feature 4: Menu Screen — Gas Station & Identity
-
-**Player Experience Goal:** "The menu screen IS the game world. You're already there."
-
-### Design Notes
-- The menu screen renders the **gas station** (already exists at 0,0) as a stylized scene
-- The gas station asks two questions:
-  1. **"Where do you want to go?"** — This selects the origin/starting biome
-  2. **"Who are you?"** — This gives the player a name/identity for the run (could be a selection from generated options or freeform)
-- These two answers define the run: place + identity
-- The combination should feel quick — two choices, then you're in
-
-### Idle Animation: Rat Eating Cheese
-- On the menu screen, a rat is visibly nibbling on a piece of cheese near the gas station
-- This is the idle animation — it loops, it's charming, it sets the tone
-- It also foreshadows the in-game rat mechanic (starting zone NPCs)
-- Could be rendered on the existing canvas or as a simpler animated element on the splash screen
-
-### UI Flow
-```
-[Game Opens]
-    |
-    v
-[Gas Station Menu Screen]
-  - Rat eating cheese (idle animation)
-  - "Continue Run" button (if save exists)
-  - "Where do you want to go?" (origin/biome select)
-  - "Who are you?" (identity input)
-  - [Go] → drops into game
-```
-
----
-
-## Integration Considerations
-- Origin stories feed into: player.js (starting state), map.js (starting position), data.js (origin definitions, loot tables)
-- Session management: main.js (save detection, flow routing)
-- Rats/NPCs: Requires Phase 2 NPC system — this feature DEPENDS on NPCs existing first
-- Menu screen: ui.js or a new menu.js module, canvas rendering of gas station scene
-- The rat idle animation could be a lightweight canvas animation separate from the full game renderer
-
-## Out of Scope (For Now)
+**Out of scope for this pass:**
+- Origin-specific faction reputation bonuses
+- Backstory/lore text beyond a one-line description
 - Multiple save slots
-- Character customization beyond origin + name
-- Rat breeding or pet systems
-- Gas station as a shop (that's Phase 5 Duke territory)
+- Character customization (appearance, stats)
+- Animated gas station scene with multiple elements
+- Origin-specific tutorial sequences
+- Unlockable origins
+
+### Risk Assessment
+
+| Risk | Severity | Mitigation |
+|------|----------|------------|
+| **Menu screen delays getting to gameplay** | High | Hard cap: two choices maximum. No scrolling, no pagination, no sub-menus. Five biome buttons + name input + Go. That's it. If it takes more than 10 seconds, it's too slow. |
+| **Starting items without inventory** | Medium | Until Phase 3 inventory grid ships, starting items spawn on the ground at the player's feet. Player can pick them up with E (pickup action exists). Items go... nowhere useful yet, but the system is ready for when inventory arrives. This is acceptable for Phase 2. |
+| **Save compatibility** | Medium | Origin data is new state. Old saves won't have it. Default to "Unknown Drifter" origin with gas station spawn for saves that predate origins. Version the save schema: add a `saveVersion` field, apply defaults for missing fields on load. |
+
+---
+
+## Open Questions (For Gate 2)
+
+- Should origin selection be randomized? ("Here's your hand — play it" vs. player choice)
+- Does the player name appear anywhere in gameplay? (Log messages, NPC dialogue?)
+- Should the rat+cheese idle animation be canvas-rendered or a simpler CSS/DOM animation?
+- How does origin interact with The Duke NPC when he's implemented?
+- Should there be a "random origin" button for players who want maximum variety?
+- Can the menu screen double as a death screen? ("You died. The gas station awaits. Where next?")
