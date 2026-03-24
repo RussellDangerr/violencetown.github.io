@@ -5,6 +5,32 @@
 
 ---
 
+## Mobile-First Planning Workflow
+
+**Planning happens on mobile. Development happens on desktop.**
+
+When a planning or design conversation happens in Claude Code (especially on mobile), every plan, feature spec, or design decision must be **committed and pushed immediately** — not held in conversation context. The assumption is:
+
+1. Planning sessions happen on **Claude Code mobile** while away from the desktop.
+2. Every plan, research brief, feature template, or design document gets written to a file, committed, and pushed **before the conversation ends**.
+3. When returning to the desktop, all planning artifacts are already in the repo and ready to drive development.
+
+**Rule: If it was discussed and decided, it gets committed.** No plan lives only in chat history. Conversations are ephemeral — the repo is the source of truth.
+
+This applies to:
+- New feature plans (use the Feature Template below)
+- Updates to existing plans or the ROADMAP
+- Research findings and design decisions
+- Scope changes, priority shifts, or architectural decisions
+- Any "let's do X" that should survive the session
+
+**File locations:**
+- `GAME_STUDIO_PLAN.md` — This process document
+- `ROADMAP.md` — Phase-level goals and milestones
+- `plans/` — Individual feature plans (one file per feature, e.g., `plans/npc-combat.md`)
+
+---
+
 ## How to Use This Document
 
 Each feature in Violencetown (NPC systems, combat, inventory, stealth, taxi mechanics, etc.) follows this pipeline before it ships into a playable build. Copy the **Feature Template** at the bottom for each new feature, fill it out phase by phase, and track it through to completion.
