@@ -72,7 +72,6 @@
 - Character customization (appearance, stats)
 - Animated gas station scene with multiple elements
 - Origin-specific tutorial sequences
-- Unlockable origins
 
 ### Risk Assessment
 
@@ -84,11 +83,27 @@
 
 ---
 
+## Design Decision — UPDATED (2026-03-24)
+
+**Origins are found and collected in the world, not selected from a fixed menu.**
+
+See `plans/game-research-findings.md` for full spec. Summary:
+
+The Phase 2 menu (5 fixed biome origins) is the **starting scaffold** for a new player's first run. But the origin system grows into a collectible mechanic:
+
+- Origin stories are discoverable items/events found throughout Violencetown.
+- Origins combine with **locations** to create run **modifiers**: Street Youth + Circus District = Balloon Bender.
+- **Monster runs** (playing as a faction member/creature) are special origin combinations or rare drops — not hidden behind kill milestones.
+- "Unlockable origins" is removed from out-of-scope — origins are discovered in-world, which is different from being gated behind achievement milestones.
+
+Phase 2 still ships with 5 fixed origins (one per biome) as the initial menu. The discovery system is Phase 5+ content.
+
 ## Open Questions (For Gate 2)
 
-- Should origin selection be randomized? ("Here's your hand — play it" vs. player choice)
 - Does the player name appear anywhere in gameplay? (Log messages, NPC dialogue?)
 - Should the rat+cheese idle animation be canvas-rendered or a simpler CSS/DOM animation?
 - How does origin interact with The Duke NPC when he's implemented?
 - Should there be a "random origin" button for players who want maximum variety?
 - Can the menu screen double as a death screen? ("You died. The gas station awaits. Where next?")
+- How many base origins will exist eventually? How many location modifiers?
+- Do origin combinations produce entirely new origins or just add stat/gear modifiers?

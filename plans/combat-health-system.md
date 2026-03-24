@@ -80,16 +80,33 @@
 
 These were decided in earlier design sessions and are not open for debate:
 
-- **100 HP universal.** Players, NPCs, rats, cheese, everything.
 - **No missing.** Every attack connects. Variance is in damage amount, not hit chance.
-- **Flat armor.** `actual_damage = max(1, raw_damage - target_armor)`. One line. Done.
+- **Flat armor per zone.** `actual_damage = max(1, raw_damage - zone_armor)`. One line. Done.
 - **Damage as single numbers.** You hit for 7. Clean, readable, no dice notation.
+
+## Design Decision — UPDATED (2026-03-24)
+
+**The flat 100 HP universal system is superseded by the 5-Zone Body System.**
+
+See `plans/game-research-findings.md` for full spec. Summary:
+
+All characters have 5 hit zones: **Top** (head), **Front** (chest), **Back** (accessories/capes), **Sides** (arms), **Bottom** (legs).
+
+- Zone hit is determined by **attacker's tile position** relative to target — no attack menus.
+- Front/Back/Sides = common (standard NESW positioning).
+- Top/Bottom = rare and powerful (limited verticality makes these special).
+  - Top hit: daze + extra damage (only from above — rooftops, ladders)
+  - Bottom hit: movement cripple (only from below — sewer grates, floor holes)
+- Each zone has its own HP and armor value. A chest armor protects Front, not Back.
+- Prosthetics (Glow-zone tech) can replace damaged zones and exceed organic performance.
+- Non-human creatures use the same 5 zones mapped to their anatomy.
 
 ## Open Questions (For Gate 2)
 
-- What determines raw_damage range? Weapon base ± small variance via seeded RNG?
+- What are the per-zone HP values? Equal splits from a total pool, or zone-specific?
 - Bare hands damage: fixed 1, or 1-3 range?
-- Do different weapons have different attack speeds (multi-tick cooldowns)?
+- Do different weapons target different zones by default, or is it always position-based?
 - Can armor degrade? (Fits Phase 3 bag damage / item durability)
 - Do environmental hazards use this same damage formula?
 - How does this scale into Phase 5 taxi-mounted weapons?
+- How does the 5-zone system interact with NPCs that have faction-specific gear (Clown armor, Bandit cloaks)?
