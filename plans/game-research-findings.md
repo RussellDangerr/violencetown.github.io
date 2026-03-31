@@ -1,9 +1,22 @@
 # Game Research Findings — Violencetown Design Session
 
-**Session date:** 2026-03-24
+**Session date:** 2026-03-24 (updated 2026-03-30)
 **Games studied:** Pixel Dungeon, Minions of Mirth, Dwarf Fortress, Kenshi, RimWorld
 
 This document captures research findings and design decisions that emerged from studying these games. Decisions marked **ADOPTED** are locked. Decisions marked **REJECTED** are explicitly out. Decisions marked **PENDING** still need resolution.
+
+> **Update 2026-03-30:** A major design evolution session reconsidered many systems. Status of adopted decisions:
+> - **Action Preview System** — ADOPTED, but delivery depends on Time Model choice (ABC Cat. 1). Survives in 1A and 1B, dies in 1C.
+> - **Origin Discovery System** — ADOPTED, merging with creature system. Origins may become creatures.
+> - **Loot Rarity System** — ADOPTED, unchanged. Fixed-identity items in rarity tiers.
+> - **5-Zone Body System** — ADOPTED, now confirmed as 1:1 map to 5 equipment slots.
+> - **Wealth = Danger** — ADOPTED, unchanged.
+> - **Entropy Director** — ADOPTED but LOOSELY HELD. May be cut or incorporated as a pressure valve for Loot Redistribution death (ABC Cat. 4B).
+> - **Use-based skill progression** — PENDING → LIKELY REJECTED. New design direction says "no skill progression of any kind." Knowledge is the only progression.
+>
+> **New research references (2026-03-30 session):** Motherload, Fancy Pants, Binding of Isaac, N/N++, Super Meat Boy, Realm of the Mad God, Kingdom Rush, Stick RPG, Stardew Valley, Breath of the Wild, Outer Wilds, Shadow of the Colossus, Dark Souls/Elden Ring, Pyre, Mortal Sin, FFXIV, Well of Souls, FF1-FF10, OSRS, Hotline Miami, Bomberman, Project Zomboid, TMNT, Vampire Survivors, Yu-Gi-Oh (archetype system).
+>
+> **See:** `plans/abc-decision-matrix.md` for the full decision framework.
 
 ---
 
@@ -176,7 +189,11 @@ Entropy events are mostly random but governed by soft invisible rules that manuf
 
 | Decision | Status | Blocking question |
 |----------|--------|-------------------|
-| **Use-based skill progression** | PENDING | Do skills reset on death-as-displacement? Does the Kenshi "get beaten up to get tougher" loop work when death is a soft reset? |
+| **Use-based skill progression** | LIKELY REJECTED (2026-03-30) | New design direction: "no skill progression of any kind." Player knowledge IS progression (Outer Wilds principle). Rings replace what skills would do. |
 | **Pearlescent rarity tier** | MAYBE | Depends on how deep the item system goes. Leave open for Phase 5+. |
-| **Origin combination specifics** | PENDING | How many base origins? How many location modifiers? How do monster runs activate? |
-| **NPC personality facets** | PENDING | Add aggression/loyalty/cowardice/greed facets to NPC data definitions (Gate 2 for NPC brief) |
+| **Origin combination specifics** | EVOLVING → CREATURE SYSTEM | Origins are merging with creature selection. "How many creatures?" replaces "how many origins?" See ABC Cat. 3. |
+| **NPC personality facets** | PENDING | Add aggression/loyalty/cowardice/greed facets to NPC data definitions. More important now if Loot Redistribution (ABC Cat. 4B) is chosen — NPCs need distinct behavior when equipped with player gear. |
+| **Ring archetype system** | NEW (2026-03-30) | 10-slot ring/chip/brain build system. Archetype synergies at 3+ stacks. See ABC Cat. 6. |
+| **Creature "One Cool Thing"** | NEW (2026-03-30) | Each creature gets one unique mechanic (rat squeezes through gaps, robot resists sludge, smooth talker replaces combat with dialogue). See ABC Cat. 3B. |
+| **Loot Redistribution on death** | NEW (2026-03-30) | NPCs pick up and equip player-dropped gear. Creates emergent difficulty. Requires persistent world (ABC Cat. 5B/5C). See ABC Cat. 4B. |
+| **Time model evolution** | NEW (2026-03-30) | Tick timer reconsidered. Pixel Dungeon hybrid (no timer, turn-based, play as fast as you want) is leading option. See ABC Cat. 1. |

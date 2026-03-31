@@ -1,7 +1,19 @@
 # Feature: Origin Stories & Menu Screen
 **Phase:** Phase 2 — Life in the City
 **Priority:** High
-**Status:** Research
+**Status:** Research — MERGING WITH CREATURE SYSTEM (2026-03-30)
+
+> **Design Evolution Note (2026-03-30):**
+> The 5 biome origins (Street Kid, Scavenger, Mutant, Hustler, Drifter) may merge with the new **creature system**. Instead of "choose an origin," the menu becomes "choose a creature" — each creature starts in a different biome with different gear and a joke intro cutscene.
+>
+> **Terminology:** "Origins" may become "creatures." A zombie, robot, clown, sewer rat, beholdem, or human each have a starting biome, starting equipment, and (if ABC Cat. 3B) a unique One Cool Thing mechanic.
+>
+> **What survives:** Gas station menu screen concept, biome-based starting locations, the Origin Discovery System (Phase 5+ — find new creatures/origins in the world).
+>
+> **What changes:** The menu is now a creature select screen, not a backstory select screen. Each creature has a visual preview with their ring inventory type (brain lobes, chip sockets, tentacles, etc.).
+>
+> **Depends on:** ABC Decision Matrix Category 3 (Creature Depth).
+> **See:** `plans/abc-decision-matrix.md`
 
 ---
 

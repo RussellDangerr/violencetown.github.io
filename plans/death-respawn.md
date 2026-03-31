@@ -1,7 +1,20 @@
 # Feature: Death & Respawn
 **Phase:** Phase 2 — Life in the City
 **Priority:** High
-**Status:** Research
+**Status:** Research — UNDER RECONSIDERATION (2026-03-30)
+
+> **Design Evolution Note (2026-03-30):**
+> Three competing death models are on the table (ABC Decision Matrix Cat. 4):
+> - **A: Arcade Displacement** — what this doc describes (fast reset, gas station respawn)
+> - **B: Loot Redistribution** — drop all gear, NPCs equip it, recovery missions
+> - **C: Creature Death** — permanent death per creature, hop to next in roster
+>
+> This doc's design (fast displacement, <5s turnaround) survives as Option A. But Option B (Loot Redistribution) appeared in the most interesting gameplay vignettes during brainstorming. Option B requires persistent world structure (ABC Cat. 5B or 5C).
+>
+> **What survives regardless:** Death screen with humor/stats, gas station as respawn anchor, world persistence across death, fast turnaround philosophy.
+>
+> **Depends on:** ABC Decision Matrix Category 4 (Death), Category 5 (World Structure).
+> **See:** `plans/abc-decision-matrix.md`
 
 ---
 

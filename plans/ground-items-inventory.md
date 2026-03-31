@@ -1,7 +1,20 @@
 # Feature: Ground Items & Inventory Foundation
-**Phase:** Phase 2 — Life in the City (foundation) / Phase 3 — The Bag (full system)
+**Phase:** Phase 2 — Life in the City (foundation) / Phase 3 — Rings, Equipment & Identity
 **Priority:** High
-**Status:** Research
+**Status:** Research — INVENTORY MODEL UNDER RECONSIDERATION (2026-03-30)
+
+> **Design Evolution Note (2026-03-30):**
+> Ground items (already implemented) survive regardless. The INVENTORY system is under reconsideration (ABC Decision Matrix Cat. 2):
+> - **A: The Bag** — 2D grid with bag damage (original Phase 3 plan)
+> - **B: Borderlands Flow** — infinite pickup, auto-scrap garbage, choose from top-5 good items
+> - **C: Ring-Only** — full auto-equip, rings ARE the inventory
+>
+> The Phase 2 bridge inventory (simple array) may become the permanent solution if Option B is chosen. The 2D grid bag (Phase 3 original) only ships if Option A is chosen.
+>
+> **What's new:** The 10-slot ring/chip/brain system is the primary "inventory" where build identity lives. Equipment (5 body zone slots) is secondary. Rings are permanent collection; equipment is mortal.
+>
+> **Depends on:** ABC Decision Matrix Category 2 (Inventory), Category 6 (Ring Depth).
+> **See:** `plans/abc-decision-matrix.md`
 
 ---
 

@@ -1,7 +1,17 @@
 # Feature: NPC Spawning & AI
 **Phase:** Phase 2 — Life in the City
 **Priority:** Critical
-**Status:** Research
+**Status:** Research — EXPANDED SCOPE (2026-03-30)
+
+> **Design Evolution Note (2026-03-30):**
+> Core NPC spawning and AI plan survives intact. NPCs still spawn per-chunk, use simple behavioral states, and act on the game's turn system.
+>
+> **What's new:** If Loot Redistribution (ABC Cat. 4B) is chosen, NPCs gain the ability to PICK UP and EQUIP player-dropped gear on death. This adds: equipment state per NPC, visual equipment rendering on NPCs, NPC power scaling based on equipped gear. A bandit who picks up a Legendary Frying Pan and three Fire Rings becomes a visible, terrifying area boss.
+>
+> **What's also new:** "Creatures" (playable characters) are now a distinct category from enemy NPCs. Parked creatures (ABC Cat. 7) behave as NPCs when the player isn't controlling them. The NPC system may need to handle both hostile enemies AND friendly parked player creatures.
+>
+> **Depends on:** ABC Decision Matrix Category 4 (Death/Loot), Category 5 (World Persistence), Category 7 (Parking).
+> **See:** `plans/abc-decision-matrix.md`
 
 ---
 

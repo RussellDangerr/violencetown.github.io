@@ -1,7 +1,17 @@
 # Feature: Combat & Health System
 **Phase:** Phase 2 — Life in the City
 **Priority:** Critical
-**Status:** Research
+**Status:** Research — PARTIALLY SUPERSEDED (2026-03-30)
+
+> **Design Evolution Note (2026-03-30):**
+> The 5-Zone Body System (Top/Front/Back/Sides/Bottom) is CONFIRMED and now maps 1:1 to equipment slots. Flat 100 HP is superseded. Positioning-based targeting survives.
+>
+> **What changed:** The time model is under reconsideration (ABC Decision Matrix Cat. 1). If the game moves from tick-based to Pixel Dungeon hybrid, combat pacing changes fundamentally — actions resolve per-move instead of per-tick. The combat math (flat armor, no missing, deterministic damage) still applies.
+>
+> **What's new:** "Looney Tunes combat" — slapstick environmental interaction (shoving dumpsters, throwing frying pans) is now a core combat verb, not a Phase 3 addition. No shields. Possibly all two-handed weapons.
+>
+> **Depends on:** ABC Decision Matrix Category 1 (Time Model), Category 2 (Inventory/Equipment).
+> **See:** `plans/abc-decision-matrix.md`
 
 ---
 
