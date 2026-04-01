@@ -135,8 +135,8 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 **Texas Beholdem (Sewer — Deep Sewer)**
 - Lightly inspired by Xanathar from D&D, but **obsessed with the American Southwest**. Cowboy culture, desert vibes, tumbleweeds — in a sewer. He doesn't care that he lives underground in filth. In his mind, he's on the open range.
 - **Pet:** A black armadillo. His precious companion. Don't touch the armadillo.
-- **Signature weapon:** Holds a hand of **poker cards — a royal flush** — and throws them as projectile attacks. Each card is an eyestalk ability. The cards ARE his eye beams, reskinned as thrown poker cards. Five cards, five abilities.
-- **Visual:** Massive multi-eyed horror, but wearing a cowboy hat. Maybe a bolo tie. Eyes glow purple from the sludge. Cards fan out in one hand (or tentacle). The armadillo rides on him somewhere.
+- **Signature weapon:** Holds a **royal flush** of poker cards in his **eyestalks** — one card per stalk. Throws them as projectile attacks. Each card is an eyestalk ability. The cards ARE his eye beams, reskinned as thrown poker cards. Five cards, five stalks, five abilities.
+- **Visual:** Massive multi-eyed horror, but wearing a cowboy hat. Maybe a bolo tie. Eyes glow purple from the sludge. Each eyestalk grips a poker card, fanned out like a hand. The armadillo rides on him somewhere.
 - Encounter location: Deep Sewer — the farthest, darkest part of the zone. His "saloon."
 
 **SunMan (Circus — Attacks from outside)**
