@@ -23,12 +23,29 @@ This plan supersedes the procedural chunk-based generation system from Phase 1. 
 
 ---
 
+## Core Concept: Life = HP
+
+**Life is your HP.** Not "health points" — *Life*. Every element in every zone interacts with Life in a different way:
+
+| Zone | Element | Effect on Life |
+|------|---------|----------------|
+| **Town** | Boredom | Forces random actions — indirect Life risk through loss of control |
+| **Sewer** | Sludge | Slows you down + drains Life over time (DoT) |
+| **Circus** | Fun | Vampire clowns entertain you — Fun steals Life directly |
+| **Factory** | Goo | Powers you up (faster, stronger) but every action costs Life |
+| **Graveyard** | Death | The Deity is killing you. Death itself as a building pressure. |
+
+Every zone's element threatens Life differently. Sludge is slow and corrosive. Goo is tempting and costly. Fun is a trap. Boredom is chaos. Death is inevitable. The player has to manage Life across all five zones, and each zone demands a different survival strategy.
+
+---
+
 ## The Five Zones
 
 Violencetown is divided into five distinct zones. Each zone is the home turf of a specific creature type. The zones together form a single contiguous map.
 
 ### 1. Town (City Center)
 - **Resident creature:** Human
+- **Element:** Boredom — if you haven't done anything interesting in a while, or you encounter something boring, your character does something random. Boredom is the mundane hazard of normal life. The city is dull and it gets to you. Stand still too long, walk the same block twice, interact with something tedious — boredom kicks in and you lose control briefly. The antidote is action, variety, violence.
 - **Role:** Player starting zone. The "normal" part of Violencetown.
 - **Vibe:** Urban streets, buildings, shops, sidewalks. The most city-like area. This is the baseline that makes the other zones feel weird by contrast.
 - **Tile palette:** Concrete, asphalt, brick, storefronts, streetlights, dumpsters.
@@ -49,21 +66,23 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Resident creature:** Clown (Vampire Clown)
 - **Role:** Entertainment district as vampire society. Think Vampire: The Masquerade but with a circus theme.
 - **Vibe:** A permanent carnival that's actually a vampire court in disguise. The big top is their gathering hall. The funhouse is where they feed. Gaudy colors, greasepaint, and fangs. The "masquerade" is literal — they hide behind clown makeup and circus performance. Political intrigue under the big top. Coteries of clowns with territory and hierarchy. The circus never closes because vampires don't sleep.
+- **Element:** Fun — the vampire clowns do something genuinely fun and entertaining for you... and it steals your Life. Fun is the trap. The circus is a blast — games, performances, spectacles — and every moment of enjoyment drains your HP. The clowns are feeding on your joy. You're having the time of your life, literally. The more fun you have, the more Life you lose.
 - **Tile palette:** Striped tents, confetti, carnival booths, popcorn carts, funhouse mirrors, balloon piles, blood-red curtains, dim backstage areas, coffin-shaped prop boxes.
 - **Boss:** SunMan — see Boss Profiles below.
-- **Notes:** The Clowns are vampires. The circus is their cover. The Masquerade-style social dynamics (clans, politics, feeding, maintaining the facade) play out in a circus setting. This gives the Circus zone depth beyond just "creepy carnival" — it's a functioning vampire society with its own rules. The Clown creature could have vampire abilities: blood drain, mesmerize, night vision, weakness to sunlight (and therefore SunMan).
+- **Notes:** The Clowns are vampires. The circus is their cover. The Masquerade-style social dynamics (clans, politics, feeding, maintaining the facade) play out in a circus setting. This gives the Circus zone depth beyond just "creepy carnival" — it's a functioning vampire society with its own rules. The Clown creature could have vampire abilities: blood drain, mesmerize, night vision, weakness to sunlight (and therefore SunMan). Fun is their weapon — they don't attack you, they entertain you to death.
 
 ### 4. Graveyard
 - **Resident creature:** Skeleton (Skeleton ↔ Zombie transformation)
+- **Element:** Death — the Deity is actually killing you. Not DoT, not a debuff — **Death**. The Graveyard's element is the real thing. The Deity wants you dead and the zone itself is trying to finish the job. Being in the Graveyard means Death is actively coming for you. The longer you stay, the closer it gets. The element isn't an environmental hazard you step in — it's an existential pressure that builds.
 - **Role:** The dead part of town. The undead are denying death — and something has noticed.
-- **Vibe:** Tombstones, crypts, dead trees, fog, iron fences. Quiet and spooky.
+- **Vibe:** Tombstones, crypts, dead trees, fog, iron fences. Quiet and spooky. But underneath the quiet, Death is working.
 - **Tile palette:** Gravestones, mausoleums, dirt paths, dead grass, iron gates, candles, fog tiles.
 - **Boss:** The Deity — see Boss Profiles below.
-- **Notes:** The Skeleton shifts to Zombie form when it takes damage. This zone is home to both forms — bones and rot. The graveyard should feel different depending on which form you're in. The Deity boss gives the Graveyard zone existential stakes — every undead creature here is living on borrowed time.
+- **Notes:** The Skeleton shifts to Zombie form when it takes damage. This zone is home to both forms — bones and rot. The graveyard should feel different depending on which form you're in. The Deity boss gives the Graveyard zone existential stakes — every undead creature here is living on borrowed time. Death as an element means the zone itself is hostile in a way no other zone is.
 
 ### 5. Factory
 - **Resident creature:** Robot
-- **Element:** Goo — **green, radioactive, alien.** Associated with radiation, aliens, and the spaceship. The Goo may have always been in the Factory, or maybe it arrived with the aliens. Either way, it's green, it glows, and it's not from here.
+- **Element:** Goo — **green, radioactive, alien.** Associated with radiation, aliens, and the spaceship. The Goo may have always been in the Factory, or maybe it arrived with the aliens. Either way, it's green, it glows, and it's not from here. **Goo makes you more powerful and faster, but consumes Life on action or contact.** It's a Faustian bargain — touch the Goo, become superhuman, burn through your HP doing it. Every powered-up action costs Life. Speed costs Life. Strength costs Life.
 - **Role:** Industrial zone. The Factory produces... something. That something involves Goo.
 - **Vibe:** Machines, conveyor belts, smokestacks, metal walls, sparks. The Robot was built here. Mechanical and harsh. Vats of green Goo — the Factory's product, byproduct, or secret. Goo leaks, Goo spills, Goo is everywhere it shouldn't be. Radiation warnings. The spaceship looms.
 - **Tile palette:** Metal floors, conveyor belts, gears, pipes, vats, control panels, catwalks, smokestacks, green goo pools, goo vats, goo pipes, radiation symbols, alien tech.
@@ -200,7 +219,9 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 7. **Skeleton ↔ Zombie balance:** Is Zombie form stronger (berserker) or weaker (degraded)? Is the shift reversible by healing?
 8. ~~Old creatures (Texas Beholdem, Smooth Talker)~~ — **RESOLVED.** Texas Beholdem → Sewer Boss. Smooth Talker → The Financier (Town Boss, Bank Street). Zombie → Skeleton's damaged form.
 9. ~~Other zone bosses?~~ — **RESOLVED.** All five zones have bosses with full character profiles.
-10. **Zone elements for remaining zones:** Sewer = Sludge (purple, void-like, DoT + slow). Factory = Goo (green, radioactive, alien). What about Town, Circus, Graveyard? (Town = money/concrete?, Circus = blood?, Graveyard = salt water/ocean mist from the Deity?)
+10. ~~Zone elements for remaining zones~~ — **RESOLVED.** All five zones have elements: Boredom (Town), Sludge (Sewer), Fun (Circus), Death (Graveyard), Goo (Factory). All interact with Life (HP) differently.
 11. **Alien invasion timing:** Is the invasion always present, or is it an event that triggers? Does the Factory have a "normal" state before the aliens arrive?
-12. **Sludge vs Goo gameplay:** Both are zone hazard elements. Sludge = slow + DoT. What does Goo do mechanically? Radiation damage? Mutation? Goo should feel different from Sludge.
+12. ~~Sludge vs Goo gameplay~~ — **RESOLVED.** Sludge = slow + DoT. Goo = power up + speed up but costs Life per action. Completely different risk profiles.
 13. **The Deity's ocean:** Does the Deity's presence bring actual water/ocean tiles into the Graveyard? Salt water flooding crypts, seaweed on tombstones? Could be a visual tell that the Deity is near or active.
+14. **Boredom mechanics:** What counts as "boring"? Standing still? Repeating actions? Walking the same path? What random actions can boredom force? How long is the idle timer?
+15. **Fun mechanics:** How does Fun steal Life? Is it proximity to clown entertainment? Watching a performance? Playing a carnival game? Is it avoidable or ambient in the zone?
