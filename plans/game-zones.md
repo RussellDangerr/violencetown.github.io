@@ -25,9 +25,36 @@ This plan supersedes the procedural chunk-based generation system from Phase 1. 
 
 ## Core Concepts
 
+### Progression — Unlock Order
+
+Zones, creatures, and elements unlock sequentially. You start with one zone and one element. Beat the zone with its creature → unlock the next zone, creature, and element. Each stage slowly introduces its new element before the next zone opens.
+
+| Stage | Zone Unlocked | Creature Unlocked | Element Introduced | Meter |
+|-------|---------------|-------------------|--------------------|-------|
+| **1** | Sewer | Wererat | Sludge | Seesaw (Sludge side only) |
+| **2** | Factory | Robot | Goo | Seesaw (both sides now active) |
+| **3** | Town | Human | Bored | Limit Gauge (Bored side only) |
+| **4** | Circus | Clown | Fun | Limit Gauge (both sides now active) |
+| **5** | Graveyard | Skeleton | Death | HP (Death drains Life) |
+| **6** | Endgame | ? | Life | HP (full system — Life fights back) |
+
+**How it works:**
+- **Stage 1 — Sewer:** You start as the Wererat in the Sewer. Sludge is the only element. You learn the seesaw mechanic with only one side active (it can only tip toward Sludge). Beat Texas Beholdem → unlock Factory.
+- **Stage 2 — Factory:** You're the Robot now. Goo is introduced. The seesaw is fully active — Sludge on one side, Goo on the other. You learn to balance. Beat the Alien Invasion → unlock Town.
+- **Stage 3 — Town:** You're Human. Boredom is introduced — the limit gauge appears with only the Bored side. Sun damage (from the vampire moonblock scheme) starts draining Life, introducing Death↔Life pressure early. Beat the Financier → unlock Circus.
+- **Stage 4 — Circus:** You're the Clown. Fun is introduced — the limit gauge is fully active, both Bored and Fun extremes live. Beat Bigfoot → unlock Graveyard.
+- **Stage 5 — Graveyard:** You're the Skeleton. Death is fully introduced — being in the Graveyard actively drains Life. All three meters are now live. Beat the Deity → unlock Endgame.
+- **Stage 6 — Endgame:** Life. The final element. What this means is TBD — but Life as an endgame element suggests the opposite of Death. Healing? Resurrection? A way to fight back against everything? The culmination.
+
+**Design principle:** Each stage teaches one new mechanic before layering the next on top. By the time the player reaches the Graveyard, they understand the seesaw (Stages 1-2), the limit gauge (Stages 3-4), and are ready for the brutal simplicity of Death (Stage 5). The complexity ramps gradually.
+
+**Previous zones stay accessible.** After unlocking a new zone, you can return to earlier zones with new creatures and fuller meter systems. Going back to the Sewer as a Robot (with Goo) plays differently than going as a Wererat (with only Sludge).
+
+---
+
 ### The Three Meters
 
-~~Each zone has its own isolated bar.~~ **SUPERSEDED.** The element system is now **three paired meters** that work across zones. Each meter type plays differently.
+Three paired meters that carry across zones. Each meter type plays differently. Elements unlock in stages (see Progression above).
 
 | Pair | Meter Type | How it works |
 |------|-----------|--------------|
