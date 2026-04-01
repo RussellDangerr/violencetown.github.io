@@ -99,12 +99,13 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 
 ### 5. Factory
 - **Resident creature:** Robot
-- **Element:** Goo — **green, radioactive, alien.** Associated with radiation, aliens, and the spaceship. Bar fills on contact or proximity. Goo makes you more powerful and faster, but the higher the bar, the more Life each action costs. It's a Faustian bargain — the Goo powers you up and burns you alive.
-- **Role:** Industrial zone. The Factory produces... something. That something involves Goo.
-- **Vibe:** Machines, conveyor belts, smokestacks, metal walls, sparks. The Robot was built here. Mechanical and harsh. Vats of green Goo — the Factory's product, byproduct, or secret. Goo leaks, Goo spills, Goo is everywhere it shouldn't be. Radiation warnings. The spaceship looms.
-- **Tile palette:** Metal floors, conveyor belts, gears, pipes, vats, control panels, catwalks, smokestacks, green goo pools, goo vats, goo pipes, radiation symbols, alien tech.
+- **Element:** Goo — **green, radioactive, alien.** The Factory's toxic machines produce Goo as a byproduct. Bar fills on contact or proximity. Goo makes you more powerful and faster, but the higher the bar, the more Life each action costs. It's a Faustian bargain — the Goo powers you up and burns you alive.
+- **Role:** Industrial zone. The Factory's toxic machines produce Goo. The aliens arrived specifically to steal it — they eat it.
+- **Vibe:** Machines, conveyor belts, smokestacks, metal walls, sparks. The Robot was built here. Mechanical and harsh. Goo pipelines run through everything — it's the Factory's main output. The aliens have set up feeding stations. Grey aliens in chains hauling Goo barrels while little green men eat from Goo troughs. **Abe's Oddysee energy** — the Factory should feel like Rupture Farms. A living industrial machine with distinct sub-areas: production floors, Goo vats, maintenance tunnels, loading docks, the alien-occupied executive level. Machines operate on predictable loops — conveyor tiles that push, crushers on timers, electric gates that toggle. Environmental storytelling through propaganda posters, Goo processing pipelines visible everywhere, and the alien spaceship looming over or docked into the Factory.
+- **Tile palette:** Metal floors, conveyor belts, gears, pipes, vats, control panels, catwalks, smokestacks, green goo pools, goo vats, goo pipes, radiation symbols, alien tech, feeding troughs, chain/shackle tiles, alien propaganda.
 - **Boss:** Alien Invasion — see Boss Profiles below.
-- **Notes:** Natural fit for Robot's tech/machine identity. Goo is the zone's environmental hazard/resource — green, radioactive, and connected to the alien presence. The alien invasion is an event/boss encounter — the Factory's normal state is industrial, but the aliens disrupt it.
+- **Grey Alien rescue mechanic:** Inspired by Mudokon rescue from Abe's Oddysee. Grey aliens are chained up throughout the Factory, forced to haul Goo. Free them and they become your friends — they follow you, fight for you, help you. Simple command system: follow/wait. Lead them to extraction points to fully liberate them. Some are hidden in secret areas, rewarding exploration. The more you free, the stronger your position against the green commanders. They're grey. They're also *grey* — as in sad, depressed, downtrodden. Living a grey existence. You're literally adding color to their lives by freeing them. Everything about them is grey — their skin, their mood, their outlook, their living conditions. "Why so grey?" isn't just a skin color question.
+- **Notes:** Natural fit for Robot's tech/machine identity. The Factory is the most Oddworld-inspired zone — enslaved workers, industrial horror played for dark comedy, comically evil corporate invaders (the greens), and a rescue loop that rewards thoroughness.
 
 ---
 
@@ -190,12 +191,13 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 - **Tone:** Speaks casually, uses surfer slang, but what he's saying is terrifying. "Dude, you gotta let go. The ocean is so sick out there. You're gonna love being a fish. Come on, bro. Stop being dead wrong about being dead."
 
 **Alien Invasion (Factory — Spaceship landing)**
-- A **flying saucer** lands at or near the Factory. Classic UFO design.
-- **Little Green Men** are the commanders. Small, big-headed, smart, cruel. They give orders and fire weapons.
-- **Alien blaster guns:** Comical design — a **red button on top** of the gun with **yellow and black hazard stripes** around it. The little green men press the button with their tiny finger to fire. It's absurd. The most dangerous weapon in the zone is operated by a little guy pressing a big cartoon button.
-- **Grey Aliens** are large, powerful, and **enslaved** by the greens. They do the heavy lifting, the fighting, the labor. They're physically superior but mentally subjugated.
-- **The dynamic:** The greens are the brains, the greys are the brawn. Fight the greens and the greys might stop fighting. Free the greys and they might turn on their masters. Or fight everyone. The power structure is the puzzle.
-- **What they want:** The Factory — its machines, its Goo, or both. The Goo may be connected to them (is it alien in origin? Were they here before?).
+- A **flying saucer** docked into the Factory. Classic UFO design fused with industrial architecture.
+- **What they want:** The Goo. The Factory's toxic machines produce it. The little green men **eat it**. They came here specifically to steal it and set up a permanent feeding operation. The Factory is their buffet.
+- **Little Green Men** are the commanders. Small, big-headed, smart, cruel. Comically greedy — think Glukkons from Oddworld but alien. They gorge on Goo, bully their slaves, and act like they own the place. They're the corporate villains of the Factory — boardroom tyrants who happen to be three feet tall and green.
+- **Alien blaster guns:** Comical design — a **red button on top** of the gun with **yellow and black hazard stripes** around it. The little green men press the button with their tiny little finger to fire. It's absurd. The most dangerous weapon in the zone is operated by a little guy pressing a big cartoon button.
+- **Grey Aliens** are large, powerful, and **enslaved** by the greens. They haul Goo barrels, operate dangerous machinery, and take the beatings. They're grey in every sense — grey skin, grey mood, grey lives. Living a completely grey existence. Everything about them is sad and colorless. "Why the long grey face?" Free them and they become your friends. They follow you, fight alongside you, and finally have something to not be grey about.
+- **The rescue loop (Abe's Oddysee inspired):** Grey aliens are chained throughout the Factory. Free them with a simple follow/wait command system. Lead them to extraction points. Some are hidden in secret areas. The more you free, the weaker the green commanders become — their labor force dries up, their Goo supply chain breaks. Rescuing greys IS the path to beating the boss. You don't just fight the greens — you dismantle their operation by liberating their workforce.
+- **Tone:** Dark comedy. The greens are pathetic bullies who think they're geniuses. The greys are sympathetic giants. The Factory is horrifying but also absurd — like Rupture Farms. Propaganda posters on the walls. Goo advertisements. "Employee of the Month" boards with grey alien mugshots (all looking miserable).
 
 ---
 
