@@ -376,8 +376,12 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 - **Encounter:** You push deeper into the carnival than you should. The attractions get weirder. The clowns stop being funny and start being nervous. The footprints get bigger. Then you find him. The main event nobody was supposed to see.
 - **Other cryptids:** Bigfoot is the boss, but the carnival is home to other Americana cryptids as lesser enemies/NPCs. Mothman? Chupacabra? Jersey Devil? Jackalope? The Circus is a cryptid menagerie disguised as entertainment.
 
-**SunMan (Relocated — potential Town/Bank Street event)**
-- SunMan was originally the Circus boss (anti-vampire). With vampires moved to Bank Street, SunMan may reappear as a **Town event or ally** — a vampire hunter targeting the Financier and Bank Street. His origin (sunburn → emits sunlight) and superhero/vampire hunter identity still work perfectly against vampire bankers. Status: **loosely held**, may appear as a Bank Street event rather than a zone boss.
+**SunMan (Town — Tutorial NPC)**
+- SunMan is the **first NPC you meet.** He's in Town. He teaches you the ropes — how to move, how to fight, how the world works. Your guide to Violencetown.
+- **Origin:** Got a horrible sunburn as a boy. Instead of dying, he now **emits sunlight from his skin**. He IS the sun. Walking into a dark room and lighting it up. He glows warm yellow/orange.
+- **Visual:** Dressed like a **vampire hunter mixed with a superhero**. Long coat meets cape. Utility belt of stakes and garlic next to a glowing sun emblem. Dark goggles or a hood to contain himself when he's not on the job.
+- **Role in Town:** He's a hero. He knows Violencetown is dangerous and he wants to help. He teaches you the basics, warns you about the zones, and has strong opinions about Bank Street ("Something's not right about those bankers. They never come out during the day."). He's your first ally and the narrative thread that connects you to the vampire problem on Bank Street.
+- **Design note:** SunMan as tutorial NPC means the player meets a superhero vampire hunter BEFORE they know Bank Street is run by vampires. Seeds the plot early.
 
 **The Deity (Graveyard — Manifests within)**
 - Not a grim reaper. Not a skeleton god. **A beach boy surfer dude.** Laid back, chill, sun-bleached hair, board shorts, flip flops, maybe a shell necklace. He talks like a California surfer.
