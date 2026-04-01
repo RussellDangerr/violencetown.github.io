@@ -37,7 +37,7 @@ This plan supersedes the procedural chunk-based generation system from Phase 1. 
 
 | Zone | Creature | Element | Full Bar Consequence | How to Lower the Bar |
 |------|----------|---------|---------------------|----------------------|
-| **Town** | Human | Boredom | Time skips forward? *(needs work)* | Spend money, throw money, break your stuff on people |
+| **Town** | Human | Boredom (indoors) + Sun Damage (outdoors) | Boredom: random actions, time skip? Sun: direct Life drain. Two-sided trap. | Boredom: spend/throw money, break stuff. Sun: shade tiles, or find real sunblock. |
 | **Sewer** | Wererat | Sludge | Enemies become 2x fast (world speeds up, you don't) | Soap + water (scarce in the sewer) |
 | **Circus** | Clown (Vampire) | Fun | Fun Berserk — character goes wild, does random stuff really fast, total loss of control | TBD |
 | **Factory** | Robot | Goo | Burns up your items — inventory destruction | TBD |
@@ -47,18 +47,24 @@ This plan supersedes the procedural chunk-based generation system from Phase 1. 
 
 ### Element Details by Zone
 
-### Boredom (Town)
+### Boredom + Sun Damage (Town) — The Two-Sided Trap
 
-Boredom **increases with money.** The more money you have, the more bored you get — you've seen it all, bought it all, nothing excites you. Rich and bored is the Town's curse.
+Town is unique: it has **two hazards**, one indoors and one outdoors. The vampires engineered it.
 
-**Full bar:** Time skips forward? *(This mechanic needs more design work. Ideas: time jumps ahead and the world has changed around you — NPCs moved, events happened without you, opportunities passed. Or: your character falls asleep/zones out and wakes up somewhere else. The feeling of "I blinked and missed something" as a consequence of wealth-induced apathy.)*
+**OUTDOORS — Sun Damage:**
+Direct Life drain on exposed outdoor tiles. The sun is brutal and you have no real sunblock (only moonblock, which does nothing). Outdoor movement requires planning — hop between shade tiles (awnings, alleys, overhangs, covered walkways) to cross the city without frying. Open streets, parking lots, and parks are kill zones. The only people walking freely in the sun are vampires — they have the real sunblock.
+
+**INDOORS — Boredom:**
+Boredom **increases with money.** The more money you have, the more bored you get — stuck inside, rich, nothing to do. The bar fills while indoors and faster the more cash you're carrying.
+
+**Full bar:** Time skips forward? *(Still needs design work. Ideas: time jumps ahead and the world has changed around you — NPCs moved, events happened without you. Or: your character zones out and wakes up somewhere else.)*
 
 **How to lower Boredom:**
 - **Spend money** — buy things, pay for services, tip people
 - **Throw money at/on people** — literally hurl cash as an action
 - **Break your own stuff on people** — smash your items against enemies. Destruction as entertainment. You're so bored that breaking your own possessions on someone's head is the only thrill left.
 
-Boredom is the rich person's problem. Poor and active = no boredom. Wealthy and idle = chaos.
+**The pinch:** Stay inside → boredom builds. Go outside → sun burns your Life away. Every other zone has one bar to manage. Town has two. The solution is finding **real sunblock** — it breaks the outdoor half of the trap and lets you move freely. Until then, you're navigating shade paths between buildings while your boredom climbs indoors. The vampires designed this. They're comfortable.
 
 ### Sludge (Sewer)
 
@@ -104,13 +110,16 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 
 ### 1. Town (City Center)
 - **Resident creature:** Human
-- **Element:** Boredom — increases with money. The richer you are, the more bored you get. Bar fills up and forces random actions. Fight it by spending money, throwing money at people, or breaking your own stuff on people. The rich person's curse.
-- **Role:** Player starting zone. The "normal" part of Violencetown.
-- **Vibe:** Urban streets, buildings, shops, sidewalks. The most city-like area. This is the baseline that makes the other zones feel weird by contrast.
-- **Tile palette:** Concrete, asphalt, brick, storefronts, streetlights, dumpsters.
+- **Element:** Boredom (indoors) + Sun Damage (outdoors) — Town is a two-sided trap created by the vampire sunblock scheme. Outside, the sun scorches you (no real sunblock, only useless moonblock). Inside, boredom builds (stuck indoors with nothing to do, money piling up). You're squeezed from both directions. Go outside and burn. Stay inside and lose your mind.
+- **Boredom bar:** Fills while indoors. Increases faster with more money. Forces random actions at high levels.
+- **Sun damage:** Taken while outdoors on exposed tiles (no shade, no cover). Direct Life drain. The streets are dangerous not because of enemies but because the sky is trying to kill you.
+- **The pinch:** Every other zone has one element to manage. Town has two. The vampires engineered it this way — humans trapped indoors where they're bored and controllable, punished by the sun if they try to leave. The only people who walk freely outside are the vampires (they have real sunblock).
+- **Role:** Player starting zone. The "normal" part of Violencetown — except normal has been rigged.
+- **Vibe:** A city where everyone's indoors. Empty sun-blasted streets. Crowded, stuffy interiors. The outdoor tiles shimmer with heat. Shade tiles (awnings, alleys, covered walkways) are the safe paths between buildings. It looks normal but it feels like a prison designed by bankers.
+- **Tile palette:** Concrete, asphalt, brick, storefronts, streetlights, dumpsters. **Shade tiles** (awnings, overhangs, alley shadows) as safe outdoor paths. **Exposed tiles** (open streets, parking lots, parks) as sun damage zones. **Indoor tiles** (shops, offices, apartments) as boredom zones.
 - **Sub-areas:** **Bank Street** — the financial district within Town. Run by vampires. Pale bankers in expensive suits behind tinted windows. The buildings are old, ornate, gothic-corporate. The Masquerade plays out here — vampires hiding what they are behind handshakes, contracts, and power ties. "Bloodsucking bankers" isn't a metaphor. They drain you financially AND literally.
 - **Boss:** The Financier (Vampire) — Bank Street. See Boss Profiles below.
-- **Notes:** Town is central — the other four zones radiate outward from it. The gas station (existing spawn point) lives here.
+- **Notes:** Town is central — the other four zones radiate outward from it. The gas station (existing spawn point) lives here. Finding real sunblock changes the zone — you can walk freely outside, the pinch breaks, and the vampires lose their grip.
 
 ### 2. Sewer
 - **Resident creature:** Wererat (Rat ↔ Wererat transformation)
