@@ -23,19 +23,36 @@ This plan supersedes the procedural chunk-based generation system from Phase 1. 
 
 ---
 
-## Core Concept: Life = HP
+## Core Concepts
 
-**Life is your HP.** Not "health points" — *Life*. Every element in every zone interacts with Life in a different way:
+### Life = HP
 
-| Zone | Element | Effect on Life |
-|------|---------|----------------|
-| **Town** | Boredom | Forces random actions — indirect Life risk through loss of control |
-| **Sewer** | Sludge | Slows you down + drains Life over time (DoT) |
-| **Circus** | Fun | Vampire clowns entertain you — Fun steals Life directly |
-| **Factory** | Goo | Powers you up (faster, stronger) but every action costs Life |
-| **Graveyard** | Death | The Deity is killing you. Death itself as a building pressure. |
+**Life is your HP.** Not "health points" — *Life*.
 
-Every zone's element threatens Life differently. Sludge is slow and corrosive. Goo is tempting and costly. Fun is a trap. Boredom is chaos. Death is inevitable. The player has to manage Life across all five zones, and each zone demands a different survival strategy.
+### Zone Bars — One Zone, One Bar, One Element
+
+**Each zone has its own status bar that fills up while you're in that zone.** The bar represents the zone's element building up on you. When you leave the zone, that bar is only active in that zone — it doesn't follow you. Each zone is its own self-contained system with its own creature, element, and bar.
+
+**You only play as a zone's creature while in that zone.** The character and element are bound to the zone. Enter the Sewer, you're the Wererat dealing with Sludge. Enter the Circus, you're the Clown dealing with Fun. This simplifies everything — no carrying status effects across zones, no juggling five creatures in your roster. One zone, one creature, one bar.
+
+| Zone | Creature | Element | Bar Effect | How to Lower the Bar |
+|------|----------|---------|------------|----------------------|
+| **Town** | Human | Boredom | Forces random actions. Increases with money. | Spend money, throw money at people, break your own stuff on people. Burn through your wealth. |
+| **Sewer** | Wererat | Sludge | Slows you down + drains Life (DoT) | TBD |
+| **Circus** | Clown (Vampire) | Fun | Steals Life — clowns entertain you to death | TBD |
+| **Factory** | Robot | Goo | Powers you up but actions cost Life | TBD |
+| **Graveyard** | Skeleton | Death | The Deity is killing you. Pressure builds. | TBD |
+
+### Boredom & Money (Town)
+
+Boredom **increases with money.** The more money you have, the more bored you get — you've seen it all, bought it all, nothing excites you. Rich and bored is the Town's curse.
+
+**How to fight Boredom:**
+- **Spend money** — buy things, pay for services, tip people
+- **Throw money at/on people** — literally hurl cash as an action
+- **Break your own stuff on people** — smash your items against enemies. Destruction as entertainment. You're so bored that breaking your own possessions on someone's head is the only thrill left.
+
+Boredom is the rich person's problem. Poor and active = no boredom. Wealthy and idle = chaos.
 
 ---
 
@@ -45,7 +62,7 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 
 ### 1. Town (City Center)
 - **Resident creature:** Human
-- **Element:** Boredom — if you haven't done anything interesting in a while, or you encounter something boring, your character does something random. Boredom is the mundane hazard of normal life. The city is dull and it gets to you. Stand still too long, walk the same block twice, interact with something tedious — boredom kicks in and you lose control briefly. The antidote is action, variety, violence.
+- **Element:** Boredom — increases with money. The richer you are, the more bored you get. Bar fills up and forces random actions. Fight it by spending money, throwing money at people, or breaking your own stuff on people. The rich person's curse.
 - **Role:** Player starting zone. The "normal" part of Violencetown.
 - **Vibe:** Urban streets, buildings, shops, sidewalks. The most city-like area. This is the baseline that makes the other zones feel weird by contrast.
 - **Tile palette:** Concrete, asphalt, brick, storefronts, streetlights, dumpsters.
@@ -66,14 +83,14 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Resident creature:** Clown (Vampire Clown)
 - **Role:** Entertainment district as vampire society. Think Vampire: The Masquerade but with a circus theme.
 - **Vibe:** A permanent carnival that's actually a vampire court in disguise. The big top is their gathering hall. The funhouse is where they feed. Gaudy colors, greasepaint, and fangs. The "masquerade" is literal — they hide behind clown makeup and circus performance. Political intrigue under the big top. Coteries of clowns with territory and hierarchy. The circus never closes because vampires don't sleep.
-- **Element:** Fun — the vampire clowns do something genuinely fun and entertaining for you... and it steals your Life. Fun is the trap. The circus is a blast — games, performances, spectacles — and every moment of enjoyment drains your HP. The clowns are feeding on your joy. You're having the time of your life, literally. The more fun you have, the more Life you lose.
+- **Element:** Fun — bar fills as the vampire clowns entertain you. They do something genuinely good and fun... and it steals your Life. The more the bar fills, the more Life they drain. The circus is a blast and it's killing you.
 - **Tile palette:** Striped tents, confetti, carnival booths, popcorn carts, funhouse mirrors, balloon piles, blood-red curtains, dim backstage areas, coffin-shaped prop boxes.
 - **Boss:** SunMan — see Boss Profiles below.
 - **Notes:** The Clowns are vampires. The circus is their cover. The Masquerade-style social dynamics (clans, politics, feeding, maintaining the facade) play out in a circus setting. This gives the Circus zone depth beyond just "creepy carnival" — it's a functioning vampire society with its own rules. The Clown creature could have vampire abilities: blood drain, mesmerize, night vision, weakness to sunlight (and therefore SunMan). Fun is their weapon — they don't attack you, they entertain you to death.
 
 ### 4. Graveyard
 - **Resident creature:** Skeleton (Skeleton ↔ Zombie transformation)
-- **Element:** Death — the Deity is actually killing you. Not DoT, not a debuff — **Death**. The Graveyard's element is the real thing. The Deity wants you dead and the zone itself is trying to finish the job. Being in the Graveyard means Death is actively coming for you. The longer you stay, the closer it gets. The element isn't an environmental hazard you step in — it's an existential pressure that builds.
+- **Element:** Death — bar fills while you're in the Graveyard. The Deity is actually killing you. Not DoT, not a debuff — **Death**. The bar IS how close the Deity is to finishing the job. Full bar = dead. The Graveyard's element is the real thing.
 - **Role:** The dead part of town. The undead are denying death — and something has noticed.
 - **Vibe:** Tombstones, crypts, dead trees, fog, iron fences. Quiet and spooky. But underneath the quiet, Death is working.
 - **Tile palette:** Gravestones, mausoleums, dirt paths, dead grass, iron gates, candles, fog tiles.
@@ -82,7 +99,7 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 
 ### 5. Factory
 - **Resident creature:** Robot
-- **Element:** Goo — **green, radioactive, alien.** Associated with radiation, aliens, and the spaceship. The Goo may have always been in the Factory, or maybe it arrived with the aliens. Either way, it's green, it glows, and it's not from here. **Goo makes you more powerful and faster, but consumes Life on action or contact.** It's a Faustian bargain — touch the Goo, become superhuman, burn through your HP doing it. Every powered-up action costs Life. Speed costs Life. Strength costs Life.
+- **Element:** Goo — **green, radioactive, alien.** Associated with radiation, aliens, and the spaceship. Bar fills on contact or proximity. Goo makes you more powerful and faster, but the higher the bar, the more Life each action costs. It's a Faustian bargain — the Goo powers you up and burns you alive.
 - **Role:** Industrial zone. The Factory produces... something. That something involves Goo.
 - **Vibe:** Machines, conveyor belts, smokestacks, metal walls, sparks. The Robot was built here. Mechanical and harsh. Vats of green Goo — the Factory's product, byproduct, or secret. Goo leaks, Goo spills, Goo is everywhere it shouldn't be. Radiation warnings. The spaceship looms.
 - **Tile palette:** Metal floors, conveyor belts, gears, pipes, vats, control panels, catwalks, smokestacks, green goo pools, goo vats, goo pipes, radiation symbols, alien tech.
@@ -223,5 +240,8 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 11. **Alien invasion timing:** Is the invasion always present, or is it an event that triggers? Does the Factory have a "normal" state before the aliens arrive?
 12. ~~Sludge vs Goo gameplay~~ — **RESOLVED.** Sludge = slow + DoT. Goo = power up + speed up but costs Life per action. Completely different risk profiles.
 13. **The Deity's ocean:** Does the Deity's presence bring actual water/ocean tiles into the Graveyard? Salt water flooding crypts, seaweed on tombstones? Could be a visual tell that the Deity is near or active.
-14. **Boredom mechanics:** What counts as "boring"? Standing still? Repeating actions? Walking the same path? What random actions can boredom force? How long is the idle timer?
-15. **Fun mechanics:** How does Fun steal Life? Is it proximity to clown entertainment? Watching a performance? Playing a carnival game? Is it avoidable or ambient in the zone?
+14. **Boredom random actions:** What can boredom force you to do? Attack a random NPC? Walk in a random direction? Drop an item? Say something embarrassing?
+15. **Fun bar triggers:** What fills the Fun bar? Proximity to clown performances? Interacting with carnival games? Ambient in the zone? Can you avoid it or is it unavoidable?
+16. **Bar drain methods:** Sewer, Circus, Factory, and Graveyard bars need "how to lower" methods like Boredom has spending/throwing money.
+17. **Zone transitions and creature swaps:** When you cross from Town to Sewer, do you instantly become the Wererat? Transition animation? Do you keep items across zones?
+18. **Bar persistence:** When you leave a zone and come back, is the bar where you left it, or does it reset/decay?
