@@ -1,33 +1,48 @@
 # Violencetown Roadmap
 
-> **Updated 2026-03-30** — Major design evolution session. Many systems are being reconsidered.
-> Open design decisions are tracked in `plans/abc-decision-matrix.md`.
+> **Updated 2026-04-01** — Major design pivot. No longer a roguelike. Static hand-crafted map with defined zones.
+> Zone definitions: `plans/game-zones.md`
+> Open design decisions: `plans/abc-decision-matrix.md`
 > All feature development follows the 4-gate pipeline in `GAME_STUDIO_PLAN.md`.
 
 ## Design Status
 
-The game is undergoing a significant design pivot. Core mechanics, scale, and identity are being reconsidered based on extensive brainstorming and game research. The ABC Decision Matrix (`plans/abc-decision-matrix.md`) contains 8 categories of design decisions that must be resolved before Phase 2 development begins.
+**2026-04-01 Pivot:** Violencetown is no longer a roguelike with procedural generation. The game is now a **2D pixelated tile-based game with a hand-crafted static map**. No chunk regeneration, no shifting city, no run-based structure. The tile system remains.
 
-**Key decisions pending:**
+### World Structure — DECIDED
+The world is a single authored map divided into **five zones**, each home to a specific creature:
+
+| Zone | Creature | Description |
+|------|----------|-------------|
+| **Town** | Human | City center, player start. The "normal" part of Violencetown. |
+| **Sewer** | Sewer Rat | Underground tunnels, tight spaces, standing water. |
+| **Circus** | Clown | Carnival gone wrong. Gaudy, colorful, unsettling. |
+| **Graveyard** | Skeleton | Tombstones, crypts, fog. Skeleton is a NEW creature. |
+| **Factory** | Robot | Industrial zone. Machines, conveyor belts, metal. |
+
+Full zone plan: `plans/game-zones.md`
+
+### Decisions still pending (from ABC matrix):
 1. Movement & Time Model (tick timer vs Pixel Dungeon hybrid vs real-time)
-2. World Structure (shifting city vs persistent territories vs hybrid)
-3. Creature Depth (cosmetic vs One Cool Thing vs divergent classes)
-4. Death Mechanics (arcade vs loot redistribution vs creature permadeath)
-5. Inventory Philosophy (2D bag vs Borderlands flow vs ring-only)
-6. Ring/Build Depth (light stats vs archetype synergy vs combinatorial)
-7. Character Parking (easter egg vs quest-sending vs territorial deployment)
-8. Visual Scale (current 24px vs mid 32px vs large 60px+)
+2. Creature Depth (cosmetic vs One Cool Thing vs divergent classes)
+3. Death Mechanics (arcade vs loot redistribution vs creature permadeath)
+4. Inventory Philosophy (2D bag vs Borderlands flow vs ring-only)
+5. Ring/Build Depth (light stats vs archetype synergy vs combinatorial)
+6. Character Parking (easter egg vs quest-sending vs territorial deployment)
+7. Visual Scale (current 24px vs mid 32px vs large 60px+)
 
-**Terminology shift:** Playable characters are now called **"creatures"** (zombie, robot, clown, sewer rat, beholdem, human, etc.) — not classes, not characters.
+**Terminology shift:** Playable characters are called **"creatures"** (human, sewer rat, clown, skeleton, robot, etc.) — not classes, not characters.
 
 ---
 
-## Phase 1 — The Bones ✅
-- Tick timer (10s, Space to execute), infinite procedural city
-- Chunk-based generation (32x32), simplex noise biomes
-- Diagonal movement with squeeze-through
-- Canvas tile map, biome color palettes, text log
-- **Done when:** Walk infinitely through different neighborhoods on a tick timer.
+## Phase 1 — The Bones *(REWORKING)*
+- ~~Tick timer (10s, Space to execute), infinite procedural city~~ — procedural generation removed
+- ~~Chunk-based generation (32x32), simplex noise biomes~~ — replaced by static authored map
+- Diagonal movement with squeeze-through — **stays**
+- Canvas tile map, tile palettes, text log — **stays**
+- **NEW:** Static map with 5 zones (Town, Sewer, Circus, Graveyard, Factory)
+- **NEW:** Zone-specific tile palettes and visual themes
+- **Done when:** Walk through all five zones on the static map. Each zone looks and feels distinct.
 
 ---
 
