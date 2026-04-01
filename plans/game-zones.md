@@ -108,8 +108,8 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Role:** Player starting zone. The "normal" part of Violencetown.
 - **Vibe:** Urban streets, buildings, shops, sidewalks. The most city-like area. This is the baseline that makes the other zones feel weird by contrast.
 - **Tile palette:** Concrete, asphalt, brick, storefronts, streetlights, dumpsters.
-- **Sub-areas:** **Bank Street** — the financial district within Town. Turf of The Financier (boss). Banks, loan offices, suited thugs.
-- **Boss:** The Financier (Bank Street). Economic power, not brute force.
+- **Sub-areas:** **Bank Street** — the financial district within Town. Run by vampires. Pale bankers in expensive suits behind tinted windows. The buildings are old, ornate, gothic-corporate. The Masquerade plays out here — vampires hiding what they are behind handshakes, contracts, and power ties. "Bloodsucking bankers" isn't a metaphor. They drain you financially AND literally.
+- **Boss:** The Financier (Vampire) — Bank Street. See Boss Profiles below.
 - **Notes:** Town is central — the other four zones radiate outward from it. The gas station (existing spawn point) lives here.
 
 ### 2. Sewer
@@ -122,13 +122,13 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Notes:** Could connect to other zones via underground passages. Rat form fits through 1-tile gaps. Wererat form is too big — transformation has spatial consequences. Sludge is the zone's environmental hazard — slows movement and deals DoT.
 
 ### 3. Circus
-- **Resident creature:** Clown (Vampire Clown)
-- **Role:** Entertainment district as vampire society. Think Vampire: The Masquerade but with a circus theme.
-- **Vibe:** A permanent carnival that's actually a vampire court in disguise. The big top is their gathering hall. The funhouse is where they feed. Gaudy colors, greasepaint, and fangs. The "masquerade" is literal — they hide behind clown makeup and circus performance. Political intrigue under the big top. Coteries of clowns with territory and hierarchy. The circus never closes because vampires don't sleep.
-- **Element:** Fun — bar fills as the vampire clowns entertain you. They do something genuinely good and fun... and it steals your Life. The more the bar fills, the more Life they drain. The circus is a blast and it's killing you.
-- **Tile palette:** Striped tents, confetti, carnival booths, popcorn carts, funhouse mirrors, balloon piles, blood-red curtains, dim backstage areas, coffin-shaped prop boxes.
-- **Boss:** SunMan — see Boss Profiles below.
-- **Notes:** The Clowns are vampires. The circus is their cover. The Masquerade-style social dynamics (clans, politics, feeding, maintaining the facade) play out in a circus setting. This gives the Circus zone depth beyond just "creepy carnival" — it's a functioning vampire society with its own rules. The Clown creature could have vampire abilities: blood drain, mesmerize, night vision, weakness to sunlight (and therefore SunMan). Fun is their weapon — they don't attack you, they entertain you to death.
+- **Resident creature:** Clown (Cryptid Clown)
+- **Role:** A permanent roadside attraction / traveling carnival that never left. Americana weirdness. The clowns are tied to cryptids — strange, not-quite-human things that showed up with the carnival and never explained themselves. Part sideshow, part cryptid habitat.
+- **Vibe:** Dusty carnival grounds. Faded striped tents. Hand-painted signs. "SEE THE AMAZING..." attractions. Americana roadside kitsch — think Route 66 mystery spots, World's Largest Ball of Twine energy, "Museum of the Strange" gift shops. The clowns run the show but the real weirdness is what lives behind the tents. Cryptids wander the grounds — things glimpsed at the edges. The carnival is their home. They're the exhibits AND the staff.
+- **Element:** Fun — bar fills as the clowns entertain you, pull pranks, and put on spectacles. Fun steals your Life. The circus is a blast and it's killing you. The more the bar fills, the more Life they drain.
+- **Tile palette:** Striped tents, confetti, carnival booths, popcorn carts, funhouse mirrors, balloon piles, faded wooden signs, hay bales, ticket booths, sideshow stages, "KEEP OUT" signs (that you obviously ignore), cryptid footprints, mysterious fur tufts.
+- **Boss:** Bigfoot — see Boss Profiles below.
+- **Notes:** The clowns are non-human — tied to cryptids and Americana folklore. What they are exactly is ambiguous. They showed up with the carnival. They don't age. They don't eat normal food. They just perform. The cryptid connection gives them a reason to exist without needing vampire lore. Bigfoot is the biggest, most American cryptid of them all — the alpha of this weird carnival ecosystem. The zone should feel like stumbling into a part of America that shouldn't exist.
 
 ### 4. Graveyard
 - **Resident creature:** Skeleton (Skeleton ↔ Zombie transformation)
@@ -321,7 +321,7 @@ Goo is physical. It's produced by the machines. It's everywhere.
 |----------|-----------|----------------|--------|
 | Human | Town | None | Existing — player start creature |
 | Wererat | Sewer | Rat ↔ Wererat | **CHANGED** — was "Sewer Rat", now transforms |
-| Clown | Circus | Vampire Clown | **CHANGED** — clowns are vampires, Masquerade-style circus society |
+| Clown | Circus | Cryptid Clown | **CHANGED** — clowns are cryptid/Americana creatures, non-human carnival folk |
 | Robot | Factory | None (yet) | Existing — from previous plans |
 | Skeleton | Graveyard | Skeleton ↔ Zombie | **NEW** — transforms on health loss |
 
@@ -345,9 +345,9 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 
 | Zone | Boss | Relationship to Zone Creature |
 |------|------|-------------------------------|
-| **Town** | The Financier | Controls the economy humans depend on |
+| **Town** | The Financier (Vampire) | Bloodsucking banker — drains you financially and literally |
 | **Sewer** | Texas Beholdem | The horror even Wererats fear |
-| **Circus** | SunMan | Natural predator of vampire clowns — he IS sunlight |
+| **Circus** | Bigfoot | The alpha cryptid — king of the carnival creatures |
 | **Graveyard** | The Deity (Beach Boy Surfer) | Wants the undead to stop denying death and join the ocean |
 | **Factory** | Alien Invasion (Little Green Men + enslaved Greys) | Invaders who want the machines and the Goo |
 
@@ -355,11 +355,12 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 
 ### Boss Profiles
 
-**The Financier (Town — Bank Street)**
-- Previously "Smooth Talker" — now recast as **The Financier**, a boss NPC on Bank Street in Town.
-- Bank Street is a named sub-area within the Town zone. The Financier runs it.
-- The Financier's power isn't physical — it's economic. Deals, loans, leverage, hired muscle. The Smooth Talker's dialogue-based identity (persuade, deceive, barter, provoke) now belongs to this boss.
-- Encounter: Bank Street is the Financier's turf. He doesn't fight you directly — he sends collectors, raises prices, cuts you off. Confronting him is a different kind of challenge.
+**The Financier — Vampire (Town — Bank Street)**
+- A **vampire** who runs Bank Street. The Masquerade plays out in corporate culture, not a circus. Pale skin, expensive suit, old money, tinted windows, corner office that never sees sunlight. "Bloodsucking banker" made literal.
+- **The Masquerade:** The vampires on Bank Street hide in plain sight behind handshakes, contracts, and NDAs. Nobody questions why the bankers are pale, why the offices have no windows, why meetings only happen after sunset. It's finance — everyone looks like that.
+- **Power:** Economic, not physical. Deals, loans, leverage, hired muscle, compound interest that compounds YOUR blood. The Smooth Talker's dialogue-based identity (persuade, deceive, barter, provoke) now belongs to this boss. He doesn't fight you — he forecloses on you, sends collectors, raises prices, cuts you off.
+- **Visual:** Immaculate suit. Slicked-back hair. Unnaturally pale. Red eyes behind designer glasses. Fangs visible only when he smiles (which is often — he's a banker, he's always closing). The office is gothic-corporate — mahogany, leather, dim lighting, no mirrors.
+- **Encounter:** Bank Street is his turf. Confronting the Financier is a different kind of boss fight — economic warfare, social maneuvering, and eventually forcing him into the sunlight (literally or figuratively). SunMan (previously the Circus boss) could potentially reappear here as an ally or event — a vampire hunter who targets Bank Street instead.
 
 **Texas Beholdem (Sewer — Deep Sewer)**
 - Lightly inspired by Xanathar from D&D, but **obsessed with the American Southwest**. Cowboy culture, desert vibes, tumbleweeds — in a sewer. He doesn't care that he lives underground in filth. In his mind, he's on the open range.
@@ -368,12 +369,15 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 - **Visual:** Massive multi-eyed horror, but wearing a cowboy hat. Maybe a bolo tie. Eyes glow purple from the sludge. Each eyestalk grips a poker card, fanned out like a hand. The armadillo rides on him somewhere.
 - Encounter location: Deep Sewer — the farthest, darkest part of the zone. His "saloon."
 
-**SunMan (Circus — Attacks from outside)**
-- A **superhero and vampire hunter**. Mimics traditional superhero culture — cape, symbol on chest, dramatic poses, heroic speeches. But also a vampire hunter — stakes, garlic, holy water, the kit.
-- **Origin:** Got a horrible sunburn as a boy. Instead of dying, he now **emits sunlight from his skin**. He IS the sun. Walking into a dark room and lighting it up. His mere presence burns vampires.
-- **Visual:** Dressed like a **vampire hunter mixed with a superhero**. Long coat meets cape. Utility belt of stakes and garlic next to a glowing sun emblem. Skin visibly radiates — he glows warm yellow/orange. Dark goggles or a hood to contain himself when he's not fighting.
-- **Personality:** He's a *hero*. He believes he's saving people from the vampire clown menace. He's right — the clowns ARE vampires. But from the Clown player's perspective, this righteous glowing man is an existential threat. He shows up to purge the circus.
-- The tension: SunMan is morally justified. You're the monster. Do you fight the hero?
+**Bigfoot (Circus — Deep in the carnival)**
+- The biggest, most famous cryptid of them all. **The alpha of the carnival.** Bigfoot doesn't run the circus — Bigfoot IS the reason the circus exists. The clowns set up the carnival around Bigfoot. He's the main attraction, the origin, the center of gravity. Everything else orbits him.
+- **Visual:** Massive. Towering. Classic Bigfoot — shaggy brown fur, huge footprints, glimpsed between tents. But this isn't a shy forest Bigfoot. This one has been in the carnival too long. He wears a tiny fez hat. Maybe a vest. He's been partially "civilized" by the carnival but he's still a wild, terrifying force of nature underneath the costume.
+- **Personality:** Territorial. The carnival is HIS territory. He tolerates the clowns because they bring him audiences (and food?). But outsiders who go too deep into the carnival grounds — past the midway, past the sideshow, into the back where the REAL exhibits live — that's where Bigfoot is waiting. He doesn't perform. He presides.
+- **Encounter:** You push deeper into the carnival than you should. The attractions get weirder. The clowns stop being funny and start being nervous. The footprints get bigger. Then you find him. The main event nobody was supposed to see.
+- **Other cryptids:** Bigfoot is the boss, but the carnival is home to other Americana cryptids as lesser enemies/NPCs. Mothman? Chupacabra? Jersey Devil? Jackalope? The Circus is a cryptid menagerie disguised as entertainment.
+
+**SunMan (Relocated — potential Town/Bank Street event)**
+- SunMan was originally the Circus boss (anti-vampire). With vampires moved to Bank Street, SunMan may reappear as a **Town event or ally** — a vampire hunter targeting the Financier and Bank Street. His origin (sunburn → emits sunlight) and superhero/vampire hunter identity still work perfectly against vampire bankers. Status: **loosely held**, may appear as a Bank Street event rather than a zone boss.
 
 **The Deity (Graveyard — Manifests within)**
 - Not a grim reaper. Not a skeleton god. **A beach boy surfer dude.** Laid back, chill, sun-bleached hair, board shorts, flip flops, maybe a shell necklace. He talks like a California surfer.

@@ -14,9 +14,9 @@ The world is a single authored map divided into **five zones**, each home to a s
 
 | Zone | Creature | Description |
 |------|----------|-------------|
-| **Town** | Human | City center, player start. The "normal" part of Violencetown. |
+| **Town** | Human | City center, player start. Bank Street sub-area run by vampire bankers (The Financier). |
 | **Sewer** | Wererat (Rat ↔ Wererat) | Underground tunnels, tight spaces. Rat transforms into powerful Wererat. |
-| **Circus** | Clown (Vampire) | Vampire society disguised as a circus. Masquerade-meets-big-top. |
+| **Circus** | Clown (Cryptid) | Americana roadside carnival. Clowns are cryptid creatures. Bigfoot is the boss. |
 | **Graveyard** | Skeleton (Skeleton ↔ Zombie) | Tombstones, crypts, fog. Shifts to Zombie form when damaged. |
 | **Factory** | Robot | Industrial zone. Machines, conveyor belts, metal. |
 
