@@ -1,0 +1,16 @@
+{
+  "name": "fast-food-deals-crawler",
+  "version": "1.0.0",
+  "description": "Crawls fast food deal pages and outputs static JSON for the deals frontend.",
+  "main": "crawl.js",
+  "scripts": {
+    "crawl": "node crawl.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

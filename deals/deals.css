@@ -1,0 +1,383 @@
+/* ===================================
+   CSS Variables — EVA Unit-01 Theme
+   (mirrored from ../styles.css)
+   =================================== */
+:root {
+    --bg-primary:    #08060f;
+    --bg-secondary:  #0c0a1a;
+    --bg-surface:    #100d22;
+    --bg-card:       #0d0b1e;
+
+    --accent:        #39ff14;
+    --accent-dim:    rgba(57, 255, 20, 0.08);
+    --accent-hover:  #2de010;
+    --accent-glow:   rgba(57, 255, 20, 0.35);
+
+    --purple:        #7c3aed;
+    --purple-dim:    rgba(124, 58, 237, 0.12);
+    --purple-bright: #9f6ef5;
+    --gold:          #f59e0b;
+
+    --text-primary:   #ede0ff;
+    --text-secondary: #8b7aac;
+    --text-muted:     #3e2f60;
+
+    --border:        #1c1438;
+    --border-light:  #2e1c5a;
+
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    --font-pixel: 'Press Start 2P', monospace;
+
+    --spacing-xs:  0.5rem;
+    --spacing-sm:  1rem;
+    --spacing-md:  1.5rem;
+    --spacing-lg:  2rem;
+    --spacing-xl:  3rem;
+    --spacing-2xl: 5rem;
+
+    --radius:    3px;
+    --radius-lg: 4px;
+    --transition: 200ms ease;
+    --transition-slow: 350ms ease;
+}
+
+/* ===================================
+   Reset & Base
+   =================================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-primary);
+    background-image:
+        linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--text-primary);
+    line-height: 1.65;
+    font-size: 16px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ===================================
+   Top Brand Bar
+   =================================== */
+.top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple), var(--accent));
+    z-index: 100;
+}
+
+/* ===================================
+   Layout
+   =================================== */
+.container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ===================================
+   Header
+   =================================== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+    border-bottom: 1px solid var(--border);
+    margin-top: 3px;
+}
+
+.back-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    transition: color var(--transition);
+    letter-spacing: 0.05em;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+.page-title {
+    font-family: var(--font-pixel);
+    font-size: clamp(0.6rem, 2vw, 0.85rem);
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent-glow);
+    letter-spacing: 0.05em;
+}
+
+/* ===================================
+   Controls
+   =================================== */
+.controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) 0 var(--spacing-md);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 180px;
+    padding: 0.55rem var(--spacing-sm);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-input:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 2px var(--purple-dim);
+}
+
+.filter-select {
+    padding: 0.55rem var(--spacing-sm);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color var(--transition);
+}
+
+.filter-select:focus {
+    border-color: var(--purple);
+}
+
+.result-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* ===================================
+   Last Updated
+   =================================== */
+.last-updated {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.last-updated span {
+    color: var(--text-secondary);
+}
+
+/* ===================================
+   Deal Grid
+   =================================== */
+main {
+    flex: 1;
+    padding-bottom: var(--spacing-2xl);
+}
+
+.deal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+}
+
+/* ===================================
+   Deal Card
+   =================================== */
+.deal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    position: relative;
+    transition: border-color var(--transition), transform var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+/* Corner brackets */
+.deal-card::before,
+.deal-card::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transition: border-color var(--transition);
+}
+
+.deal-card::before {
+    top: -1px; left: -1px;
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+}
+
+.deal-card::after {
+    bottom: -1px; right: -1px;
+    border-bottom: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-light);
+}
+
+.deal-card:hover {
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+}
+
+.deal-card:hover::before,
+.deal-card:hover::after {
+    border-color: var(--accent);
+}
+
+.deal-restaurant {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.deal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-xs);
+}
+
+.deal-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.deal-link {
+    color: var(--text-muted);
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: color var(--transition);
+    line-height: 1.4;
+}
+
+.deal-link:hover {
+    color: var(--accent);
+}
+
+.deal-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    flex: 1;
+}
+
+.deal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--spacing-xs);
+}
+
+.deal-expires {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--gold);
+}
+
+.deal-expires.unknown {
+    color: var(--text-muted);
+}
+
+/* ===================================
+   Empty State
+   =================================== */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    color: var(--text-muted);
+}
+
+.empty-state p {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-top: var(--spacing-sm);
+}
+
+/* ===================================
+   Footer
+   =================================== */
+footer {
+    border-top: 1px solid var(--border);
+    padding: var(--spacing-lg) 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+/* ===================================
+   Animations
+   =================================== */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.deal-card {
+    animation: fadeUp 250ms ease both;
+}
+
+/* ===================================
+   Responsive
+   =================================== */
+@media (max-width: 768px) {
+    .container { padding: 0 var(--spacing-md); }
+
+    header {
+        padding: var(--spacing-lg) 0 var(--spacing-md);
+    }
+
+    .deal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container { padding: 0 var(--spacing-sm); }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input { min-width: unset; }
+}

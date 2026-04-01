@@ -1,0 +1,80 @@
+// combat.js — core combat rules for violencetown
+//
+// Rules:
+//   - Everything starts with 100 HP
+//   - Damage is a single flat number, no rolls, no misses
+//   - Armor is a flat reduction applied before damage lands
+//   - You always hit; armor just means you hit softer
+
+const DEFAULT_HP    = 100;
+const DEFAULT_ARMOR = 0;
+
+// ── Entity ────────────────────────────────────────────────────────────────────
+
+class Entity {
+    constructor({ name, hp = DEFAULT_HP, armor = DEFAULT_ARMOR } = {}) {
+        this.name    = name ?? 'unknown';
+        this.maxHp   = hp;
+        this.hp      = hp;
+        this.armor   = armor;
+        this.alive   = true;
+    }
+
+    // Returns actual damage dealt after armor reduction (minimum 1).
+    takeDamage(rawDamage) {
+        const dealt = Math.max(1, rawDamage - this.armor);
+        this.hp     = Math.max(0, this.hp - dealt);
+        if (this.hp === 0) this.alive = false;
+        return dealt;
+    }
+
+    isDead()   { return !this.alive; }
+    isAlive()  { return  this.alive; }
+}
+
+// ── Attack ────────────────────────────────────────────────────────────────────
+
+// attack(attacker, target, damage)
+//   → { attacker, target, rawDamage, dealt, blocked, targetHp, killed }
+//
+// No miss. No RNG here. Caller passes a single flat damage number.
+// Armor soaks what it can; at least 1 always lands.
+
+function attack(attacker, target, damage) {
+    if (target.isDead()) return null;
+
+    const dealt   = target.takeDamage(damage);
+    const blocked = damage - dealt;
+
+    return {
+        attacker: attacker.name,
+        target:   target.name,
+        rawDamage: damage,
+        dealt,
+        blocked,
+        targetHp:  target.hp,
+        killed:    target.isDead(),
+    };
+}
+
+// ── Damage number display ─────────────────────────────────────────────────────
+
+// Formats a combat result into a damage number string for the UI to render.
+// Blocked damage is shown in grey/muted — still a number, just smaller feeling.
+//
+// Examples:
+//   dealt=8, blocked=0  → "8"
+//   dealt=3, blocked=5  → "3 (5 blocked)"
+
+function formatDamageNumber(result) {
+    if (!result) return null;
+    const { dealt, blocked, killed } = result;
+    let s = `${dealt}`;
+    if (blocked > 0) s += ` (${blocked} blocked)`;
+    if (killed)      s += ' ✕';
+    return s;
+}
+
+// ── Exports ───────────────────────────────────────────────────────────────────
+
+export { Entity, attack, formatDamageNumber, DEFAULT_HP, DEFAULT_ARMOR };

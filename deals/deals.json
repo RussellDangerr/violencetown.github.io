@@ -1,0 +1,32 @@
+[
+  {
+    "id": "mcdonalds-3f1a2b4c",
+    "restaurant": "McDonald's",
+    "title": "Buy One Get One Free McDouble",
+    "description": "Buy any McDouble at regular price, get a second one free. Valid at participating locations. Limit one per customer per visit.",
+    "expires": null,
+    "image": null,
+    "url": "https://www.mcdonalds.com/us/en-us/deals.html",
+    "scrapedAt": "2026-03-13T00:00:00.000Z"
+  },
+  {
+    "id": "mcdonalds-8d7c6e5f",
+    "restaurant": "McDonald's",
+    "title": "$1 Any Size Soft Drink",
+    "description": "Any size fountain drink for just $1. Available through the McDonald's app at participating locations.",
+    "expires": null,
+    "image": null,
+    "url": "https://www.mcdonalds.com/us/en-us/deals.html",
+    "scrapedAt": "2026-03-13T00:00:00.000Z"
+  },
+  {
+    "id": "mcdonalds-2a1b9c8d",
+    "restaurant": "McDonald's",
+    "title": "Free Medium Fries with $1 Purchase",
+    "description": "Order any item for $1 or more and get a free medium fries. App order required.",
+    "expires": null,
+    "image": null,
+    "url": "https://www.mcdonalds.com/us/en-us/deals.html",
+    "scrapedAt": "2026-03-13T00:00:00.000Z"
+  }
+]
