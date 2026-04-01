@@ -38,19 +38,19 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 
 ### 2. Sewer
 - **Resident creature:** Wererat (Rat ↔ Wererat transformation)
-- **Element:** Sludge
+- **Element:** Sludge — **purple, glowing, void-like.** The sewers flow purple with sludge. It glows like something from beyond. Not just waste — it feels like the void is leaking through the drains. Sludge slows you down and does damage over time (DoT).
 - **Role:** Underground / drainage zone beneath or adjacent to Town.
-- **Vibe:** Dark, wet, claustrophobic. Pipes, grates, standing water, tunnels. The Rat's domain — tight spaces that only small creatures navigate easily. Sludge everywhere — dripping from pipes, pooling in corners, flowing through channels.
-- **Tile palette:** Sewer grates, water channels, pipes, brick tunnels, muck, drains, sludge pools, sludge flows.
-- **Boss:** Beholdem — massive multi-eyed horror in the deep sewer. The thing down there that even the Wererats fear.
-- **Notes:** Could connect to other zones via underground passages. Rat form fits through 1-tile gaps. Wererat form is too big — transformation has spatial consequences. Sludge is the zone's environmental hazard/resource.
+- **Vibe:** Dark, wet, claustrophobic. Pipes, grates, tunnels. Everything is lit by the purple glow of sludge rivers. The Rat's domain — tight spaces that only small creatures navigate easily.
+- **Tile palette:** Sewer grates, water channels, pipes, brick tunnels, muck, drains, glowing purple sludge pools, sludge flows, sludge drips.
+- **Boss:** Texas Beholdem — see Boss Profiles below.
+- **Notes:** Could connect to other zones via underground passages. Rat form fits through 1-tile gaps. Wererat form is too big — transformation has spatial consequences. Sludge is the zone's environmental hazard — slows movement and deals DoT.
 
 ### 3. Circus
 - **Resident creature:** Clown (Vampire Clown)
 - **Role:** Entertainment district as vampire society. Think Vampire: The Masquerade but with a circus theme.
 - **Vibe:** A permanent carnival that's actually a vampire court in disguise. The big top is their gathering hall. The funhouse is where they feed. Gaudy colors, greasepaint, and fangs. The "masquerade" is literal — they hide behind clown makeup and circus performance. Political intrigue under the big top. Coteries of clowns with territory and hierarchy. The circus never closes because vampires don't sleep.
 - **Tile palette:** Striped tents, confetti, carnival booths, popcorn carts, funhouse mirrors, balloon piles, blood-red curtains, dim backstage areas, coffin-shaped prop boxes.
-- **Boss:** SunMan — a superhero who attacks the Circus. He's the natural predator of vampire clowns. Sunlight powers, cape, the works. He's not a villain — he's a *hero* — and that's what makes him dangerous. He shows up to purge the vampires. From the Clown's perspective, SunMan is the final boss. From everyone else's perspective, he might be doing the right thing.
+- **Boss:** SunMan — see Boss Profiles below.
 - **Notes:** The Clowns are vampires. The circus is their cover. The Masquerade-style social dynamics (clans, politics, feeding, maintaining the facade) play out in a circus setting. This gives the Circus zone depth beyond just "creepy carnival" — it's a functioning vampire society with its own rules. The Clown creature could have vampire abilities: blood drain, mesmerize, night vision, weakness to sunlight (and therefore SunMan).
 
 ### 4. Graveyard
@@ -58,17 +58,17 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Role:** The dead part of town. The undead are denying death — and something has noticed.
 - **Vibe:** Tombstones, crypts, dead trees, fog, iron fences. Quiet and spooky.
 - **Tile palette:** Gravestones, mausoleums, dirt paths, dead grass, iron gates, candles, fog tiles.
-- **Boss:** The Deity — death itself (or its avatar). The Skeletons and Zombies are an affront to the natural order. They refused to stay dead, and the Deity is furious about it. This isn't a monster — it's a cosmic force that wants to reclaim what's owed. Fighting a god who's *right* that you shouldn't exist.
+- **Boss:** The Deity — see Boss Profiles below.
 - **Notes:** The Skeleton shifts to Zombie form when it takes damage. This zone is home to both forms — bones and rot. The graveyard should feel different depending on which form you're in. The Deity boss gives the Graveyard zone existential stakes — every undead creature here is living on borrowed time.
 
 ### 5. Factory
 - **Resident creature:** Robot
-- **Element:** Goo
+- **Element:** Goo — **green, radioactive, alien.** Associated with radiation, aliens, and the spaceship. The Goo may have always been in the Factory, or maybe it arrived with the aliens. Either way, it's green, it glows, and it's not from here.
 - **Role:** Industrial zone. The Factory produces... something. That something involves Goo.
-- **Vibe:** Machines, conveyor belts, smokestacks, metal walls, sparks. The Robot was built here. Mechanical and harsh. Vats of Goo — the Factory's product, byproduct, or secret. Goo leaks, Goo spills, Goo is everywhere it shouldn't be.
-- **Tile palette:** Metal floors, conveyor belts, gears, pipes, vats, control panels, catwalks, smokestacks, goo pools, goo vats, goo pipes.
-- **Boss:** Alien Invasion — a spaceship lands at/near the Factory. Little green men are the commanders. They've enslaved large grey aliens and use them as muscle/labor. The invasion targets the Factory specifically — they want the machinery, the Goo, or both. The little green men are smart and cruel. The grey aliens are powerful but subjugated. There's a dynamic there — do you fight the greens, free the greys, or both?
-- **Notes:** Natural fit for Robot's tech/machine identity. Goo is the zone's environmental hazard/resource. The alien invasion is an event/boss encounter — the Factory's normal state is industrial, but the aliens disrupt it.
+- **Vibe:** Machines, conveyor belts, smokestacks, metal walls, sparks. The Robot was built here. Mechanical and harsh. Vats of green Goo — the Factory's product, byproduct, or secret. Goo leaks, Goo spills, Goo is everywhere it shouldn't be. Radiation warnings. The spaceship looms.
+- **Tile palette:** Metal floors, conveyor belts, gears, pipes, vats, control panels, catwalks, smokestacks, green goo pools, goo vats, goo pipes, radiation symbols, alien tech.
+- **Boss:** Alien Invasion — see Boss Profiles below.
+- **Notes:** Natural fit for Robot's tech/machine identity. Goo is the zone's environmental hazard/resource — green, radioactive, and connected to the alien presence. The alien invasion is an event/boss encounter — the Factory's normal state is industrial, but the aliens disrupt it.
 
 ---
 
@@ -112,42 +112,54 @@ Town sits at the center. The four other zones surround it. The exact layout, zon
 
 ### Zone Bosses
 
-Every zone has a boss. The bosses aren't just big enemies — they each have a thematic relationship with their zone's creatures.
+Every zone has a boss. The bosses aren't just big enemies — they each have a thematic relationship with their zone's creatures, and they're all *characters* with distinct personalities and visual identities.
 
 | Zone | Boss | Relationship to Zone Creature |
 |------|------|-------------------------------|
 | **Town** | The Financier | Controls the economy humans depend on |
-| **Sewer** | Beholdem | The horror even Wererats fear |
-| **Circus** | SunMan (Superhero) | Natural predator of vampire clowns |
-| **Graveyard** | The Deity | Furious that the undead deny death |
-| **Factory** | Alien Invasion (Little Green Men + enslaved Grey Aliens) | Invaders who want the Factory's machines and Goo |
+| **Sewer** | Texas Beholdem | The horror even Wererats fear |
+| **Circus** | SunMan | Natural predator of vampire clowns — he IS sunlight |
+| **Graveyard** | The Deity (Beach Boy Surfer) | Wants the undead to stop denying death and join the ocean |
+| **Factory** | Alien Invasion (Little Green Men + enslaved Greys) | Invaders who want the machines and the Goo |
 
-**The Financier (Town Boss — Bank Street)**
+---
+
+### Boss Profiles
+
+**The Financier (Town — Bank Street)**
 - Previously "Smooth Talker" — now recast as **The Financier**, a boss NPC on Bank Street in Town.
 - Bank Street is a named sub-area within the Town zone. The Financier runs it.
 - The Financier's power isn't physical — it's economic. Deals, loans, leverage, hired muscle. The Smooth Talker's dialogue-based identity (persuade, deceive, barter, provoke) now belongs to this boss.
 - Encounter: Bank Street is the Financier's turf. He doesn't fight you directly — he sends collectors, raises prices, cuts you off. Confronting him is a different kind of challenge.
 
-**Beholdem (Sewer Boss)**
-- The Beholdem is no longer a playable creature. It's a **boss** in the Sewer.
-- A massive multi-eyed horror lurking in the deep sewer. The thing the Wererats are afraid of.
-- Encounter location: Deep Sewer — the farthest, darkest part of the zone.
+**Texas Beholdem (Sewer — Deep Sewer)**
+- Lightly inspired by Xanathar from D&D, but **obsessed with the American Southwest**. Cowboy culture, desert vibes, tumbleweeds — in a sewer. He doesn't care that he lives underground in filth. In his mind, he's on the open range.
+- **Pet:** A black armadillo. His precious companion. Don't touch the armadillo.
+- **Signature weapon:** Holds a hand of **poker cards — a royal flush** — and throws them as projectile attacks. Each card is an eyestalk ability. The cards ARE his eye beams, reskinned as thrown poker cards. Five cards, five abilities.
+- **Visual:** Massive multi-eyed horror, but wearing a cowboy hat. Maybe a bolo tie. Eyes glow purple from the sludge. Cards fan out in one hand (or tentacle). The armadillo rides on him somewhere.
+- Encounter location: Deep Sewer — the farthest, darkest part of the zone. His "saloon."
 
-**SunMan (Circus Boss)**
-- A superhero. Cape, sunlight powers, righteous fury. He attacks the Circus to purge the vampire clowns.
-- From the Clown's perspective, SunMan is a terrifying final boss. From everyone else's perspective, he might be the good guy.
-- The tension: SunMan is *right* that the clowns are vampires. But you're playing as a clown. Do you fight the hero?
+**SunMan (Circus — Attacks from outside)**
+- A **superhero and vampire hunter**. Mimics traditional superhero culture — cape, symbol on chest, dramatic poses, heroic speeches. But also a vampire hunter — stakes, garlic, holy water, the kit.
+- **Origin:** Got a horrible sunburn as a boy. Instead of dying, he now **emits sunlight from his skin**. He IS the sun. Walking into a dark room and lighting it up. His mere presence burns vampires.
+- **Visual:** Dressed like a **vampire hunter mixed with a superhero**. Long coat meets cape. Utility belt of stakes and garlic next to a glowing sun emblem. Skin visibly radiates — he glows warm yellow/orange. Dark goggles or a hood to contain himself when he's not fighting.
+- **Personality:** He's a *hero*. He believes he's saving people from the vampire clown menace. He's right — the clowns ARE vampires. But from the Clown player's perspective, this righteous glowing man is an existential threat. He shows up to purge the circus.
+- The tension: SunMan is morally justified. You're the monster. Do you fight the hero?
 
-**The Deity (Graveyard Boss)**
-- Death itself, or its avatar. The Skeletons and Zombies are denying death, and the Deity is furious.
-- Not a monster — a cosmic force. It wants to reclaim what's owed. The undead shouldn't exist, and the Deity is here to correct that.
-- The tension: the Deity has a point. You ARE cheating death. Fighting a god who's morally justified.
+**The Deity (Graveyard — Manifests within)**
+- Not a grim reaper. Not a skeleton god. **A beach boy surfer dude.** Laid back, chill, sun-bleached hair, board shorts, flip flops, maybe a shell necklace. He talks like a California surfer.
+- **Philosophy:** Life is "the beach." Death is "the salty ocean." He wants everyone to have a chill time on the beach of life, and when it's your time, you paddle out into the ocean and become sea life again — fish, octopus, coral, whatever. It's beautiful. It's natural. It's the cycle.
+- **Why he's angry:** The Skeletons and Zombies are **refusing to leave the beach**. They died. Their wave came. They were supposed to paddle out and become a nice little sea creature. Instead they're still standing on the sand, rotting, rattling, being undead. It's not chill. It's actually really uncool, bro.
+- **Visual:** Surfer aesthetic in a graveyard. Board shorts and flip flops among tombstones. Carries a surfboard. Skin has that golden beach glow. But when he's angry — and he IS angry — the ocean comes with him. Waves, salt, seaweed, the crushing depth of the deep sea. The chill facade cracks and you see the cosmic force of the actual ocean of death behind the beach bro persona.
+- **Tone:** Speaks casually, uses surfer slang, but what he's saying is terrifying. "Dude, you gotta let go. The ocean is so sick out there. You're gonna love being a fish. Come on, bro. Stop being dead wrong about being dead."
 
-**Alien Invasion (Factory Boss)**
-- A spaceship arrives at the Factory. Little green men are the brains — small, smart, cruel commanders.
-- Large grey aliens are their enslaved muscle. Powerful but subjugated.
-- They want the Factory — its machines, its Goo, or both.
-- The dynamic: fight the green commanders, free the grey slaves, or deal with both. There's a potential alliance with the greys against their masters.
+**Alien Invasion (Factory — Spaceship landing)**
+- A **flying saucer** lands at or near the Factory. Classic UFO design.
+- **Little Green Men** are the commanders. Small, big-headed, smart, cruel. They give orders and fire weapons.
+- **Alien blaster guns:** Comical design — a **red button on top** of the gun with **yellow and black hazard stripes** around it. The little green men press the button with their tiny finger to fire. It's absurd. The most dangerous weapon in the zone is operated by a little guy pressing a big cartoon button.
+- **Grey Aliens** are large, powerful, and **enslaved** by the greens. They do the heavy lifting, the fighting, the labor. They're physically superior but mentally subjugated.
+- **The dynamic:** The greens are the brains, the greys are the brawn. Fight the greens and the greys might stop fighting. Free the greys and they might turn on their masters. Or fight everyone. The power structure is the puzzle.
+- **What they want:** The Factory — its machines, its Goo, or both. The Goo may be connected to them (is it alien in origin? Were they here before?).
 
 ---
 
@@ -186,7 +198,9 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 5. **Creature population:** Do zones have NPC creatures of their type wandering around? (e.g., NPC skeletons in the graveyard, NPC clowns at the circus)
 6. **Cross-zone creatures:** Can creatures from one zone wander into another, or are they bound to their home?
 7. **Skeleton ↔ Zombie balance:** Is Zombie form stronger (berserker) or weaker (degraded)? Is the shift reversible by healing?
-8. ~~Old creatures (Beholdem, Smooth Talker)~~ — **RESOLVED.** Beholdem → Sewer Boss. Smooth Talker → The Financier (Town Boss, Bank Street). Zombie → Skeleton's damaged form.
-9. ~~Other zone bosses?~~ — **RESOLVED.** All five zones have bosses: Financier (Town), Beholdem (Sewer), SunMan (Circus), The Deity (Graveyard), Alien Invasion (Factory).
-10. **Zone elements:** Sewer has Sludge, Factory has Goo. Do other zones have signature elements? (Town = ?, Circus = blood?, Graveyard = fog/death?)
+8. ~~Old creatures (Texas Beholdem, Smooth Talker)~~ — **RESOLVED.** Texas Beholdem → Sewer Boss. Smooth Talker → The Financier (Town Boss, Bank Street). Zombie → Skeleton's damaged form.
+9. ~~Other zone bosses?~~ — **RESOLVED.** All five zones have bosses with full character profiles.
+10. **Zone elements for remaining zones:** Sewer = Sludge (purple, void-like, DoT + slow). Factory = Goo (green, radioactive, alien). What about Town, Circus, Graveyard? (Town = money/concrete?, Circus = blood?, Graveyard = salt water/ocean mist from the Deity?)
 11. **Alien invasion timing:** Is the invasion always present, or is it an event that triggers? Does the Factory have a "normal" state before the aliens arrive?
+12. **Sludge vs Goo gameplay:** Both are zone hazard elements. Sludge = slow + DoT. What does Goo do mechanically? Radiation damage? Mutation? Goo should feel different from Sludge.
+13. **The Deity's ocean:** Does the Deity's presence bring actual water/ocean tiles into the Graveyard? Salt water flooding crypts, seaweed on tombstones? Could be a visual tell that the Deity is near or active.
