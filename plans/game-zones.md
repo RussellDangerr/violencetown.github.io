@@ -32,6 +32,8 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Role:** Player starting zone. The "normal" part of Violencetown.
 - **Vibe:** Urban streets, buildings, shops, sidewalks. The most city-like area. This is the baseline that makes the other zones feel weird by contrast.
 - **Tile palette:** Concrete, asphalt, brick, storefronts, streetlights, dumpsters.
+- **Sub-areas:** **Bank Street** — the financial district within Town. Turf of The Financier (boss). Banks, loan offices, suited thugs.
+- **Boss:** The Financier (Bank Street). Economic power, not brute force.
 - **Notes:** Town is central — the other four zones radiate outward from it. The gas station (existing spawn point) lives here.
 
 ### 2. Sewer
@@ -39,6 +41,7 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Role:** Underground / drainage zone beneath or adjacent to Town.
 - **Vibe:** Dark, wet, claustrophobic. Pipes, grates, standing water, tunnels. The Rat's domain — tight spaces that only small creatures navigate easily.
 - **Tile palette:** Sewer grates, water channels, pipes, brick tunnels, muck, drains.
+- **Boss:** Beholdem — massive multi-eyed horror in the deep sewer. The thing down there that even the Wererats fear.
 - **Notes:** Could connect to other zones via underground passages. Rat form fits through 1-tile gaps. Wererat form is too big — transformation has spatial consequences.
 
 ### 3. Circus
@@ -102,9 +105,18 @@ Town sits at the center. The four other zones surround it. The exact layout, zon
 - This elegantly merges Skeleton (new) and Zombie (previously in roster but unassigned) into a single dual-form creature. The Zombie isn't cut — it's the Skeleton's other half.
 - Design questions: Does Zombie form have different abilities? Is the shift reversible (heal back to Skeleton)? Is Zombie stronger or weaker — a desperation mode or a berserker mode?
 
-### Creatures on hold:
-- **Beholdem** — Previously in roster. Not assigned to a zone. Status TBD.
-- **Smooth Talker** — Previously in roster. Not assigned to a zone. Status TBD.
+### Zone Bosses
+
+**Beholdem (Sewer Boss)**
+- The Beholdem is no longer a playable creature. It's a **boss** in the Sewer.
+- A massive multi-eyed horror lurking in the deep sewer. The thing the Wererats are afraid of.
+- Encounter location: Deep Sewer — the farthest, darkest part of the zone.
+
+**The Financier (Town Boss — Bank Street)**
+- Previously "Smooth Talker" — now recast as **The Financier**, a boss NPC on Bank Street in Town.
+- Bank Street is a named sub-area within the Town zone. The Financier runs it.
+- The Financier's power isn't physical — it's economic. Deals, loans, leverage, hired muscle. The Smooth Talker's dialogue-based identity (persuade, deceive, barter, provoke) now belongs to this boss.
+- Encounter: Bank Street is the Financier's turf. He doesn't fight you directly — he sends collectors, raises prices, cuts you off. Confronting him is a different kind of challenge.
 
 ---
 
@@ -143,4 +155,5 @@ Town sits at the center. The four other zones surround it. The exact layout, zon
 5. **Creature population:** Do zones have NPC creatures of their type wandering around? (e.g., NPC skeletons in the graveyard, NPC clowns at the circus)
 6. **Cross-zone creatures:** Can creatures from one zone wander into another, or are they bound to their home?
 7. **Skeleton ↔ Zombie balance:** Is Zombie form stronger (berserker) or weaker (degraded)? Is the shift reversible by healing?
-8. **Old creatures (Beholdem, Smooth Talker):** Cut, or assigned to zones later? Zombie is now merged into Skeleton's transformation.
+8. ~~Old creatures (Beholdem, Smooth Talker)~~ — **RESOLVED.** Beholdem → Sewer Boss. Smooth Talker → The Financier (Town Boss, Bank Street). Zombie → Skeleton's damaged form.
+9. **Other zone bosses?** Circus and Factory and Graveyard don't have named bosses yet. TBD.
