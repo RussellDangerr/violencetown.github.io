@@ -15,9 +15,9 @@ The world is a single authored map divided into **five zones**, each home to a s
 | Zone | Creature | Description |
 |------|----------|-------------|
 | **Town** | Human | City center, player start. The "normal" part of Violencetown. |
-| **Sewer** | Sewer Rat | Underground tunnels, tight spaces, standing water. |
-| **Circus** | Clown | Carnival gone wrong. Gaudy, colorful, unsettling. |
-| **Graveyard** | Skeleton | Tombstones, crypts, fog. Skeleton is a NEW creature. |
+| **Sewer** | Wererat (Rat ↔ Wererat) | Underground tunnels, tight spaces. Rat transforms into powerful Wererat. |
+| **Circus** | Clown (Vampire) | Vampire society disguised as a circus. Masquerade-meets-big-top. |
+| **Graveyard** | Skeleton (Skeleton ↔ Zombie) | Tombstones, crypts, fog. Shifts to Zombie form when damaged. |
 | **Factory** | Robot | Industrial zone. Machines, conveyor belts, metal. |
 
 Full zone plan: `plans/game-zones.md`

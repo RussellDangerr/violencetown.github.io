@@ -35,25 +35,25 @@ Violencetown is divided into five distinct zones. Each zone is the home turf of 
 - **Notes:** Town is central — the other four zones radiate outward from it. The gas station (existing spawn point) lives here.
 
 ### 2. Sewer
-- **Resident creature:** Sewer Rat
+- **Resident creature:** Wererat (Rat ↔ Wererat transformation)
 - **Role:** Underground / drainage zone beneath or adjacent to Town.
 - **Vibe:** Dark, wet, claustrophobic. Pipes, grates, standing water, tunnels. The Rat's domain — tight spaces that only small creatures navigate easily.
 - **Tile palette:** Sewer grates, water channels, pipes, brick tunnels, muck, drains.
-- **Notes:** Could connect to other zones via underground passages. Natural fit for the Rat's "fits through 1-tile gaps" ability from the ABC matrix.
+- **Notes:** Could connect to other zones via underground passages. Rat form fits through 1-tile gaps. Wererat form is too big — transformation has spatial consequences.
 
 ### 3. Circus
-- **Resident creature:** Clown
-- **Role:** Entertainment district gone wrong.
-- **Vibe:** Gaudy, colorful, unsettling. Big tops, funhouses, balloon stands, carnival games. Bright colors masking something sinister. Comedy-horror.
-- **Tile palette:** Striped tents, confetti, carnival booths, popcorn carts, funhouse mirrors, balloon piles.
-- **Notes:** The Clown's honk ability (from ABC matrix) is at home here. The zone should feel like a permanent carnival that nobody asked for.
+- **Resident creature:** Clown (Vampire Clown)
+- **Role:** Entertainment district as vampire society. Think Vampire: The Masquerade but with a circus theme.
+- **Vibe:** A permanent carnival that's actually a vampire court in disguise. The big top is their gathering hall. The funhouse is where they feed. Gaudy colors, greasepaint, and fangs. The "masquerade" is literal — they hide behind clown makeup and circus performance. Political intrigue under the big top. Coteries of clowns with territory and hierarchy. The circus never closes because vampires don't sleep.
+- **Tile palette:** Striped tents, confetti, carnival booths, popcorn carts, funhouse mirrors, balloon piles, blood-red curtains, dim backstage areas, coffin-shaped prop boxes.
+- **Notes:** The Clowns are vampires. The circus is their cover. The Masquerade-style social dynamics (clans, politics, feeding, maintaining the facade) play out in a circus setting. This gives the Circus zone depth beyond just "creepy carnival" — it's a functioning vampire society with its own rules. The Clown creature could have vampire abilities: blood drain, mesmerize, night vision, weakness to certain elements.
 
 ### 4. Graveyard
-- **Resident creature:** Skeleton
+- **Resident creature:** Skeleton (Skeleton ↔ Zombie transformation)
 - **Role:** The dead part of town.
-- **Vibe:** Tombstones, crypts, dead trees, fog, iron fences. Quiet and spooky. The Skeleton is a new creature — it belongs here.
+- **Vibe:** Tombstones, crypts, dead trees, fog, iron fences. Quiet and spooky.
 - **Tile palette:** Gravestones, mausoleums, dirt paths, dead grass, iron gates, candles, fog tiles.
-- **Notes:** Skeleton is a **new addition** to the creature roster (not in previous plans). Its "One Cool Thing" needs to be defined — could be related to bones, undeath, rattling, reassembly, etc.
+- **Notes:** The Skeleton shifts to Zombie form when it takes damage. This zone is home to both forms — bones and rot. The graveyard should feel different depending on which form you're in.
 
 ### 5. Factory
 - **Resident creature:** Robot
@@ -80,16 +80,29 @@ Town sits at the center. The four other zones surround it. The exact layout, zon
 
 ## Creature Roster (Updated)
 
-| Creature | Home Zone | Status |
-|----------|-----------|--------|
-| Human | Town | Existing — player start creature |
-| Sewer Rat | Sewer | Existing — from previous plans |
-| Clown | Circus | Existing — from previous plans |
-| Robot | Factory | Existing — from previous plans |
-| Skeleton | Graveyard | **NEW** — not in previous creature roster |
+| Creature | Home Zone | Transformation | Status |
+|----------|-----------|----------------|--------|
+| Human | Town | None | Existing — player start creature |
+| Wererat | Sewer | Rat ↔ Wererat | **CHANGED** — was "Sewer Rat", now transforms |
+| Clown | Circus | Vampire Clown | **CHANGED** — clowns are vampires, Masquerade-style circus society |
+| Robot | Factory | None (yet) | Existing — from previous plans |
+| Skeleton | Graveyard | Skeleton ↔ Zombie | **NEW** — transforms on health loss |
 
-### Creatures removed or on hold:
-- **Zombie** — Previously in roster. Not assigned to a zone. Status TBD.
+### Creature Transformations
+
+**Wererat (Sewer)**
+- Default form: **Rat** — small, fast, fits through tight spaces. The classic sewer rat.
+- Transformed form: **Wererat** — larger, stronger, more dangerous. The beast comes out.
+- Transformation trigger: TBD (combat? rage? lunar cycle? manual toggle? health threshold?)
+- This replaces the old "Sewer Rat" creature entirely. The Rat form preserves the "fits through 1-tile gaps" ability. The Wererat form is the payoff — power at the cost of size/stealth.
+
+**Skeleton ↔ Zombie (Graveyard)**
+- Default form: **Skeleton** — bony, rattling, classic undead.
+- Damaged form: **Zombie** — when the Skeleton takes enough damage, it shifts into Zombie form. Flesh and rot replace bone. Different stats, different feel.
+- This elegantly merges Skeleton (new) and Zombie (previously in roster but unassigned) into a single dual-form creature. The Zombie isn't cut — it's the Skeleton's other half.
+- Design questions: Does Zombie form have different abilities? Is the shift reversible (heal back to Skeleton)? Is Zombie stronger or weaker — a desperation mode or a berserker mode?
+
+### Creatures on hold:
 - **Beholdem** — Previously in roster. Not assigned to a zone. Status TBD.
 - **Smooth Talker** — Previously in roster. Not assigned to a zone. Status TBD.
 
@@ -126,7 +139,8 @@ Town sits at the center. The four other zones surround it. The exact layout, zon
 1. **Map size:** How big is each zone? How big is the total map? Needs to feel explorable but not empty.
 2. **Zone transitions:** Hard borders (walls/gates) or gradual blending?
 3. **Sewer as underworld:** Is the Sewer a separate layer (underground) or a surface zone?
-4. **Skeleton's One Cool Thing:** New creature needs a signature ability. Ideas: reassemble after death, throw bones, rattle to scare, immune to certain damage types, see in the dark.
+4. **Wererat transformation trigger:** What causes the Rat → Wererat shift? Combat? A cooldown ability? Health threshold? Moon phase?
 5. **Creature population:** Do zones have NPC creatures of their type wandering around? (e.g., NPC skeletons in the graveyard, NPC clowns at the circus)
 6. **Cross-zone creatures:** Can creatures from one zone wander into another, or are they bound to their home?
-7. **Old creatures (Zombie, Beholdem, Smooth Talker):** Cut, or assigned to zones later?
+7. **Skeleton ↔ Zombie balance:** Is Zombie form stronger (berserker) or weaker (degraded)? Is the shift reversible by healing?
+8. **Old creatures (Beholdem, Smooth Talker):** Cut, or assigned to zones later? Zombie is now merged into Skeleton's transformation.
