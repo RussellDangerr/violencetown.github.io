@@ -165,6 +165,156 @@ Town sits at the center. The four other zones surround it. The exact layout, zon
 
 ---
 
+## Zone Map Styles & Environmental Hazards
+
+Each zone needs a distinct map layout philosophy and environmental hazard tiles that interact with the element bar. The hazards are what the bar is *made of* — the physical stuff on the map that fills it.
+
+---
+
+### Town — Map Styles
+
+**Option A: Grid City**
+Classic American city grid. Straight roads, right-angle intersections, city blocks with buildings. Think Manhattan or Chicago. Predictable, navigable, boring (on purpose — it's the Boredom zone). The grid IS the boredom — everything looks the same.
+
+**Option B: Suburban Sprawl**
+Wider streets, parking lots, strip malls, cul-de-sacs. More space, less density. The emptiness contributes to boredom. Big open lots with nothing in them.
+
+**Option C: Mixed Downtown**
+Dense downtown core (Bank Street area) with taller buildings and tighter streets, fading into looser residential blocks at the edges near other zones. Most variety within the zone.
+
+**Environmental Hazards / Bar Fillers:**
+Boredom doesn't come from stepping on hazard tiles — it comes from **boring stuff accumulating around you as you get richer.** The environment reacts to your wealth:
+
+- **Coins** — appear on the ground as your money increases. Litter the streets. Visual indicator of your wealth problem. Step on them and they add to your money (making boredom worse). They're a trap disguised as loot.
+- **Fax machines** — spawn in buildings, on sidewalks, wherever. Printing endlessly. Stacks of fax paper piling up. The ultimate symbol of soul-crushing mundanity. Walking near a fax machine ticks boredom. The sound of a fax machine is the sound of your Life becoming meaningless.
+- **Paperwork piles** — tiles of stacked documents. Tax forms, memos, TPS reports. They accumulate as boredom increases.
+- **Beige walls** — certain building interiors are aggressively beige. Cubicle tiles. Drop ceilings. Fluorescent light tiles. The architecture of boredom.
+- **ATMs** — dispense money. More money = more boredom. Using an ATM is actively making your problem worse. But you might need the money.
+
+**Unique tiles:** Storefronts (spend money here to lower bar), dumpsters (break stuff here), park benches (sitting = boredom spike), bus stops (waiting = boredom spike).
+
+---
+
+### Sewer — Map Styles
+
+**Option A: Pipe Network**
+A maze of interconnected pipes and tunnels. Tight corridors, branching paths, dead ends. Very claustrophobic. Rat-sized shortcuts everywhere that only Rat form can use.
+
+**Option B: Underground River**
+A large central sludge river with walkways, platforms, and bridges. More open than Option A. The river is the main artery and everything branches off it. The river flows — sludge tiles that move.
+
+**Option C: Layered Depths**
+Multiple vertical levels connected by ladders, drains, and drops. Shallow sewer near Town (relatively clean), mid-level tunnels (sludge increasing), deep sewer (Texas Beholdem territory, almost all sludge). Depth = danger.
+
+**Environmental Hazards / Bar Fillers:**
+Sludge is physical. It's on the map. You step in it, it coats you.
+
+- **Sludge pools** — static purple glowing tiles. Step on them, bar goes up. The bread and butter hazard.
+- **Sludge flows** — moving sludge tiles. Rivers of purple. They flow in a direction. Standing in one coats you AND pushes you downstream.
+- **Sludge drips** — ceiling tiles that periodically drip sludge onto the tile below. Timed hazard — safe sometimes, dangerous others.
+- **Sludge geysers** — tiles that periodically erupt, spraying sludge in a radius (adjacent tiles get coated for a few ticks).
+- **Burst pipes** — broken pipe tiles that spray sludge in a line. Permanent hazard blocking a corridor.
+- **Sludge-coated enemies** — enemies that have been in the sludge too long. They leave sludge trails when they move, creating new hazard tiles behind them.
+
+**Safe tiles:**
+- **Shower basins** — rare stations. Use soap here to wash off sludge. The oasis.
+- **Clean water pipes** — breakable tiles. Smash them to create a temporary wash area (clean water flows for a few ticks, then stops).
+- **Dry ledges** — elevated tiles above the sludge line. Safe to stand on. The paths between hazards.
+
+---
+
+### Circus — Map Styles
+
+**Option A: Big Top Rings**
+Concentric circles radiating from the main tent. The big top is the center (the vampire court). Rings of carnival attractions spiral outward. Inner ring = more dangerous (closer to the vampires), outer ring = gateway acts.
+
+**Option B: Carnival Midway**
+A long central midway (main path) with booths, rides, and tents branching off both sides. Linear but with lots of side areas to explore. Like an actual carnival layout — you walk the strip and get pulled into attractions.
+
+**Option C: Funhouse Maze**
+The whole zone is structured like a funhouse — warped paths, dead ends that aren't really dead ends, hidden doors, mirror rooms. Disorienting on purpose. You're never sure where you are, which is how the vampires like it.
+
+**Environmental Hazards / Bar Fillers:**
+Fun fills the bar. The hazards are **circus items and clown attacks** — things that are genuinely entertaining and that's the problem.
+
+- **Confetti tiles** — burst of confetti when you step on them. Fun bar ticks up. Colorful, delightful, deadly.
+- **Balloon piles** — pop when you walk through. Satisfying sound. Fun increases. Can't help but enjoy it.
+- **Carnival game booths** — interactive tiles. Step on them and a game plays (ring toss, whack-a-mole, duck shoot). You win prizes! Fun bar spikes. The prizes might be useful items but the cost is Fun.
+- **Clown performances** — NPC clowns doing bits in a radius. Juggling, pratfalls, pie-throwing. Being within range fills Fun. They're actually funny. That's the weapon.
+- **Clown attacks (Fun attacks):**
+  - **Pie throw** — a clown hurls a pie at you. It's hilarious. Fun goes up. Also does minor damage. You're laughing and bleeding.
+  - **Honk blast** — clown honks a horn in your face. Stun + Fun increase. You can't help but laugh.
+  - **Tickle ambush** — clown gets adjacent and tickles you. Fun spikes hard. Loss of movement for a tick.
+  - **Balloon animal gift** — a clown gives you a balloon animal. It's adorable. Fun goes up. It takes up inventory space. You don't want to throw it away because it's so cute (but you should).
+- **Funhouse mirror tiles** — step on them and your movement is reversed/scrambled for a tick. Disorienting but funny. Fun ticks up.
+- **Cotton candy clouds** — sticky tiles. Slow you for one tick (sweet and gooey). Fun increases because cotton candy is delightful.
+- **Calliope music tiles** — tiles near the carousel/calliope organ. Ambient Fun increase just from the music. The closer you are, the faster Fun fills.
+
+**Safe tiles:**
+- **Backstage areas** — behind the curtains. No performances here. The vampires drop the act backstage. Dark, quiet, no Fun. This is where you see what the circus really is — coffins, blood stores, the real vampire infrastructure. Safe from Fun but you're in the vampires' private quarters.
+
+---
+
+### Graveyard — Map Styles
+
+**Option A: Classic Cemetery**
+Rows of tombstones with winding dirt paths between them. A central mausoleum or chapel. Iron fence perimeter. Trees and fog everywhere. Simple, readable, atmospheric.
+
+**Option B: Catacombs Below**
+Surface graveyard on top, but the real zone is the catacombs underneath. Skull-lined walls, narrow bone corridors, underground chapels, ossuaries. The deeper you go, the closer to the Deity.
+
+**Option C: Cliff Graveyard**
+Built on a hillside or cliff. Vertical element — graves carved into rock faces, winding switchback paths, lookout points. At the top (or bottom) is where the Deity manifests. The ocean is visible in the distance — the Deity's domain, calling.
+
+**Environmental Hazards / Bar Fillers:**
+Death fills the bar. The hazards are **bones** — the remains of the dead, scattered everywhere, reminding you that this is where everything ends.
+
+- **Bone piles** — tiles of scattered bones. Skulls, femurs, ribcages. Step on them, Death bar ticks up. The bones are everywhere. Each one was a person. Each one is a reminder.
+- **Bone walls** — catacomb-style walls made of stacked bones. Being adjacent to bone walls ticks Death (proximity to the dead).
+- **Open graves** — empty grave tiles. A hole in the ground with your name on it (maybe literally). Standing on one spikes Death bar — it's your grave, waiting.
+- **Gravestones with your name** — some gravestones have your creature's name on them. The Deity is trolling you. Walking past one ticks Death.
+- **Coffin tiles** — closed coffins. Open ones. Some empty, some not. Each one ticks Death.
+- **Skeletal hands** — tiles where bony hands reach up from the ground. They grab at you. Death tick + movement penalty for that tile.
+- **Fog tiles** — thick fog. Can't see through them. Death ticks faster in fog because you can't see what's coming. The Deity works in the fog.
+- **Candle tiles** — lit candles on graves. When the candle goes out (on a timer), Death spikes on that tile. The candle IS your remaining time. Watch them flicker.
+- **Death whispers** — certain tiles near the Deity's presence. You hear the surfer dude's voice: "Come on, bro. The water's fine." Death bar increases. His voice is the hazard.
+
+**Safe tiles:**
+- **Sacred ground** — tiles with protective symbols. Church floors, blessed areas. Death bar pauses here. Temporary sanctuary.
+- **Lit areas** — well-lit tiles with multiple candles still burning. Death is slower here. The light holds it back.
+
+---
+
+### Factory — Map Styles
+
+**Option A: Assembly Line**
+Linear factory floor. Long conveyor belts running left to right. Stations along the line. You move through the production process — raw materials at one end, Goo at the other. The spaceship is docked at the output end, eating the product.
+
+**Option B: Multi-Floor Plant**
+Multiple floors connected by elevators, ladders, and catwalks. Ground floor is production, second floor is processing, top floor is the alien-occupied executive suite. Vertical progression toward the boss.
+
+**Option C: Sprawling Complex**
+Multiple buildings/wings connected by outdoor walkways and pipes. Different wings for different functions — smelting, Goo refining, storage, alien barracks, grey alien holding cells. More open than Options A/B. The spaceship sits in the central courtyard.
+
+**Environmental Hazards / Bar Fillers:**
+Goo is physical. It's produced by the machines. It's everywhere.
+
+- **Goo pools** — static green glowing tiles. Step in them, bar goes up. Powers you up AND costs you. The core tension.
+- **Goo vats** — large multi-tile containers of Goo. Proximity (within 2-3 tiles) fills bar passively. The vats radiate.
+- **Goo pipes** — tiles where Goo flows through visible pipes. Breakable — smash a pipe and Goo sprays out, creating new pool tiles. Could be tactical (block a corridor with Goo) or accidental.
+- **Goo drains** — floor drains leaking Goo upward. Periodic — safe sometimes, erupting others.
+- **Conveyor belt tiles** — push you in a direction automatically. Not Goo-related but a movement hazard. Can push you INTO Goo.
+- **Crusher tiles** — on a timer. Safe, safe, safe, CRUSH. Instant damage if you're on them when they activate.
+- **Electric gate tiles** — toggle on/off. Blocks passage when active, zaps if you walk into them.
+- **Steam vent tiles** — periodic steam bursts. Damage + obscures vision for a tick.
+- **Feeding troughs** — where the little green men eat Goo. High Goo radiation in the area. Also where you'll find greens clustered (combat opportunity).
+- **Alien tech tiles** — spaceship-adjacent tiles. Foreign materials. Goo concentration highest near the ship.
+
+**Safe tiles:**
+- **Maintenance tunnels** — clean corridors between sections. No Goo, no machines. Where grey aliens hide.
+- **Control rooms** — behind glass. Computers, switches. Low Goo. Sometimes you can control machines from here (shut off conveyors, drain vats).
+- **Grey alien holding cells** — where the greys are chained. Low Goo (the greens don't want their slaves powered up). Rescue points.
+
 ## Creature Roster (Updated)
 
 | Creature | Home Zone | Transformation | Status |
