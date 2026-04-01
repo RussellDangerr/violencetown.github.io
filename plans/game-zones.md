@@ -374,7 +374,44 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 - **Visual:** Massive. Towering. Classic Bigfoot — shaggy brown fur, huge footprints, glimpsed between tents. But this isn't a shy forest Bigfoot. This one has been in the carnival too long. He wears a tiny fez hat. Maybe a vest. He's been partially "civilized" by the carnival but he's still a wild, terrifying force of nature underneath the costume.
 - **Personality:** Territorial. The carnival is HIS territory. He tolerates the clowns because they bring him audiences (and food?). But outsiders who go too deep into the carnival grounds — past the midway, past the sideshow, into the back where the REAL exhibits live — that's where Bigfoot is waiting. He doesn't perform. He presides.
 - **Encounter:** You push deeper into the carnival than you should. The attractions get weirder. The clowns stop being funny and start being nervous. The footprints get bigger. Then you find him. The main event nobody was supposed to see.
-- **Other cryptids:** Bigfoot is the boss, but the carnival is home to other Americana cryptids as lesser enemies/NPCs. Mothman? Chupacabra? Jersey Devil? Jackalope? The Circus is a cryptid menagerie disguised as entertainment.
+- **Other cryptids:** Bigfoot is the boss, but the carnival is home to other Americana cryptids as lesser enemies/NPCs. The Circus is a cryptid menagerie disguised as entertainment. See the Cryptid Creature Table below.
+
+---
+
+### Circus Cryptid Creature Table
+
+The carnival is a cryptid habitat. These are the creatures that live there — sideshow exhibits, carnival staff, and things that lurk behind the tents. Ranked by cultural popularity.
+
+| # | Cryptid | Region | Description | Game Role | Pixel Art Notes |
+|---|---------|--------|-------------|-----------|-----------------|
+| 1 | **Bigfoot** | Pacific Northwest | 7-10 ft, shaggy brown fur, massive build, huge footprints | **BOSS** — the alpha. Wears a tiny fez. | Large sprite, simple silhouette. Brown fur + fez. |
+| 2 | **Mothman** | West Virginia | 6-7 ft winged humanoid, glowing red eyes, dark grey body | Elite enemy. Appears before bad things happen — seeing Mothman means a trap or ambush is ahead. Warning system AND threat. | Wings + red eyes = strong 2-color identity. |
+| 3 | **Jersey Devil** | New Jersey | Kangaroo body, bat wings, horse/goat head, cloven hooves, forked tail | Aerial enemy. Swoops, shrieks, hard to pin down on the tile grid. | Complex chimera — lots of sprite detail. Wings + horns + tail. |
+| 4 | **Chupacabra** | Texas / Southwest | Small (3-4 ft), hunched, spiny ridge down back, fangs | Pack enemy. Drains Life on contact (blood drain). Fast, comes in groups. | Small, hunched, spiny. Simple sprite, scary in numbers. |
+| 5 | **Wendigo** | Great Lakes / Northeast | Emaciated skeletal humanoid, antlered, sunken eyes, impossibly tall | Sub-boss or rare spawn. Hunger-themed — gets stronger the more you've lost. Terrifying. | Antlers + skeletal frame. Tall narrow sprite. |
+| 6 | **Flatwoods Monster** | West Virginia | 10 ft tall, ace-of-spades shaped head, glowing eyes, metallic "dress" body | Stationary sentry. Emits noxious mist in a radius (Fun bar hazard). Hisses when you get close. | Geometric shape — perfect for pixel art. Ace-of-spades silhouette is iconic. |
+| 7 | **Hopkinsville Goblins** | Kentucky | 3 ft tall, silver-grey skin, huge pointed ears, glowing eyes, long thin arms | Mob enemy. Swarm in groups, float/hover, bulletproof. The carnival's pest problem. | Tiny sprites, deploy in clusters. |
+| 8 | **Hodag** | Wisconsin | Bull horns, frog head, dinosaur spines, saber teeth, thick claws | Aggressive territorial enemy. Guards specific areas. Cannot lie down (sleeps standing). | Colorful, monstrous. Horns + spines + teeth = busy but readable sprite. |
+| 9 | **Dover Demon** | Massachusetts | 3-4 ft, huge watermelon head, enormous glowing orange eyes, thin fingers, no mouth | Passive/creepy NPC. Watches you. Doesn't attack. Just... stares. Seeing it ticks Fun bar (unsettling fun). | Big head, big eyes, stick body. Dead simple sprite, maximum creepy. |
+| 10 | **Skunk Ape** | Florida | 6-7 ft, orangutan-like, reddish-brown shaggy fur, broad face | Tank enemy. Slow, strong, terrible smell (AoE debuff?). Florida's Bigfoot — a lesser version. | Shaggy brown/red sprite. Stink lines. |
+| 11 | **Goatman** | Maryland / Texas | Half-man half-goat, horned, sometimes wielding an axe | Aggressive enemy near bridges and back paths. Weapon-wielding. Territorial. | Horned humanoid + axe. Clear readable sprite. |
+| 12 | **Bunny Man** | Virginia | Man in a full rabbit suit wielding a hatchet | Slasher enemy. Fast, hatchet-throwing, terrifying. A guy in a bunny suit with a weapon. Perfect carnival horror. | Bunny ears + hatchet. Simple, iconic, disturbing. |
+| 13 | **Rougarou** | Louisiana | Humanoid with wolf/dog head, hunched, clawed, tattered clothing | Night-phase enemy (if day/night exists). Swamp-wolf. Curses on hit? | Wolf head on human body. Tattered clothes detail. |
+| 14 | **Wampus Cat** | Appalachia | Six-legged panther with a human-like face | Fast enemy. Six legs = extra movement per tick. Haunting scream stuns. | Six-legged cat is visually unique. Human face adds creep factor. |
+| 15 | **Snallygaster** | Maryland | Dragon/bird/reptile hybrid, metallic beak, one eye, tentacles, bat wings | Aerial enemy. Silent flyer, snatches items from your inventory. Thief. | One-eyed dragon-bird. Distinctive silhouette. |
+| 16 | **Honey Island Swamp Monster** | Louisiana | 7 ft, grey matted hair, ape-like, webbed feet | **Lore connection:** Origin story is a circus train crash — chimps escaped into the swamp. This one came HOME. | Grey ape with webbed feet. Tragic backstory NPC? |
+| 17 | **Van Meter Visitor** | Iowa | Winged humanoid, glowing horn on forehead that emits light beam, three-toed feet | Special enemy. Horn beam = ranged light attack. Sulfuric stench AoE. | Bat wings + glowing horn. Strong silhouette. |
+| 18 | **Jackalope** | Wyoming / Southwest | Jackrabbit with antelope horns | Passive critter / collectible. Harmless but fast. Catching one could be a side objective. | Tiny sprite — rabbit + antlers. Cute. |
+
+### Design Notes — How to Use the Table
+
+Not every cryptid needs to be in the game at launch. Prioritize by:
+1. **Visual distinctness** — can you tell them apart as 16x16 or 32x32 sprites?
+2. **Gameplay role** — does each one play differently? (swarmers, sentries, stalkers, tanks, thieves, watchers)
+3. **Tier** — Bigfoot is boss, Wendigo/Mothman are elite, most others are regular enemies, Jackalope/Dover Demon are ambient creatures
+
+**Recommended first pass (8 creatures for launch):**
+Bigfoot (boss), Mothman (elite), Chupacabra (pack), Hopkinsville Goblins (swarm), Bunny Man (slasher), Flatwoods Monster (sentry), Dover Demon (watcher), Jackalope (critter)
 
 **SunMan (Town — Tutorial NPC)**
 - SunMan is the **first NPC you meet.** He's in Town. He teaches you the ropes — how to move, how to fight, how the world works. Your guide to Violencetown.
