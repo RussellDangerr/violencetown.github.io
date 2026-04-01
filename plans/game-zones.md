@@ -35,24 +35,66 @@ This plan supersedes the procedural chunk-based generation system from Phase 1. 
 
 **You only play as a zone's creature while in that zone.** The character and element are bound to the zone. Enter the Sewer, you're the Wererat dealing with Sludge. Enter the Circus, you're the Clown dealing with Fun. This simplifies everything — no carrying status effects across zones, no juggling five creatures in your roster. One zone, one creature, one bar.
 
-| Zone | Creature | Element | Bar Effect | How to Lower the Bar |
-|------|----------|---------|------------|----------------------|
-| **Town** | Human | Boredom | Forces random actions. Increases with money. | Spend money, throw money at people, break your own stuff on people. Burn through your wealth. |
-| **Sewer** | Wererat | Sludge | Slows you down + drains Life (DoT) | TBD |
-| **Circus** | Clown (Vampire) | Fun | Steals Life — clowns entertain you to death | TBD |
-| **Factory** | Robot | Goo | Powers you up but actions cost Life | TBD |
-| **Graveyard** | Skeleton | Death | The Deity is killing you. Pressure builds. | TBD |
+| Zone | Creature | Element | Full Bar Consequence | How to Lower the Bar |
+|------|----------|---------|---------------------|----------------------|
+| **Town** | Human | Boredom | Time skips forward? *(needs work)* | Spend money, throw money, break your stuff on people |
+| **Sewer** | Wererat | Sludge | Enemies become 2x fast (world speeds up, you don't) | Soap + water (scarce in the sewer) |
+| **Circus** | Clown (Vampire) | Fun | Fun Berserk — character goes wild, does random stuff really fast, total loss of control | TBD |
+| **Factory** | Robot | Goo | Burns up your items — inventory destruction | TBD |
+| **Graveyard** | Skeleton | Death | You die. | TBD |
 
-### Boredom & Money (Town)
+---
+
+### Element Details by Zone
+
+### Boredom (Town)
 
 Boredom **increases with money.** The more money you have, the more bored you get — you've seen it all, bought it all, nothing excites you. Rich and bored is the Town's curse.
 
-**How to fight Boredom:**
+**Full bar:** Time skips forward? *(This mechanic needs more design work. Ideas: time jumps ahead and the world has changed around you — NPCs moved, events happened without you, opportunities passed. Or: your character falls asleep/zones out and wakes up somewhere else. The feeling of "I blinked and missed something" as a consequence of wealth-induced apathy.)*
+
+**How to lower Boredom:**
 - **Spend money** — buy things, pay for services, tip people
 - **Throw money at/on people** — literally hurl cash as an action
 - **Break your own stuff on people** — smash your items against enemies. Destruction as entertainment. You're so bored that breaking your own possessions on someone's head is the only thrill left.
 
 Boredom is the rich person's problem. Poor and active = no boredom. Wealthy and idle = chaos.
+
+### Sludge (Sewer)
+
+Sludge coats you as you move through the Sewer. Purple, glowing, void-like. It builds up.
+
+**Full bar — enemies become twice as fast.** NOT "you slow down" — slowness mechanics suck and everyone hates them. Instead, the *world* speeds up around you. Enemies move twice, attack twice, react twice. You're at normal speed but everything else is in fast-forward. Same tactical pressure as being slowed, but it feels like the world is dangerous rather than your character being broken. You're not nerfed — you're outnumbered by speed.
+
+**How to lower Sludge:** Wash it off with **soap and water**. Clean water is scarce in the sewer — that's the whole point. Finding a working shower basin, a water pipe you can break, or a soap item is a resource hunt. The sewer is filthy and the one thing you need to survive it is the one thing it doesn't have.
+
+- **Soap** — an item. Find it, carry it, use it at a water source.
+- **Shower basin** — a tile/station in the Sewer. Rare. Maybe only a few per zone. The safe havens.
+- **Clean water** — pipes, drains that still flow clean. Break them open? Temporary wash stations.
+
+### Fun (Circus)
+
+The vampire clowns entertain you. Fun builds as they perform, play games, and put on spectacles. It feels great. It's killing you.
+
+**Full bar — Fun Berserk.** Your character completely loses control and goes wild. They start doing random things *really fast* — running in random directions, interacting with everything, attacking, laughing, spinning. Total chaos. You're having TOO MUCH FUN and your body can't handle it. You're a puppet on Fun strings. The clowns watch and feed.
+
+The inversion is perfect: most berserk modes make you powerful. Fun Berserk makes you *uncontrollable*. You're not raging — you're partying yourself to death.
+
+### Goo (Factory)
+
+Goo coats you, powers you up, makes you faster and stronger. The bar fills on contact and proximity to Goo sources.
+
+**Full bar — burns up your items.** Your inventory catches fire (radioactive fire? Goo corrosion?). Items start destroying themselves. The Goo that made you powerful is now eating your gear. The power fantasy has a bill and it's due.
+
+The tension: Goo makes you strong enough to fight the aliens, but if you lean into it too hard, you lose everything you're carrying. Risk/reward on every Goo puddle.
+
+### Death (Graveyard)
+
+Death builds while you exist in the Graveyard. The Deity is working. The bar is a countdown.
+
+**Full bar — you die.** No debuff. No warning phase. No second chance. The bar fills, you're dead. The Deity finishes the job.
+
+This is the simplest and most brutal element. Every other zone's full bar has a consequence you can survive. Death's consequence is Death. The Graveyard is the zone where the stakes are absolute.
 
 ---
 
@@ -242,8 +284,10 @@ Every zone has a boss. The bosses aren't just big enemies — they each have a t
 11. **Alien invasion timing:** Is the invasion always present, or is it an event that triggers? Does the Factory have a "normal" state before the aliens arrive?
 12. ~~Sludge vs Goo gameplay~~ — **RESOLVED.** Sludge = slow + DoT. Goo = power up + speed up but costs Life per action. Completely different risk profiles.
 13. **The Deity's ocean:** Does the Deity's presence bring actual water/ocean tiles into the Graveyard? Salt water flooding crypts, seaweed on tombstones? Could be a visual tell that the Deity is near or active.
-14. **Boredom random actions:** What can boredom force you to do? Attack a random NPC? Walk in a random direction? Drop an item? Say something embarrassing?
+14. **Boredom full bar:** Time skip is the current idea but needs design work. What does "time skips" actually mean mechanically? World changes around you? You teleport? NPCs act without you?
 15. **Fun bar triggers:** What fills the Fun bar? Proximity to clown performances? Interacting with carnival games? Ambient in the zone? Can you avoid it or is it unavoidable?
-16. **Bar drain methods:** Sewer, Circus, Factory, and Graveyard bars need "how to lower" methods like Boredom has spending/throwing money.
-17. **Zone transitions and creature swaps:** When you cross from Town to Sewer, do you instantly become the Wererat? Transition animation? Do you keep items across zones?
-18. **Bar persistence:** When you leave a zone and come back, is the bar where you left it, or does it reset/decay?
+16. **Fun Berserk specifics:** What random actions does your character do? How long does it last? Can the clowns trigger it intentionally as an attack?
+17. **How to lower Fun, Goo, Death bars:** Sludge has soap+water, Boredom has spending money. What lowers Fun? Goo? Death? Each needs a scarce resource or action.
+18. **Zone transitions and creature swaps:** When you cross from Town to Sewer, do you instantly become the Wererat? Transition animation? Do you keep items across zones? (Goo burns items — does that mean Factory items only?)
+19. **Bar persistence:** When you leave a zone and come back, is the bar where you left it, or does it reset/decay?
+20. **Soap as loot:** Is soap a common or rare item? Can you buy it in Town? Carry it into the Sewer? Or is it sewer-only loot?
