@@ -25,82 +25,70 @@ This plan supersedes the procedural chunk-based generation system from Phase 1. 
 
 ## Core Concepts
 
-### Life = HP
+### The Three Meters
 
-**Life is your HP.** Not "health points" — *Life*.
+~~Each zone has its own isolated bar.~~ **SUPERSEDED.** The element system is now **three paired meters** that work across zones. Each meter type plays differently.
 
-### Zone Bars — One Zone, One Bar, One Element
+| Pair | Meter Type | How it works |
+|------|-----------|--------------|
+| **Bored ↔ Fun** | Limit Gauge | Fills up over time. When it pops, something big happens. Which end you're on determines WHAT happens. |
+| **Sludge ↔ Goo** | Seesaw / Balance | A spectrum. Tipping too far either way is bad. Stay in the middle. Active management. |
+| **Death ↔ Life** | HP | Life is always better. Death is always worse. Life IS your HP. |
 
-**Each zone has its own status bar that fills up while you're in that zone.** The bar represents the zone's element building up on you. When you leave the zone, that bar is only active in that zone — it doesn't follow you. Each zone is its own self-contained system with its own creature, element, and bar.
-
-**You only play as a zone's creature while in that zone.** The character and element are bound to the zone. Enter the Sewer, you're the Wererat dealing with Sludge. Enter the Circus, you're the Clown dealing with Fun. This simplifies everything — no carrying status effects across zones, no juggling five creatures in your roster. One zone, one creature, one bar.
-
-| Zone | Creature | Element | Full Bar Consequence | How to Lower the Bar |
-|------|----------|---------|---------------------|----------------------|
-| **Town** | Human | Boredom (indoors) + Sun Damage (outdoors) | Boredom: random actions, time skip? Sun: direct Life drain. Two-sided trap. | Boredom: spend/throw money, break stuff. Sun: shade tiles, or find real sunblock. |
-| **Sewer** | Wererat | Sludge | Enemies become 2x fast (world speeds up, you don't) | Soap + water (scarce in the sewer) |
-| **Circus** | Clown (Vampire) | Fun | Fun Berserk — character goes wild, does random stuff really fast, total loss of control | TBD |
-| **Factory** | Robot | Goo | Burns up your items — inventory destruction | TBD |
-| **Graveyard** | Skeleton | Death | You die. | TBD |
+These meters are **not zone-locked.** You carry them with you. What you pick up in one zone affects you in another. The zones push you toward their element, but the meters are yours.
 
 ---
 
-### Element Details by Zone
+### Limit Gauge: Bored ↔ Fun
 
-### Boredom + Sun Damage (Town) — The Two-Sided Trap
+The gauge fills over time. The question isn't IF it pops — it's WHICH SIDE you're on when it does.
 
-Town is unique: it has **two hazards**, one indoors and one outdoors. The vampires engineered it.
+**Too much Bored (Town pushes you here):**
+- Time skip? Random actions? Loss of agency. *(Still needs design work.)*
+- Boredom increases with money. The richer you are, the faster it fills toward Bored.
+- Lower Boredom by: spending money, throwing money at people, breaking your own stuff on people.
 
-**OUTDOORS — Sun Damage:**
-Direct Life drain on exposed outdoor tiles. The sun is brutal and you have no real sunblock (only moonblock, which does nothing). Outdoor movement requires planning — hop between shade tiles (awnings, alleys, overhangs, covered walkways) to cross the city without frying. Open streets, parking lots, and parks are kill zones. The only people walking freely in the sun are vampires — they have the real sunblock.
+**Too much Fun (Circus pushes you here):**
+- **Fun Berserk.** Total loss of control. Your character does random stuff really fast — running, attacking, interacting with everything, laughing, spinning. You're a puppet on Fun strings. The clowns/cryptids watch and feed.
+- Fun fills from circus items, clown performances, carnival games, cryptid encounters.
 
-**INDOORS — Boredom:**
-Boredom **increases with money.** The more money you have, the more bored you get — stuck inside, rich, nothing to do. The bar fills while indoors and faster the more cash you're carrying.
+**The gauge is always filling.** Town pushes you toward Bored. Circus pushes you toward Fun. Being in neutral zones or managing your actions keeps you centered. The limit gauge pops at either extreme — you want to stay in the middle, but both zones are pulling you toward opposite edges.
 
-**Full bar:** Time skips forward? *(Still needs design work. Ideas: time jumps ahead and the world has changed around you — NPCs moved, events happened without you. Or: your character zones out and wakes up somewhere else.)*
+**Sun Damage (Town — separate from the gauge):**
+Town also has direct sun damage outdoors — Life drain on exposed tiles due to the moonblock scam. This is a Death ↔ Life interaction, not part of the Bored ↔ Fun gauge. Shade tiles and real sunblock protect you. The Town pinch: sun damage outside (Life drain), boredom inside (gauge filling toward Bored).
 
-**How to lower Boredom:**
-- **Spend money** — buy things, pay for services, tip people
-- **Throw money at/on people** — literally hurl cash as an action
-- **Break your own stuff on people** — smash your items against enemies. Destruction as entertainment. You're so bored that breaking your own possessions on someone's head is the only thrill left.
+---
 
-**The pinch:** Stay inside → boredom builds. Go outside → sun burns your Life away. Every other zone has one bar to manage. Town has two. The solution is finding **real sunblock** — it breaks the outdoor half of the trap and lets you move freely. Until then, you're navigating shade paths between buildings while your boredom climbs indoors. The vampires designed this. They're comfortable.
+### Seesaw: Sludge ↔ Goo
 
-### Sludge (Sewer)
+A balance beam. Both sides are dangerous at the extremes. The middle is safe.
 
-Sludge coats you as you move through the Sewer. Purple, glowing, void-like. It builds up.
+**Too much Sludge (Sewer coats you):**
+- Enemies become **2x fast.** The world speeds up, you don't. You're not slowed — everything else is in overdrive.
+- Sludge is purple, glowing, void-like. Contact with sludge tiles pushes the seesaw toward Sludge.
+- Lower Sludge with soap + water (scarce in the sewer). Shower basins, clean water pipes.
 
-**Full bar — enemies become twice as fast.** NOT "you slow down" — slowness mechanics suck and everyone hates them. Instead, the *world* speeds up around you. Enemies move twice, attack twice, react twice. You're at normal speed but everything else is in fast-forward. Same tactical pressure as being slowed, but it feels like the world is dangerous rather than your character being broken. You're not nerfed — you're outnumbered by speed.
+**Too much Goo (Factory coats you):**
+- You become **2x fast.** You move at double speed, act at double speed. Sounds great — but the game is now harder because you're moving too fast to think. Inputs matter more. Mistakes happen faster. You're powerful and dangerous to yourself.
+- Goo is green, radioactive, alien. Contact with goo tiles pushes the seesaw toward Goo.
+- *(How to lower Goo: TBD — will figure out with items later.)*
 
-**How to lower Sludge:** Wash it off with **soap and water**. Clean water is scarce in the sewer — that's the whole point. Finding a working shower basin, a water pipe you can break, or a soap item is a resource hunt. The sewer is filthy and the one thing you need to survive it is the one thing it doesn't have.
+**The seesaw:** Sludge and Goo oppose each other on the same spectrum. Stepping in Goo pushes you away from Sludge and vice versa. The Sewer coats you in Sludge; the Factory coats you in Goo. If you go straight from one zone to the other, they partially cancel out. But go too deep into either zone and you tip the seesaw to a dangerous extreme.
 
-- **Soap** — an item. Find it, carry it, use it at a water source.
-- **Shower basin** — a tile/station in the Sewer. Rare. Maybe only a few per zone. The safe havens.
-- **Clean water** — pipes, drains that still flow clean. Break them open? Temporary wash stations.
+**Balanced in the middle:** No speed effects. Normal gameplay. The ideal state.
 
-### Fun (Circus)
+---
 
-The vampire clowns entertain you. Fun builds as they perform, play games, and put on spectacles. It feels great. It's killing you.
+### HP: Death ↔ Life
 
-**Full bar — Fun Berserk.** Your character completely loses control and goes wild. They start doing random things *really fast* — running in random directions, interacting with everything, attacking, laughing, spinning. Total chaos. You're having TOO MUCH FUN and your body can't handle it. You're a puppet on Fun strings. The clowns watch and feed.
+The simplest meter. **Life is your HP. Death reduces it.**
 
-The inversion is perfect: most berserk modes make you powerful. Fun Berserk makes you *uncontrollable*. You're not raging — you're partying yourself to death.
+- **Life** is always better. More Life = more HP = more survivable.
+- **Death** is always worse. The Graveyard's element is Death — being there actively drains your Life. The Deity is killing you. The bar fills, you die.
+- Sun damage in Town also drains Life (Death ↔ Life interaction).
+- Combat drains Life. Sludge DoT drains Life. Anything that hurts you is a Death ↔ Life interaction.
 
-### Goo (Factory)
-
-Goo coats you, powers you up, makes you faster and stronger. The bar fills on contact and proximity to Goo sources.
-
-**Full bar — burns up your items.** Your inventory catches fire (radioactive fire? Goo corrosion?). Items start destroying themselves. The Goo that made you powerful is now eating your gear. The power fantasy has a bill and it's due.
-
-The tension: Goo makes you strong enough to fight the aliens, but if you lean into it too hard, you lose everything you're carrying. Risk/reward on every Goo puddle.
-
-### Death (Graveyard)
-
-Death builds while you exist in the Graveyard. The Deity is working. The bar is a countdown.
-
-**Full bar — you die.** No debuff. No warning phase. No second chance. The bar fills, you're dead. The Deity finishes the job.
-
-This is the simplest and most brutal element. Every other zone's full bar has a consequence you can survive. Death's consequence is Death. The Graveyard is the zone where the stakes are absolute.
+**The Graveyard is special:** It's the only zone where the environment is directly killing your HP just by existing there. Other zones have hazards that mess with your speed, your control, your balance — but the Graveyard goes straight for your Life. The Deity doesn't play games. Full Death = you die. No second chance.
 
 ---
 
