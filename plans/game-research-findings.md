@@ -28,6 +28,7 @@ This document captures research findings and design decisions that emerged from 
 - **Trinkets as run modifiers** → Biome mechanics already serve this. Could expand to district-level modifiers.
 - **Unidentified items** → **REJECTED.** Items are always clear. Strategy comes from combinations and positioning, not guessing what a mystery bottle does.
 - **Chess-like tick rhythm** → Validated. The 10-second tick with branching action preview creates the same "think 3-4 moves ahead" feel.
+- **Free actions for item use/throwing** → ADOPTED. Pixel Dungeon treats potions, scrolls, and thrown items as free actions that don't end the turn. Violencetown adopts this: throwing and item use are unlimited per turn, only movement and melee attacks consume the turn. See `plans/unlimited-moves-item-use.md`.
 
 ### Minions of Mirth
 - **Monster Realm** (kill enemies to unlock playing as them) → Evolved into the Origin Discovery System. Origins are found in the world, not unlocked by kill counts.

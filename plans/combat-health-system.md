@@ -44,7 +44,8 @@
 
 **Known Constraints:**
 - 10-second tick system means combat is slow and deliberate — every action is precious. This is a feature, not a bug, but it means "missing" would feel terrible (validates the no-miss design)
-- Single action per tick: player must choose between moving and attacking. No attack-of-opportunity or multi-action turns
+- Single **turn-consuming** action per tick: player must choose between moving and attacking. No attack-of-opportunity or multi-action turns
+- **Free actions** (throwing, item use, pickup, drop) do NOT consume the turn — player can perform multiple free actions before committing to a move or attack. See `plans/unlimited-moves-item-use.md`
 - Seeded RNG (Mulberry32) must be used for any damage variance to maintain determinism
 
 **What Already Exists:**
