@@ -49,7 +49,7 @@
 - Factory machines produce Goo, aliens came to eat it
 
 ### Core Mechanics (decided 2026-04-01)
-- **Movement: Pixel Dungeon Hybrid** — no timer, one tile per input, world advances when you act. Turn-based under the hood, real-time in feel.
+- **Movement: Phase-Based Turns** — no timer. Each turn, the player queues up multiple actions across phases (like playing cards), then executes them all at once. Inspired by Pixel Dungeon's "no clock pressure" feel but with multi-phase combo depth instead of one-action-per-turn. See "Turn Structure" below for details.
 - **Combat death: Arcade Reset** — fast respawn, lose some progress, low friction. Death is a punchline, not a punishment.
 - **Rings: Deferred** — build without rings. Revisit when progression needs more depth. Elements/meters may replace them.
 - **Height system: Backlogged** — not for prototype or early zones. May add to Factory or Town later.
@@ -59,6 +59,35 @@
 - **Sewer map: Pipe Network** — ~40x40 maze, claustrophobic, rat-size gaps.
 - **Sludge mechanic: Direct damage (DoT)** — simple, works. Upgrade to 2x enemy speed later.
 - **Skeleton/Zombie form: Deferred** — Graveyard is Stage 5.
+
+### Turn Structure (new — needs design work)
+
+The player builds their turn by queuing actions across phases, then executes everything at once. All options are visible on screen — the player can see what they're building before committing. Feels like assembling a hand of cards.
+
+**Rough phase concept (not final — needs prototyping):**
+1. **Combine** — combine/craft items
+2. **Use** — throw item, smash item, use ability
+3. **Move** — move to a tile
+4. **Execute** — commit the turn, everything resolves
+
+**Why this feels good:**
+- Player can maximize each turn by chaining actions (combine a thing, then throw it, then move away)
+- Combo discovery — "what happens if I combine THEN throw?" becomes a puzzle
+- All options visible on screen = informed decisions, not guessing
+- No time pressure (no tick timer) but depth per turn (not just "move one tile")
+- Resolution phase where everything plays out gives a satisfying payoff moment
+
+**Open design questions:**
+- How many phases per turn? Is it always 4, or do you earn more phases as you progress?
+- Can you skip phases? (e.g., just Move + Execute with no Combine/Use)
+- Do enemies also queue phases, or do they just act after your Execute?
+- How does this display on screen? Card-like slots? A queue bar? Phase buttons?
+- Does the Wererat's dual form affect available phases? (Rat form = extra Move phase? Wererat = extra Use phase?)
+- How does this interact with the element system? (e.g., stepping in sludge during Move phase = DoT applied during Execute?)
+
+**What this replaces:** The original Pixel Dungeon "one tile per input" model. The no-timer philosophy stays, but turns are richer.
+
+**Prototype note:** The sewer prototype should test this early — even a simple 2-phase version (Use + Move → Execute) would validate the feel.
 
 ---
 
@@ -228,13 +257,15 @@ You've explored three models. Pick one (or a hybrid):
 
 These questions can ONLY be answered by playing:
 
-- Does the tile movement feel good at 16x16? 32x32? 
+- Does the phase-based turn system feel good? (Queue actions → Execute)
+- How many phases per turn feels right? (2? 3? 4?)
+- Does the tile movement feel good at 16x16? 32x32? (depends on purchased sprites)
 - How big should a zone be? (Try 40x40, adjust)
 - Status effects vs meter bars — which reads better?
 - Does sludge as visual coating on the sprite actually read at small pixel sizes?
-- How fast should the game tick? (Real-time? Turn-based? Hybrid?)
 - Is the Sewer fun to navigate as a maze?
 - Does the Rat's 1-tile squeeze feel good or feel like a gimmick?
+- Does the combo system (Combine → Throw) create interesting decisions?
 
 ---
 
@@ -242,22 +273,25 @@ These questions can ONLY be answered by playing:
 
 **Build this first:**
 
-1. ☐ Hand-crafted sewer map (~40x40 tiles)
-2. ☐ Wererat sprite on the tile grid, movement works
-3. ☐ Sludge tiles — step on them, take damage (simple DoT)
+1. ☐ Phase-based turn system (queue actions → execute → enemies respond)
+2. ☐ Wererat on the tile grid, movement works within the turn system
+3. ☐ Sludge tiles — step on them, take damage (simple DoT, applied at Execute)
 4. ☐ Wall tiles, floor tiles, 1-tile gaps (rat squeeze)
-5. ☐ A few enemies (sewer rats? sludge creatures?) that move
-6. ☐ Texas Beholdem's room at the far end (just a room, no boss fight)
-7. ☐ Win condition: reach the boss room
-8. ☐ Soap + water station (test the "cure" mechanic)
+5. ☐ A few enemies (sewer rats? sludge creatures?) that move after Execute
+6. ☐ Basic Use phase (throw/smash an item as part of your turn)
+7. ☐ Arcade reset death (respawn at sewer entrance)
+8. ☐ Hand-crafted sewer map (~40x40 tiles) — **BLOCKED: waiting for sprite assets.** Build map after reviewing purchased sprites to match tile size and art style.
+9. ☐ Texas Beholdem's room at the far end (just a room, no boss fight)
+10. ☐ Win condition: reach the boss room
+11. ☐ Soap + water station (test the "cure" mechanic)
 
 **NOT in the prototype:**
 - No other zones
 - No element meters/UI
 - No transformation (Rat ↔ Wererat)
 - No boss fight mechanics
-- No items or inventory
+- No Combine phase (defer until Use + Move feel good)
 - No other creatures
 - No story/dialogue
 
-**Time to build:** This is achievable. You have sprites. You have a tile renderer. Build the sewer.
+**Dependency:** Map building is blocked until sprite assets are reviewed. The tile size, art style, and map design all depend on the purchased sprites. Build the turn system and mechanics first; plug in the map when sprites are ready.

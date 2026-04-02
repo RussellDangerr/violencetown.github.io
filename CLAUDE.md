@@ -12,7 +12,7 @@ Always develop on the dev branch. Always plan on the plan branch.
 ## Locked Design Decisions
 
 - **World:** 5 hand-crafted zones (Town, Sewer, Circus, Graveyard, Factory). No procedural generation. Fully persistent.
-- **Movement:** Pixel Dungeon Hybrid — no timer, one tile per input, turn-based under the hood.
+- **Movement:** Phase-based turns — no timer, player queues actions across phases (Combine → Use → Move → Execute), then resolves. Card-game feel, combo depth.
 - **Creatures:** Zone-locked. Wererat (Sewer), Robot (Factory), Human (Town), Clown (Circus), Skeleton (Graveyard).
 - **Death:** Arcade reset — fast respawn, low friction.
 - **Elements:** Sludge, Goo, Bored, Fun, Death, Life. Status effects for prototype (visual buildup, no meter UI).
