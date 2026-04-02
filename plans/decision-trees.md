@@ -58,6 +58,7 @@
 - **Wererat trigger: Manual toggle** — button press + cooldown.
 - **Sewer map: Pipe Network** — ~40x40 maze, claustrophobic, rat-size gaps.
 - **Sludge mechanic: Direct damage (DoT)** — simple, works. Upgrade to 2x enemy speed later.
+- **Tile size: 32x32** — locked. All LimeZu packs center on 32x32. Bumps from current 24px renderer. Characters readable, assets drop in with zero scaling.
 - **Skeleton/Zombie form: Deferred** — Graveyard is Stage 5.
 
 ### Turn Structure (new — needs design work)

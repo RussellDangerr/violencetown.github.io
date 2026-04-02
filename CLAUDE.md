@@ -17,6 +17,7 @@ Always develop on the dev branch. Always plan on the plan branch.
 - **Death:** Arcade reset — fast respawn, low friction.
 - **Elements:** Sludge, Goo, Bored, Fun, Death, Life. Status effects for prototype (visual buildup, no meter UI).
 - **Rings/inventory:** Deferred. Not in prototype.
+- **Tile size:** 32x32 pixels. All assets purchased at this scale. Renderer bumps from 24px.
 - **Height system:** Backlogged.
 
 ## Game Code
