@@ -59,13 +59,6 @@ function attack(attacker, target, damage) {
 
 // ── Damage number display ─────────────────────────────────────────────────────
 
-// Formats a combat result into a damage number string for the UI to render.
-// Blocked damage is shown in grey/muted — still a number, just smaller feeling.
-//
-// Examples:
-//   dealt=8, blocked=0  → "8"
-//   dealt=3, blocked=5  → "3 (5 blocked)"
-
 function formatDamageNumber(result) {
     if (!result) return null;
     const { dealt, blocked, killed } = result;
