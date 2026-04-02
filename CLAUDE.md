@@ -23,6 +23,22 @@ Always develop on the dev branch. Always plan on the plan branch.
 
 All game code lives in `game/`. The existing codebase has a working tick-based skeleton that needs to be rewritten for Pixel Dungeon hybrid movement and static map loading.
 
+## Version Control
+
+Track version numbers for all sub-apps and major systems. Use `<meta name="version">` in HTML, comments in CSS/JS, and git tags as `{app}-v{X.Y.Z}`. Bump versions on meaningful milestones.
+
+## Artist Credits
+
+All purchased assets must be credited in the game. Maintain a running list here as assets are added:
+
+- **LimeZu** (limezu.itch.io) — Modern Interiors, Modern Exteriors, Modern UI, Fungus Cave. License: edit/use freely, no redistribution, credit required.
+
+When adding new asset packs, update this list immediately. Credits must appear in the final game (credits screen, about page, or similar).
+
+## Asset Safety
+
+Purchased assets live in `assets/` which is gitignored. NEVER commit, push, or redistribute raw asset files. The repo is public — raw assets in Git = piracy.
+
 ## Creative Boundaries
 
 No AI-generated creative copy, art, dialogue, or character voice. Use [bracketed placeholders] for all player-facing text and descriptions. Claude helps with mechanics, systems, and architecture only.
