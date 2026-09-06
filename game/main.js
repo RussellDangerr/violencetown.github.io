@@ -3,6 +3,7 @@
 // Bump-to-attack. 1-9 select item, Space uses with canvas overlay.
 
 import { Renderer } from './renderer.js';
+import { pickCanvasCss } from './canvas-fit.js';
 import { loadMap } from './map.js';
 import { loadAllSprites } from './sprites.js';
 import { BitmapFont } from './bitmap-font.js';
@@ -501,6 +502,15 @@ class Game {
 
         const canvas = document.getElementById('game-canvas');
         this.renderer = new Renderer(canvas);
+        this._fitCanvas();
+        window.addEventListener('resize', () => this._fitCanvas());
+        // devicePixelRatio changes (zoom, or dragging to another monitor) do not fire
+        // `resize` reliably; a one-shot media query that re-arms is the standard trick.
+        const watchDpr = () => {
+            matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
+                .addEventListener('change', () => { this._fitCanvas(); watchDpr(); }, { once: true });
+        };
+        watchDpr();
 
         const spriteResult = await loadAllSprites();
         this.renderer.sprites = spriteResult.sheets;
@@ -888,6 +898,20 @@ class Game {
         const qe = this.questEngine; if (!qe) return;
         if (qe.state.activeId || qe.isComplete('deliver_burger')) return;
         qe.start('deliver_burger');
+    }
+
+    // ── Canvas fit ───────────────────────────────────────────────────────────
+
+    // Size the canvas so one art pixel is a whole number of device pixels.
+    // Called on boot, on resize, and when the window moves between displays of
+    // different DPR (a browser zoom does the same thing).
+    _fitCanvas() {
+        const canvas = this.renderer?.canvas;
+        if (!canvas) return;
+        const avail = Math.min(window.innerHeight - 16, window.innerWidth - 16, 1024);
+        const css = pickCanvasCss(avail, window.devicePixelRatio);
+        canvas.style.width  = `${css}px`;
+        canvas.style.height = `${css}px`;
     }
 
     // ── Splash ───────────────────────────────────────────────────────────────

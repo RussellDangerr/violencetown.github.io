@@ -212,7 +212,7 @@ body {
     align-items: stretch;
     gap: 0;
     height: min(calc(100vh - 16px), calc(100vw - 16px));
-    max-height: 900px;
+    max-height: 1024px;
 }
 
 #game-canvas {
@@ -221,7 +221,10 @@ body {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     aspect-ratio: 1;
-    height: 100%;
+    /* Width/height are set from JS (game/canvas-fit.js) so that cssPx * dpr
+       lands on a whole number of art pixels. A CSS-driven fluid size resamples
+       the fixed 1216px backing store at a fractional ratio, which under
+       crisp-edges makes neighbouring art pixels 3 and 4 device px wide. */
     /* Block browser gestures (pinch-zoom, double-tap-zoom, panning) so taps
        go straight to our pointer handler. Critical for the in-canvas
        hotbar / radial-menu / item-overlay tap targets. */
