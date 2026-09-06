@@ -243,11 +243,25 @@ export const ENEMY_SPRITES = {
     'Boss':    { sheet: 'tinyDungeon', col: 0, row: 8, static: true }, // knight helmet — Borgir employer
     'Wererat': { sheet: 'tinyDungeon', col: 3, row: 7, static: true }, // horned viking — hulking were-rat brute
 
-    // Town — ambient Violencians. Reuses a Tiny Dungeon humanoid cell. (An
-    // earlier note here said to revisit this with Tiny Town's townsfolk art;
-    // Tiny Town ships no character cells at all, so any better read has to come
-    // from a new pack, not from the sheets already bundled.)
-    'Violencian': { sheet: 'tinyDungeon', col: 4, row: 7, static: true }, // plain brown-haired civilian
+    // Town — ambient Violencians. A POOL, not one cell: every citizen used to be
+    // tinyDungeon (4,7), a plain brown-haired figure whose palette and silhouette
+    // read as the player at (1,7) — so the whole town looked like eight copies of
+    // you. (4,7) is retired for exactly that reason.
+    //
+    // Each cell here belongs to a type that never shares town or downtown with a
+    // Violencian, so the reuse is free (verified by script; tests/sprite-coverage
+    // enforces it). `col`/`row` mirror variants[0] so every consumer that reads
+    // the flat shape — content-validate, the coverage test — keeps working.
+    'Violencian': {
+        sheet: 'tinyDungeon', col: 0, row: 7, static: true,
+        variants: [
+            { col: 0, row: 7 },  // purple-robed figure with a staff
+            { col: 1, row: 8 },  // visored plate
+            { col: 2, row: 8 },  // brown hair, work smock
+            { col: 4, row: 8 },  // white-haired elder in a cloak
+            { col: 3, row: 9 },  // hooded and gaunt
+        ],
+    },
 
     // Canyon — Pike the ageless prospector (reuses the gaunt robed-monk cell; a
     // proper grizzled-prospector read is a later sprite-picker pass).
@@ -276,6 +290,25 @@ export const ENEMY_SPRITES = {
     // Not a person: a puzzleWall growth blocking a sewer pipe.
     'Sludge Bloom': { sheet: 'tinyDungeon', col: 8, row: 2, static: true }, // stone hatch leaking green ooze
 };
+
+// Which variant a given entity shows. Deterministic on the entity's identity,
+// so a citizen looks the same every time you see them and across save/reload —
+// a crowd that reshuffles on every frame is worse than a uniform one.
+//
+// Falls back to position when an entity has no id: still stable, still varied.
+// Entries with no `variants` are returned untouched, so this is safe to call on
+// every sprite lookup.
+export function spriteVariant(info, entity) {
+    if (!info?.variants?.length) return info;
+    const key = String(entity?.id ?? `${entity?.x},${entity?.y}`);
+    let h = 2166136261;                       // FNV-1a
+    for (let i = 0; i < key.length; i++) {
+        h ^= key.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+    }
+    const v = info.variants[(h >>> 0) % info.variants.length];
+    return { ...info, col: v.col, row: v.row };
+}
 
 // Containers — replaces the procedural brown box in _drawContainers, which
 // renderer.js flagged as a polish-pass placeholder.

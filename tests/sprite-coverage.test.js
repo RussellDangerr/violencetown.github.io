@@ -73,18 +73,25 @@ describe('sprite coverage', () => {
     });
 
     test('types that share a map do not share a cell', () => {
+        // A type with `variants` (e.g. Violencian) occupies SEVERAL cells, not
+        // one — any entity of that type could render as any of them, so every
+        // variant cell counts toward the collision check. A clash on any one
+        // of them is a real clash, same as for a plain single-cell entry.
+        const cellsFor = (s) => (s.variants?.length ? s.variants : [s]).map(v => `${s.sheet}:${v.col},${v.row}`);
+
         const collisions = [];
         for (const file of mapFiles) {
             const seen = new Map();   // "sheet:col,row" -> first type using it
             for (const e of loadMap(file).enemies || []) {
                 const s = ENEMY_SPRITES[e.type];
                 if (!s) continue;     // covered by the test above
-                const key = `${s.sheet}:${s.col},${s.row}`;
-                const prior = seen.get(key);
-                if (prior && prior !== e.type) {
-                    collisions.push(`${file}: ${prior} and ${e.type} both use ${key}`);
-                } else {
-                    seen.set(key, e.type);
+                for (const key of cellsFor(s)) {
+                    const prior = seen.get(key);
+                    if (prior && prior !== e.type) {
+                        collisions.push(`${file}: ${prior} and ${e.type} both use ${key}`);
+                    } else {
+                        seen.set(key, e.type);
+                    }
                 }
             }
         }
