@@ -179,6 +179,25 @@ export const ITEM_SPRITES = {
 
     // Quest item — wall-mounted machine/meter box reads "mechanical".
     catalytic_converter: { sheet: 'tinyTown', x: 9 * 16, y: 4 * 16, w: 16, h: 16 },
+
+    // ── Poitions (visual-pass, 2026-09-06) ──────────────────────────────────
+    // All six rendered as the generic grey '?' glyph — the v0.20.0 headline
+    // category, unreadable in the bag. The four skinny vials on row 10 carry
+    // the four most-used; the two free fat bottles on row 9 take the rest.
+    health_poition:   { sheet: 'tinyDungeon', x: 7 * 16, y: 10 * 16, w: 16, h: 16 },  // red vial
+    mana_poition:     { sheet: 'tinyDungeon', x: 8 * 16, y: 10 * 16, w: 16, h: 16 },  // blue vial
+    strength_poition: { sheet: 'tinyDungeon', x: 6 * 16, y: 10 * 16, w: 16, h: 16 },  // green vial
+    speed_poition:    { sheet: 'tinyDungeon', x: 5 * 16, y: 10 * 16, w: 16, h: 16 },  // plain vial
+    gold_poition:     { sheet: 'tinyDungeon', x: 6 * 16, y: 9  * 16, w: 16, h: 16 },  // green bottle — money green
+    defence_poition:  { sheet: 'tinyDungeon', x: 8 * 16, y: 9  * 16, w: 16, h: 16 },  // blue bottle
+
+    // ── Item icons, second pass (visual-pass, 2026-09-06) ───────────────────
+    // Shortlist picks verified against the labeled contact sheets (tools/contact_*.png).
+    tome_ray_blast: { sheet: 'tinyDungeon', x: 6 * 16,  y: 5 * 16, w: 16, h: 16 },  // closed brown book, front cover
+    fire_bottle:    { sheet: 'tinyDungeon', x: 5 * 16,  y: 2 * 16, w: 16, h: 16 },  // red-orange flame emblem (boss-trigger banner art) — took this over tinyTown (11,7)'s red/white canister, which has no actual flame shape
+    chain:          { sheet: 'tinyDungeon', x: 0 * 16,  y: 3 * 16, w: 16, h: 16 },  // horizontal iron bars — reads as links at icon size
+    burger_fries:   { sheet: 'tinyDungeon', x: 5 * 16,  y: 8 * 16, w: 16, h: 16 },  // nested-square box icon — passable fries carton
+    wererat_fur:    { sheet: 'tinyTown',    x: 10 * 16, y: 8 * 16, w: 16, h: 16 },  // brown satchel/pouch
 };
 
 // NOT a source for these: `roguelikeChar_transparent.png` is bundled and looks
@@ -205,17 +224,24 @@ export const ENEMY_SPRITES = {
     'Fungus King':   { sheet: 'tinyDungeon', col: 1, row: 9,  static: true }, // orange ogre — biggest/boss read
     'Ghost Fungus':  { sheet: 'tinyDungeon', col: 0, row: 9,  static: true }, // green ghost — most fungal/spectral
     'Sewer Monster': { sheet: 'tinyDungeon', col: 2, row: 10, static: true }, // brown spider — dark sewer dweller
-    'Rat':           { sheet: 'tinyDungeon', col: 3, row: 9,  static: true }, // brown rat with bib — a literal rat
+    // Rat: (3,9) is a HOODED FIGURE, not a rat — the old comment called the
+    // robe front a "bib". The pack's actual rats are on the bottom row, beside
+    // the vials. Canyon rats have been rendering as robed people all along.
+    'Rat': { sheet: 'tinyDungeon', col: 3, row: 10, static: true }, // brown rat, curved body and tail
 
     // Merchant / bosses — humanoid cells:
-    'Carrion': { sheet: 'tinyDungeon', col: 2, row: 7, static: true }, // bald robed monk — gaunt merchant figure
+    // Carrion: was (2,7), shared with Pike. (3,9) is freed by the Rat move and
+    // is a better read for a carrion-merchant anyway — gaunt and hooded.
+    // Pike keeps (2,7) to itself.
+    'Carrion': { sheet: 'tinyDungeon', col: 3, row: 9, static: true }, // hooded, gaunt — the freed cell
     'Boss':    { sheet: 'tinyDungeon', col: 0, row: 8, static: true }, // knight helmet — Borgir employer
     'Wererat': { sheet: 'tinyDungeon', col: 3, row: 7, static: true }, // horned viking — hulking were-rat brute
 
-    // Town — ambient Violencians (Town Clock / feature/town-clock). M0 placeholder
-    // reusing a Tiny Dungeon humanoid cell; revisit with the sprite-picker for a
-    // proper civilian read (Tiny Town has townsfolk art).
-    'Violencian': { sheet: 'tinyDungeon', col: 0, row: 7, static: true }, // purple-robed figure — generic citizen
+    // Town — ambient Violencians. Reuses a Tiny Dungeon humanoid cell. (An
+    // earlier note here said to revisit this with Tiny Town's townsfolk art;
+    // Tiny Town ships no character cells at all, so any better read has to come
+    // from a new pack, not from the sheets already bundled.)
+    'Violencian': { sheet: 'tinyDungeon', col: 4, row: 7, static: true }, // plain brown-haired civilian
 
     // Canyon — Pike the ageless prospector (reuses the gaunt robed-monk cell; a
     // proper grizzled-prospector read is a later sprite-picker pass).
@@ -225,6 +251,24 @@ export const ENEMY_SPRITES = {
     'Greedy Green':     { sheet: 'tinyDungeon', col: 4, row: 9,  static: true }, // green-bandana goblin
     'Carnival Clown':   { sheet: 'tinyDungeon', col: 0, row: 7,  static: true }, // purple mage — most colorful humanoid
     'Rattling Skeleton':{ sheet: 'tinyDungeon', col: 1, row: 10, static: true }, // white ghost — pale/bony proxy
+
+    // ── Interior counter-NPCs and one-offs (visual-pass, 2026-09-06) ─────────
+    // These types had NO entry, so each rendered as the flat #cc4433 fallback
+    // box in _drawEnemySprite on every normal run. Five take the last unused
+    // Tiny Dungeon humanoid cells; the rest reuse a cell from a zone they can
+    // never share (tests/sprite-coverage.test.js will enforce that).
+    'Banker':   { sheet: 'tinyDungeon', col: 4, row: 8, static: true }, // white-haired elder in a cloak — old money
+    'Operator': { sheet: 'tinyDungeon', col: 1, row: 8, static: true }, // visored full plate — casino pit boss as bouncer
+    'Cook':     { sheet: 'tinyDungeon', col: 2, row: 8, static: true }, // young figure in an apron-ish smock
+    'Vendor':   { sheet: 'tinyDungeon', col: 3, row: 8, static: true }, // long hair, purple dress
+
+    // Reuses, each from a zone the holder cannot co-occur with:
+    'Stranger':   { sheet: 'tinyDungeon', col: 2, row: 7, static: true }, // Pike's gaunt skull-faced figure; Pike is canyon, this is downtown
+    'Bootlegger': { sheet: 'tinyDungeon', col: 3, row: 7, static: true }, // Wererat's horned brute; Wererat is sewer-only, this is town
+    'Puck':       { sheet: 'tinyDungeon', col: 0, row: 8, static: true }, // Boss's knight helm; Boss is Borgir, this is the factory
+
+    // Not a person: a puzzleWall growth blocking a sewer pipe.
+    'Sludge Bloom': { sheet: 'tinyDungeon', col: 8, row: 2, static: true }, // stone hatch leaking green ooze
 };
 
 // Player sprite — Tiny Dungeon (1,7) = brown adventurer with cap + satchel,
