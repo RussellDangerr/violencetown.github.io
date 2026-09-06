@@ -181,6 +181,12 @@ export const ITEM_SPRITES = {
     catalytic_converter: { sheet: 'tinyTown', x: 9 * 16, y: 4 * 16, w: 16, h: 16 },
 };
 
+// NOT a source for these: `roguelikeChar_transparent.png` is bundled and looks
+// like a character pack, but it is a PAPER-DOLL kit — bare bodies in column one,
+// then separate torso, helmet, hair and weapon layers meant to be composited.
+// There are no finished characters in it. Using it means building a layer
+// compositor, not picking a cell. Checked 2026-09-06; don't re-open it lightly.
+//
 // ── Enemy/character sprites (Tiny Dungeon pack) ─────────────────────────────
 // Tiny sprites are single-cell (no facing/animation frames), so every entry
 // is `static: true`. See _drawEnemies in renderer.js for the static draw.

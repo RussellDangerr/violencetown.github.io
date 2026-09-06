@@ -102,7 +102,7 @@ Load `http://localhost:3001`, click GAME START, confirm the console is clean and
 npm test
 ```
 
-Expected: 404 tests, 87 suites, 0 failures.
+Expected: 0 failures. The suite total must be unchanged by this task.
 
 - [ ] **Step 8: Commit**
 
@@ -332,7 +332,7 @@ Load it and check all four:
 npm test
 ```
 
-Expected: 0 failures, and the suite total up by 7 from the 404 baseline. Report the actual number in the commit if it differs.
+Expected: 0 failures, and the suite total up by 7.
 
 - [ ] **Step 10: Commit**
 

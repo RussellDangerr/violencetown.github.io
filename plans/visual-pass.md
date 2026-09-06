@@ -309,7 +309,7 @@ artefact. **3 before 4**, so the new validator passes on landing.
 
 Per `CLAUDE.md`, a change is done when the game **runs**, not when the tests pass.
 
-- `npm test` — baseline is 404 tests / 87 suites / 0 failures.
+- `npm test` — 0 failures. The suite was re-measured at **1131 tests / 204 suites** on 2026-09-06; `CLAUDE.md` had said 404/87 since August and was stale. Measure, don't quote.
 - `python dev-server.py 3001`, load it, check the console, and walk the town.
 - **Part 3:** confirm no tile seams while walking; confirm a hotbar tap and a radial-menu tap still
   land; check at two window sizes.

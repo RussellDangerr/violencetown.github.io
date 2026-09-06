@@ -53,7 +53,9 @@ served at `http://localhost:3001/foo.html`.
 
 **Node is installed here** — `node v24.18.0`, `npm 11.16.0`. `npm test` runs the whole suite locally
 via `node --test`; a single file is `node --test tests/<name>.test.js`. Baseline as of 2026-08-23:
-**404 tests, 87 suites, 0 failures, ~400ms.**
+**1131 tests, 204 suites, 0 failures, ~900ms** (re-measured 2026-09-06; the line here said
+404/87 as of 2026-08-23 and was badly stale — the suite has nearly tripled since. Re-measure
+rather than quoting this number in a plan.)
 
 Several older docs — `plans/defeat-scenarios*.md`, `plans/remembrance-rings*.md`,
 `plans/pd3-ai-consolidation*.md`, `plans/ring-builds-ability-axis.md`,
