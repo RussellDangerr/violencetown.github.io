@@ -223,7 +223,6 @@ export const ENEMY_SPRITES = {
     'Red Fungus':    { sheet: 'tinyDungeon', col: 2, row: 9,  static: true }, // red crab — reddish creature
     'Fungus King':   { sheet: 'tinyDungeon', col: 1, row: 9,  static: true }, // orange ogre — biggest/boss read
     'Ghost Fungus':  { sheet: 'tinyDungeon', col: 0, row: 9,  static: true }, // green ghost — most fungal/spectral
-    'Sewer Monster': { sheet: 'tinyDungeon', col: 2, row: 10, static: true }, // brown spider — dark sewer dweller
     // Rat: (3,9) is a HOODED FIGURE, not a rat — the old comment called the
     // robe front a "bib". The pack's actual rats are on the bottom row, beside
     // the vials. Canyon rats have been rendering as robed people all along.

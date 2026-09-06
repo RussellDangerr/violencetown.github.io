@@ -21,6 +21,7 @@ import { QUESTS } from './quests.js';
 import { ALL_ITEM_IDS } from './item-registry.js';
 import { DIALOGUES } from './dialogue.js';
 import { zoneByName, overworldZone } from './world-map.js';
+import { ENEMY_SPRITES } from './sprites.js';
 
 // The event vocabulary a quest stage may wait on, and the payload keys each
 // emit site carries — kept in sync with the emitGameEvent call sites
@@ -62,6 +63,11 @@ export function validateContent(maps) {
                 if (!itemIds.has(id)) P(`${file}: enemy ${e.id || '?'} carries unknown item '${id}'`);
             if (e.dialogueId && !dialogueIds.has(e.dialogueId))
                 P(`${file}: enemy ${e.id || '?'} has unknown dialogueId '${e.dialogueId}'`);
+            // Sprite coverage — a type with no ENEMY_SPRITES entry renders as a
+            // flat red box, silently, on every run. Nine of them accumulated
+            // before anyone noticed (plans/visual-pass.md).
+            if (e.type && !ENEMY_SPRITES[e.type])
+                P(`${file}: enemy ${e.id || '?'} has type '${e.type}' with no ENEMY_SPRITES entry — renders as a fallback box`);
         }
         for (const it of (data.items || []))
             if (it && it.type && !itemIds.has(it.type)) P(`${file}: ground item '${it.type}' at (${it.x},${it.y}) unknown`);
