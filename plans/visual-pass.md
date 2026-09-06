@@ -18,6 +18,15 @@ the source of the toggle being retired here) · `plans/demo-readiness.md` (what 
 >   `renderer.js` survives intact.
 > - **The canvas scaling fix is in scope this session**, accepting a slightly smaller canvas in
 >   exchange for exact pixels.
+>
+> **Added later the same day, after Caelan reviewed the sprite picks:**
+> - **Kenney CC0 only.** The purchased LimeZu art stays out. This repo is **public**
+>   (`github.com/RussellDangerr/violencetown`) and `.gitignore:11` already names LimeZu as paid and
+>   non-redistributable. Note for whenever it is revisited: Violencetown ships as a *web* game, so
+>   Cloudflare Pages serves the raw sheet to every visitor — private-repo alone would not settle the
+>   licence question.
+> - **Use the rat sprite for rats** (Caelan: *"there's a rat sprite, and I want you to use it"*).
+> - **A small general pass on the town props as well** — small, and explicitly bounded.
 
 ---
 
@@ -226,6 +235,36 @@ spawns and asserts an `ENEMY_SPRITES` key exists. Without this the list in 4a re
 
 The same sweep finds the mirror-image gap: `Sewer Monster` has a sprite and is never spawned.
 
+### 4f. Assignments that are wrong, not merely missing
+
+Found on a second pass, after Caelan asked whether the sheets had actually been audited. They had not.
+
+- **`Rat` renders as a hooded figure.** It sits at `(3,9)`, whose comment calls the robe front a
+  "bib". The pack's real rats are `(3,10)` and `(4,10)`, bottom row beside the vials. Canyon rats
+  have been robed people all along.
+- **Every citizen is a wizard.** `Violencian` and `Carnival Clown` both hold `(0,7)`, the purple
+  mage. Moving `Violencian` to the plain civilian at `(4,7)` fixes the town *and* stops the clown
+  being a duplicate.
+- **`Carrion` and `Pike` both hold `(2,7)`.** The Rat move frees `(3,9)`, whose hooded, gaunt read
+  suits a carrion-merchant better than the monk did.
+- **No lion exists** for `Lire`. Every near-miss reads worse than the fallback box, so it stays
+  unsprited behind a documented allowlist entry rather than getting a bad pick.
+- **`ITEM_SPRITES` uses a different shape** from `ENEMY_SPRITES` — `{sheet, x, y, w, h}` regions,
+  not `{sheet, col, row}` cells. Six drafted picks were malformed *and* collided with `soap`,
+  `bandage`, `hot_dog`, `mystery_meat` and `tunnel_mushroom`. Nothing in the repo would have caught
+  either error; §4c's test now does.
+
+### 4g. The town proxies props the bundled city pack already contains
+
+`sprites.js:161` says Tiny Town "ships no urban props (cars, streetlights, manholes, trashcans)", so
+streetlights are signs-on-posts, trash cans are cauldrons and benches are planks. But
+`roguelikeCity_packed.png` is **already registered, already fetched, and already CC0** — used for a
+single tile — and it holds lamp posts, wheeled bins, a hydrant, benches, awnings, street trees, road
+markings and a dozen cars. Five comments across the file assert art does not exist that does.
+
+Bounded deliberately: re-point the four proxied props, correct the wrong comments, stop. Zone tile
+maps and building facades are a separate pass.
+
 ### 4d. Chests and jammed doors have no sprite lookup at all
 
 `_drawContainers` (`renderer.js:836-871`) and `_drawJammedDoor` (`renderer.js:1232-1259`) are
@@ -256,7 +295,8 @@ Caelan's ruling for this session: plan with Opus, execute with the smallest mode
 |---|---|---|---|
 | 1 | **4e** dead weight + the CLAUDE.md font line | Haiku | Deletion and one doc edit; verifiable by grep |
 | 2 | **Part 3** canvas scaling | Sonnet | Small diff, but touches boot/resize and tap mapping |
-| 3 | **4a + 4b** sprite and item coords | Sonnet | Needs the picker and visual judgment |
+| 3 | **4a + 4b + 4f** sprite and item coords, and the wrong assignments | Sonnet | Needs eyes on the sheets and visual judgment |
+| 3c | **4g** the town-prop pass | Sonnet | Same file as 3; small and explicitly bounded |
 | 4 | **4c** validator + test | Sonnet | Ordinary test work; do it after 3 so it passes |
 | 5 | **Parts 1 + 2** the overlay rewrite | Sonnet | The largest change; spec above is the design |
 | 6 | **4d** chest and door sprites | Sonnet | Lowest severity; drop first if the session runs long |
