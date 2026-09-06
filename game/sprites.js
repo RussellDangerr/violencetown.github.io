@@ -277,6 +277,14 @@ export const ENEMY_SPRITES = {
     'Sludge Bloom': { sheet: 'tinyDungeon', col: 8, row: 2, static: true }, // stone hatch leaking green ooze
 };
 
+// Containers — replaces the procedural brown box in _drawContainers, which
+// renderer.js flagged as a polish-pass placeholder.
+export const CONTAINER_SPRITES = {
+    closed: { sheet: 'tinyDungeon', col: 5, row: 7, static: true },
+    open:   { sheet: 'tinyDungeon', col: 6, row: 7, static: true },
+    full:   { sheet: 'tinyDungeon', col: 7, row: 7, static: true },
+};
+
 // Player sprite — Tiny Dungeon (1,7) = brown adventurer with cap + satchel,
 // the natural read for a burger-delivery courier. Drawn via `sprites.player`.
 export const PLAYER_SPRITE = { sheet: 'player', col: 1, row: 7, static: true };

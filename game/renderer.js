@@ -11,7 +11,7 @@ import { TILE_PX, VIEW_TILES, CANVAS_PX, SAFE_SLOTS } from './data.js';
 // ctx.setTransform(SS,…) at the top of each frame; tap input maps via
 // CANVAS_INTERNAL_PX (608) independently, so it's unaffected.
 const SS = 2;
-import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES } from './sprites.js';
+import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, CONTAINER_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES } from './sprites.js';
 import { UI, ITEM_COLORS, drawPanelBig, drawPanelSmall, drawInset } from './ui-sprites.js';
 import { ROOT, selectedNode, activeRing, activeIndex, decisionPath, previewChildren, affectedTiles, verbApplies, isCombatActive, flapperDeflection, defaultVerb } from './wheel-model.js'; // (sunburst wheel) + the bump telegraph
 import {
@@ -827,14 +827,19 @@ export class Renderer {
 
     // ── Containers ───────────────────────────────────────────────────────────
     //
-    // Placeholder chest rendering: dark-brown box with a gold lid stripe.
-    // When the chest has contents, a small gold pip floats in the center to
-    // distinguish "ripe to loot" from "already emptied." Sprite art is a
-    // polish-pass concern (step 7); the box reads at a glance and that's
-    // enough for now.
+    // Tiny Dungeon chest sprites (CONTAINER_SPRITES in sprites.js). The live
+    // container object (game.containers, set in main.js) carries no opened/
+    // looted flag — the only state that exists is `contents.length`, i.e.
+    // "still has stuff" vs "emptied out" (looting splices items out of
+    // `contents` as they're taken). That's two states, not three, so only
+    // two of the three sprites are used here: `closed` for a chest that still
+    // has something in it, `open` for one that's been emptied. `full`
+    // (open-with-contents) has no corresponding game state to key off and is
+    // left unused. Falls back to the old procedural box if the sheet hasn't
+    // loaded yet, same pattern as _drawEnemySprite.
 
     _drawContainers(game) {
-        const { ctx, half } = this;
+        const { ctx, half, sprites } = this;
         for (const c of game.containers) {
             const vx = c.x - game.playerX + half;
             const vy = c.y - game.playerY + half;
@@ -842,21 +847,34 @@ export class Renderer {
             const px = vx * TILE_PX - this._scrollX;
             const py = vy * TILE_PX - this._scrollY;
 
-            // Body
-            ctx.fillStyle = '#5a3a1a';
-            ctx.fillRect(px + 6, py + 10, TILE_PX - 12, TILE_PX - 16);
-            // Lid stripe
-            ctx.fillStyle = '#c4a050';
-            ctx.fillRect(px + 6, py + 10, TILE_PX - 12, 4);
-            // Outline
-            ctx.strokeStyle = '#2a1a08';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(px + 6, py + 10, TILE_PX - 12, TILE_PX - 16);
+            const hasContents = c.contents.length > 0;
+            const info = hasContents ? CONTAINER_SPRITES.closed : CONTAINER_SPRITES.open;
+            let ok = false;
+            if (sprites?.[info.sheet]?.loaded) {
+                ok = sprites[info.sheet].drawFrame(ctx, info.col, info.row, px + 4, py + 4, TILE_PX - 8, TILE_PX - 8);
+            }
+
+            if (!ok) {
+                // Body
+                ctx.fillStyle = '#5a3a1a';
+                ctx.fillRect(px + 6, py + 10, TILE_PX - 12, TILE_PX - 16);
+                // Lid stripe
+                ctx.fillStyle = '#c4a050';
+                ctx.fillRect(px + 6, py + 10, TILE_PX - 12, 4);
+                // Outline
+                ctx.strokeStyle = '#2a1a08';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(px + 6, py + 10, TILE_PX - 12, TILE_PX - 16);
+            }
 
             // Contents indicator — up to three gold pips along the lid, one
             // per item up to a visual cap of 3. Lets the player watch the
             // chest fill as workers deposit, without needing to read the log.
-            if (c.contents.length > 0) {
+            // Kept alongside the sprite swap above: the closed/open sprites
+            // only carry the binary ripe-vs-emptied read the pips used to
+            // carry; they don't carry the magnitude (how many items) the
+            // pips also convey, so the pips still earn their keep.
+            if (hasContents) {
                 const pips = Math.min(3, c.contents.length);
                 ctx.fillStyle = '#ffdd44';
                 const pipSize = 3;
@@ -1229,6 +1247,9 @@ export class Renderer {
     // ── Wedged door (pipe-jam — zone pursuit) ───────────────────────────────
     // A dark plank slab with an X of pipe across the door you wedged shut, plus
     // an integrity bar that drains as the trapped pursuers pound it.
+    // Staying procedural on purpose (checked during the chest sprite pass): the
+    // pipe-brace X and integrity bar carry state no static cell communicates,
+    // and neither Kenney pack ships barricade art.
     _drawJammedDoor(game) {
         const j = game._jammedDoor;
         if (!j) return;
