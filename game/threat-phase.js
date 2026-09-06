@@ -57,7 +57,18 @@ export function alertWatchers(watchers, phase, opts = {}) {
     if (phase === PHASE.QUIET) return [];
 
     const alert = live.filter(w => HAZE_STATES.has(w.state) || ALARM_STATES.has(w.state));
-    // Planning a theft needs the mark's cone even though nobody is alert yet.
+    // Aiming a theft with nobody alert falls back to EVERY watcher, not just
+    // the mark — deliberately. "Seen means refused" is checked against all
+    // spotters (perception.js spotters()), so a bystander's cone decides
+    // whether the verb is even offered; showing only the mark would hide half
+    // of what the decision turns on.
+    //
+    // The cost is real and worth knowing: in the opening town square this puts
+    // all nine cones back on screen, which is the density this whole change set
+    // out to remove — now transient and player-initiated rather than permanent,
+    // and at 0.20 alpha on a one-art-pixel grain rather than 0.55 on a coarse
+    // one. If it still reads as too much while aiming, the fix is to scope this
+    // to watchers within the theft's own range, not to drop the fallback.
     if (!alert.length && opts.aimingTheft) return live;
     return alert;
 }

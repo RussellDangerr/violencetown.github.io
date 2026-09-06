@@ -2619,10 +2619,16 @@ export class Renderer {
         const SIZE = CELL * N;      // 8 logical px per pattern tile
         const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
 
+        // Build the tile at LOGICAL size with no pre-scale. A CanvasPattern is
+        // scaled by the transform active when it is FILLED, not when it is
+        // created — and _drawThreatOverlay fills through this.ctx, which already
+        // carries the per-frame setTransform(SS). Baking SS in here too applied
+        // it twice and rendered 8 device-px cells instead of 4, i.e. two art
+        // pixels rather than the one this whole change is about. Measured
+        // against a live canvas, 2026-09-06.
         const c = document.createElement('canvas');
-        c.width = c.height = SIZE * SS;         // match the backing-store scale
+        c.width = c.height = SIZE;
         const cx = c.getContext('2d');
-        cx.scale(SS, SS);
         cx.fillStyle = color;
         for (let i = 0; i < 16; i++) {
             if (BAYER[i] >= density) continue;
