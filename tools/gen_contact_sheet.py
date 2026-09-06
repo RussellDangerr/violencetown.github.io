@@ -11,8 +11,8 @@ Usage:
 
 With no arguments, regenerates a contact sheet for every entry in
 DEFAULT_SHEETS (currently the two Tiny packs plus the packed roguelikeCity
-atlas). Pass explicit arguments to render one sheet on its own; cols/rows
-default to the Tiny pack geometry (12x11) when omitted.
+and rpgUrban atlases). Pass explicit arguments to render one sheet on its
+own; cols/rows default to the Tiny pack geometry (12x11) when omitted.
 """
 import sys
 from PIL import Image, ImageDraw, ImageFont
@@ -30,6 +30,9 @@ DEFAULT_SHEETS = [
     ('game/assets-placeholder/kenney/tiny/dungeon/tinyDungeon_packed.png', 'tools/contact_tinyDungeon.png', 12, 11),
     ('game/assets-placeholder/kenney/tiny/town/tinyTown_packed.png', 'tools/contact_tinyTown.png', 12, 11),
     ('game/assets-placeholder/kenney/roguelikeCity_packed.png', 'tools/contact_roguelikeCity.png', 37, 28),
+    # RPG Urban Pack (visual-pass, 2026-09-06) — packed, gutter-free, 16px
+    # cells, same construction as the Tiny packs above. 27x18 grid.
+    ('game/assets-placeholder/kenney/rpgUrban_packed.png', 'tools/contact_rpgUrban.png', 27, 18),
 ]
 
 

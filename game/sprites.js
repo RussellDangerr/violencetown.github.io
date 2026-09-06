@@ -106,6 +106,14 @@ export const SHEETS = {
     // TOWN_TILE_SPRITE_MAP[19] (replaces the wooden-bucket placeholder).
     car:           { src: './assets/car.png', frameW: 48, frameH: 48 },
 
+    // RPG Urban Pack (Kenney CC0, visual-pass 2026-09-06): full-body townsfolk
+    // and street furniture. Packed (gutter-free), 27x18 grid of 16x16 cells —
+    // the same construction as the Tiny packs above, and its characters carry
+    // margin + a dark outline like Tiny Dungeon's, so they mix cleanly where
+    // roguelikeChar_transparent.png (see the note above ENEMY_SPRITES) does not.
+    // Coordinates picked against tools/contact_rpgUrban.png.
+    rpgUrban:      { src: `${K}/rpgUrban_packed.png`, frameW: 16, frameH: 16 },
+
     // Kenney Emote Pack (Pixel, Style 1) — 16x16 down-tail speech balloons for
     // Town Clock ambient reactions + disposition faces. Horizontal strip packed
     // by tools/gen_emote_sheet.py; column order = EMOTE_SPRITES below. Packed
@@ -143,10 +151,12 @@ export const TILE_SPRITE_MAP = {
 
 // ── Town tile coords (Tiny Town pack) ───────────────────────────────────────
 // Tiny Town has rich terrain/buildings/fences but ships no urban props (cars,
-// streetlights, manholes, trashcans). The packed roguelikeCity atlas has all
-// of them — already registered in SHEETS and fetched on every boot, and
-// already the source of the building-wall pick at 14 below. Ids 16, 18, 20
-// and 21 draw from it too.
+// streetlights, manholes, trashcans, benches). The packed roguelikeCity atlas
+// supplies the building-wall pick at 14 and the sewer manhole at 16 — it's
+// placed and working, so it stays put. Streetlight/bench/trash-can (18/20/21)
+// come from rpgUrban instead (visual-pass, 2026-09-06): Kenney's RPG Urban
+// Pack is the same gutter-free 16px construction as tinyTown, so the street
+// furniture now matches the terrain it sits on rather than a different series.
 export const TOWN_TILE_SPRITE_MAP = {
     10: null,                                        // town wall edge — dark fallback (frames the map)
     11: { sheet: 'tinyTown', col: 1, row: 9 },       // sidewalk — light gray stone slab
@@ -156,10 +166,10 @@ export const TOWN_TILE_SPRITE_MAP = {
     15: { sheet: 'tinyTown', col: 1, row: 7 },       // door — brown door in wood facade
     16: { sheet: 'roguelikeCity', col: 9, row: 24 }, // sewer entry — round manhole cover set in the pavement
     17: { sheet: 'tinyTown', col: 9, row: 3 },       // fence — vertical wood plank
-    18: { sheet: 'roguelikeCity', col: 19, row: 13 }, // streetlight — lamp post, lit head viewed from above
+    18: { sheet: 'rpgUrban', col: 1, row: 7 },       // streetlight — lamp fixture with a red signal lens, on a short post (the taller two-cell lamps at (2,6)+(2,7)/(3,6)+(3,7) don't fit a single tile)
     19: { sheet: 'car', col: 0, row: 0 },            // car — Kenney roguelikeCity beater (world-dressing; was the wooden-bucket placeholder)
-    20: { sheet: 'roguelikeCity', col: 15, row: 15 }, // bench — wooden park bench, slatted seat on two legs
-    21: { sheet: 'roguelikeCity', col: 0, row: 17 }, // trash can — green wheeled bin
+    20: { sheet: 'rpgUrban', col: 7, row: 9 },       // bench — wooden bench, slatted seat on two legs
+    21: { sheet: 'rpgUrban', col: 9, row: 9 },       // trash can — grey bin with a maroon base band
 };
 
 // ── Item sprites (Tiny packs) ───────────────────────────────────────────────
@@ -259,18 +269,25 @@ export const ENEMY_SPRITES = {
     // read as the player at (1,7) — so the whole town looked like eight copies of
     // you. (4,7) is retired for exactly that reason.
     //
-    // Each cell here belongs to a type that never shares town or downtown with a
-    // Violencian, so the reuse is free (verified by script; tests/sprite-coverage
-    // enforces it). `col`/`row` mirror variants[0] so every consumer that reads
-    // the flat shape — content-validate, the coverage test — keeps working.
+    // The pool that followed borrowed cells from Carnival Clown, Operator, Cook,
+    // Banker and Carrion, because Tiny Dungeon had no spare humanoids left to
+    // give it — safe only because none of those five ever shares town or
+    // downtown with a Violencian (verified by script; tests/sprite-coverage
+    // enforces it). As of the RPG Urban Pack adoption (visual-pass, 2026-09-06)
+    // that borrowing is over: six purpose-built civilians from rpgUrban replace
+    // the pool outright, and the five borrowed cells go back to being sole-owned
+    // by their original type. `col`/`row` mirror variants[0] so every consumer
+    // that reads the flat shape — content-validate, the coverage test — keeps
+    // working.
     'Violencian': {
-        sheet: 'tinyDungeon', col: 0, row: 7, static: true,
+        sheet: 'rpgUrban', col: 24, row: 0, static: true,
         variants: [
-            { col: 0, row: 7 },  // purple-robed figure with a staff
-            { col: 1, row: 8 },  // visored plate
-            { col: 2, row: 8 },  // brown hair, work smock
-            { col: 4, row: 8 },  // white-haired elder in a cloak
-            { col: 3, row: 9 },  // hooded and gaunt
+            { col: 24, row: 0 },  // auburn hair, green shirt
+            { col: 24, row: 3 },  // auburn hair, red shirt, blue jeans
+            { col: 24, row: 6 },  // pale blue hair, blue-grey top
+            { col: 24, row: 9 },  // blonde hair, dark skin, blue-grey top
+            { col: 24, row: 12 }, // light hair, pale blue top
+            { col: 24, row: 15 }, // black hair with a red headband
         ],
     },
 
