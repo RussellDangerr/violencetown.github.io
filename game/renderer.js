@@ -113,6 +113,19 @@ function withWalk(ctx, cx, cy, { bob = 0, rot = 0, flipX = 1 }, draw) {
     ctx.restore();
 }
 
+// (visual-pass §2) Per-watcher awareness marker, keyed by the same `.state`
+// field the AI writes (perception.js / ai.js). Two jobs from one table:
+//   1. _drawThreatOverlay looks up the emote column to draw over a watcher's
+//      head, replacing the old bitmap-ASCII pip (· ? ! !!).
+//   2. _drawEnemySprite tests membership to suppress the ambient Town Clock
+//      `_emote` balloon while an entity is above idle — awareness outranks
+//      chatter, so the two never stack on one head.
+// idle/returning are deliberately absent: a calm watcher draws nothing (case
+// 1) and still shows its ambient chatter normally (case 2). `exclamations`
+// (!!) has no sprite in the shipped emotes_style1.png strip — `alert` reads
+// as escalation and stands in for it.
+const AWARENESS_EMOTE = { suspicious: 'question', searching: 'exclamation', chasing: 'alert' };
+
 export class Renderer {
     constructor(canvas) {
         this.canvas = canvas;
@@ -1228,7 +1241,14 @@ export class Renderer {
             // speech balloon over the head, replacing the old grunt text: it pops
             // in from the tail, holds, then floats up and fades. Drawn last so it
             // sits above this NPC's other overhead UI.
-            if (e._emote != null) {
+            //
+            // Suppressed while this entity's awareness state is above idle
+            // (suspicious/searching/chasing — the same AWARENESS_EMOTE keys the
+            // threat overlay's marker uses). Awareness outranks chatter: without
+            // this gate, a watcher who is both chattering and alert would stack
+            // the Town Clock balloon on top of the overlay's own marker, and
+            // someone who has just noticed you should not be humming a music note.
+            if (e._emote != null && AWARENESS_EMOTE[e.state] == null) {
                 const col = EMOTE_SPRITES[e._emote];
                 const sheet = sprites?.emotes;
                 const age = now - (e._emoteStart || 0);
@@ -2697,7 +2717,8 @@ export class Renderer {
     // Four channels, so the field is never the only signal:
     //   1. the threat field — a cached dither pattern, see _ditherPattern above
     //   2. a facing chevron on each watcher
-    //   3. an awareness pip: · calm  ? suspicious  ! searching  !! chasing
+    //   3. an awareness marker (AWARENESS_EMOTE): nothing calm, else question/
+    //      exclamation/alert for suspicious/searching/chasing
     //   4. the DIRECT thread — a dashed line while a watcher currently sees you
     //
     // A STIPPLE, not a translucent fill. The screen already carries a day/night
@@ -2713,7 +2734,7 @@ export class Renderer {
     // contents depend on which watchers are alert and which polarity of tile
     // gets painted, not just on the raw watcher count.
     _drawThreatOverlay(game) {
-        const { ctx, half } = this;
+        const { ctx, half, sprites } = this;
         const now = performance.now();
         const reduce = (typeof Settings !== 'undefined') && Settings.get && Settings.get('reduceMotion');
 
@@ -2845,7 +2866,6 @@ export class Renderer {
         // Unchanged: still tied to every watcher with eyes, not just the alert
         // ones — and it matters more now that the field itself is absent more
         // often.
-        const PIP = { idle: '·', suspicious: '?', searching: '!', chasing: '!!', returning: '·' };
         const breath = reduce ? 0.5 : (0.5 + 0.5 * Math.sin(now / 420));
 
         for (const w of watchers) {
@@ -2865,11 +2885,19 @@ export class Renderer {
             ctx.stroke();
             ctx.restore();
 
-            // Text goes through the renderer's own loaded font instance, the way
-            // every other label in this file does.
-            const pip = PIP[w.state] || '·';
-            if (pip !== '·' && this.font) {
-                this.font.drawText(ctx, pip, sx + TILE_PX / 2 - 2, sy - 6, { scale: 1 });
+            // Awareness marker — a real emote sprite in place of the old
+            // bitmap-ASCII pip (· ? ! !!). AWARENESS_EMOTE has no idle/
+            // returning entry, so those draw nothing at all: a calm watcher
+            // is silent, which is the whole point of this overlay. Drawn at
+            // the sheet's native 16px (not the 20px the ambient balloon
+            // upscales to) and anchored so its bottom edge sits where the
+            // old pip's top edge did — clearing the head instead of resting
+            // on it.
+            const emoteKey = AWARENESS_EMOTE[w.state];
+            const emoteCol = emoteKey ? EMOTE_SPRITES[emoteKey] : null;
+            if (emoteCol != null && sprites?.emotes?.loaded) {
+                const sz = 16;
+                sprites.emotes.drawFrame(ctx, emoteCol, 0, sx + TILE_PX / 2 - sz / 2, sy - 6 - sz, sz, sz);
             }
 
             // Channel 4 — the "sees you NOW" thread, kept from the old overlay
