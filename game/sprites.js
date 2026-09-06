@@ -319,6 +319,20 @@ export const ENEMY_SPRITES = {
     'Sludge Bloom': { sheet: 'tinyDungeon', col: 8, row: 2, static: true }, // stone hatch leaking green ooze
 };
 
+// Stable per-entity hash. Used for cosmetic variety (spriteVariant) and for
+// animation phase, so a given character both LOOKS the same every time you see
+// it and BREATHES on its own beat rather than in lockstep with the whole cast.
+// Falls back to position when an entity has no id.
+export function idHash(entity) {
+    const key = String(entity?.id ?? `${entity?.x},${entity?.y}`);
+    let h = 2166136261;
+    for (let i = 0; i < key.length; i++) {
+        h ^= key.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+}
+
 // Which variant a given entity shows. Deterministic on the entity's identity,
 // so a citizen looks the same every time you see them and across save/reload —
 // a crowd that reshuffles on every frame is worse than a uniform one.
@@ -328,13 +342,7 @@ export const ENEMY_SPRITES = {
 // every sprite lookup.
 export function spriteVariant(info, entity) {
     if (!info?.variants?.length) return info;
-    const key = String(entity?.id ?? `${entity?.x},${entity?.y}`);
-    let h = 2166136261;                       // FNV-1a
-    for (let i = 0; i < key.length; i++) {
-        h ^= key.charCodeAt(i);
-        h = Math.imul(h, 16777619);
-    }
-    const v = info.variants[(h >>> 0) % info.variants.length];
+    const v = info.variants[idHash(entity) % info.variants.length];
     return { ...info, col: v.col, row: v.row };
 }
 

@@ -11,7 +11,7 @@ import { TILE_PX, VIEW_TILES, CANVAS_PX, SAFE_SLOTS } from './data.js';
 // ctx.setTransform(SS,…) at the top of each frame; tap input maps via
 // CANVAS_INTERNAL_PX (608) independently, so it's unaffected.
 const SS = 2;
-import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, CONTAINER_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES, spriteVariant } from './sprites.js';
+import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, CONTAINER_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES, spriteVariant, idHash } from './sprites.js';
 import { UI, ITEM_COLORS, drawPanelBig, drawPanelSmall, drawInset } from './ui-sprites.js';
 import { ROOT, selectedNode, activeRing, activeIndex, decisionPath, previewChildren, affectedTiles, verbApplies, isCombatActive, flapperDeflection, defaultVerb } from './wheel-model.js'; // (sunburst wheel) + the bump telegraph
 import {
@@ -69,18 +69,35 @@ const WALK_LEAN_DEG = 5;   // peak waddle rotation, alternates each step; 0 = of
 
 // Vertical bob + waddle rotation for a walking (or idle) character. `progress`
 // is the 0→1 slide position; `stepIndex` parity picks the waddle side; `idleTick`
-// drives the standing breathe. Bob is rounded to whole pixels to stay crisp.
-function walkAnim(animating, progress, stepIndex, idleTick) {
+// drives the standing breathe; `phase` is a stable per-entity offset (from
+// sprites.js's idHash — see the idle branch below) so the whole cast doesn't
+// breathe in lockstep off one shared global tick. Bob is rounded to whole
+// pixels to stay crisp.
+//
+// reduceMotion (Settings) damps rather than removes: bob amplitude drops to
+// ~0.4x and the lean/waddle rotation goes to zero, matching how every other
+// motion effect in this file (shake, flash, splats, wheel, overlay) treats
+// the setting. The player still needs to read as moving, so this never zeroes
+// the bob outright.
+function walkAnim(animating, progress, stepIndex, idleTick, phase = 0) {
+    const reduce = (typeof Settings !== 'undefined') && Settings.get && Settings.get('reduceMotion');
+    const bobScale = reduce ? 0.4 : 1;
     if (animating) {
-        const phase = Math.sin(Math.PI * (progress || 0)); // 0→1→0 across the tile
-        const side  = (stepIndex % 2) ? 1 : -1;            // which foot leads
-        return { bob: -Math.round(phase * WALK_BOB_PX), rot: phase * WALK_LEAN_DEG * side * Math.PI / 180 };
+        const swing = Math.sin(Math.PI * (progress || 0)); // 0→1→0 across the tile
+        const side  = (stepIndex % 2) ? 1 : -1;             // which foot leads
+        const rot   = reduce ? 0 : swing * WALK_LEAN_DEG * side * Math.PI / 180;
+        return { bob: -Math.round(swing * WALK_BOB_PX * bobScale), rot };
     }
     // Idle "breathing" bounce — a gentle up/down so characters never read as
     // dead statues (Town Clock ambient-life pass). 4-phase triangle on the idle
     // tick: 0,-1,-2,-1 px, ~1s/cycle at the 250ms idle cadence. Applies to every
-    // character (player + all enemies share this path).
-    return { bob: [0, -1, -2, -1][(idleTick || 0) % 4], rot: 0 };
+    // character (player + all enemies share this path). `phase` (idHash(entity)
+    // % 4, added before the modulo) staggers each entity's cycle so a street
+    // full of people reads as a crowd rather than a row of metronomes; the
+    // player passes 0 and stays on the base beat, since that rhythm is the one
+    // felt through the player's own input.
+    const idleBob = [0, -1, -2, -1][((idleTick || 0) + phase) % 4];
+    return { bob: Math.round(idleBob * bobScale), rot: 0 };
 }
 
 // Wrap a sprite draw in the character transform (bob + waddle + facing flip),
@@ -1056,10 +1073,12 @@ export class Renderer {
         // Sprite — same draw for alive and dead; the death state is expressed via
         // the gray tint overlay below, not a different sprite. Same walk/idle
         // animation as the player so the whole cast moves alike: bob + waddle
-        // during a step-slide, idle breathe otherwise. Corpses stay still.
+        // during a step-slide, idle breathe otherwise. Corpses stay still. Each
+        // enemy carries its own idHash-derived idle phase so the whole cast
+        // doesn't breathe in lockstep off the one shared global idle tick.
         const sliding = isAlive && e._slideStart != null && (now - e._slideStart) < (e._slideMs || 0);
         const ea = isAlive
-            ? walkAnim(sliding, sliding ? Math.min(1, (now - e._slideStart) / (e._slideMs || 1)) : 0, e._stepIndex || 0, game._idleTick)
+            ? walkAnim(sliding, sliding ? Math.min(1, (now - e._slideStart) / (e._slideMs || 1)) : 0, e._stepIndex || 0, game._idleTick, idHash(e))
             : { bob: 0, rot: 0 };
         const eFlip = (isAlive && e._faceLeft) ? -1 : 1;
         const ecx = px + TILE_PX / 2, ecy = py + TILE_PX / 2;
@@ -1529,8 +1548,10 @@ export class Renderer {
         // pixel bob + a small alternating rotation waddle (NO squash — that broke
         // the pixel ratio) + a horizontal flip to face left, plus a faint idle
         // breathe when standing. Shared verbatim with the enemies via walkAnim/
-        // withWalk so the whole cast animates the same way.
-        const a = walkAnim(game._animating, game._animProgress, game._stepIndex, game._idleTick);
+        // withWalk so the whole cast animates the same way. No idle-phase offset
+        // here (stays on the base beat, unlike NPCs) — the player's rhythm is the
+        // one felt through their own input, so it shouldn't drift off it.
+        const a = walkAnim(game._animating, game._animProgress, game._stepIndex, game._idleTick, 0);
         const flipX = (game.facing === 'left') ? -1 : 1;
         const cx = ppx + TILE_PX / 2, cy = ppy + TILE_PX / 2; // sprite center
         withWalk(ctx, cx, cy, { bob: a.bob, rot: a.rot, flipX }, () => {
