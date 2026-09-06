@@ -202,11 +202,22 @@ export const ITEM_SPRITES = {
     wererat_fur:    { sheet: 'tinyTown',    x: 10 * 16, y: 8 * 16, w: 16, h: 16 },  // brown satchel/pouch
 };
 
-// NOT a source for these: `roguelikeChar_transparent.png` is bundled and looks
-// like a character pack, but it is a PAPER-DOLL kit — bare bodies in column one,
-// then separate torso, helmet, hair and weapon layers meant to be composited.
-// There are no finished characters in it. Using it means building a layer
-// compositor, not picking a cell. Checked 2026-09-06; don't re-open it lightly.
+// NOT a source for these: `roguelikeChar_transparent.png` is bundled, and its
+// left two columns DO hold about fourteen finished, fully-dressed characters —
+// so it looks like the answer to any humanoid-cell shortage. (Everything to
+// their right is a paper-doll kit: separate torso, helmet, hair and weapon
+// layers meant to be composited.)
+//
+// The finished ones are still unusable HERE, for a subtler reason: they are
+// framed bust-up and fill the cell edge to edge, while every Tiny Dungeon
+// character is a small full-body figure with margin and a dark outline. Drop
+// them onto the same tile map and they read about 40% larger and cropped at the
+// waist. It is a framing mismatch, not a content one, so no amount of picking
+// better cells fixes it.
+//
+// Checked twice, 2026-09-06 — the first pass dismissed the sheet for the wrong
+// reason ("no finished characters"), which is why the real reason is recorded
+// here. Adopting it means moving EVERY character off Tiny Dungeon, not mixing.
 //
 // ── Enemy/character sprites (Tiny Dungeon pack) ─────────────────────────────
 // Tiny sprites are single-cell (no facing/animation frames), so every entry
