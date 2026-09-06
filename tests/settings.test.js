@@ -86,38 +86,6 @@ test('validate returns fresh object (not mutating input)', () => {
   assert.equal(result.wheelOpenMode, 'hold');
 });
 
-// ── threatStyle (threat overlay) ─────────────────────────────────────────────
-//
-// The trap this pins: validate() DROPS unknown keys, so a field added to
-// DEFAULTS but not to validate() reads correctly all session and silently
-// resets on every reload. Easy to add half of, and impossible to notice without
-// quitting the game.
-
-test('DEFAULTS.threatStyle is "shadow"', () => {
-  assert.equal(DEFAULTS.threatStyle, 'shadow');
-});
-
-test('validate() carries threatStyle through — it must not be dropped as unknown', () => {
-  assert.equal(validate({ threatStyle: 'danger' }).threatStyle, 'danger');
-});
-
-test('validate({}) injects the threatStyle default', () => {
-  assert.equal(validate({}).threatStyle, 'shadow');
-});
-
-test('a threatStyle from disk that is not one of the two coerces to the default', () => {
-  for (const junk of ['garbage', '', null, undefined, 0, 42, {}, []]) {
-    assert.equal(validate({ threatStyle: junk }).threatStyle, 'shadow',
-      `${JSON.stringify(junk)} should not survive`);
-  }
-});
-
-test('both real treatments survive a round trip', () => {
-  for (const style of ['shadow', 'danger']) {
-    assert.equal(validate(validate({ threatStyle: style })).threatStyle, style);
-  }
-});
-
 // (hints) Which situational one-shots have fired. A LIST, not a boolean each,
 // because hints.js is meant to grow — a new lesson should be one row in that
 // table, not a new settings field plus a validator line plus a test.

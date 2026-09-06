@@ -34,6 +34,7 @@ import { RINGS, FUSIONS } from './ring-data.js';                             // 
 import { findFusion } from './rings.js';                                     // (rings Task 5) mark a link fusible when its two rings have an authored fusion
 import { WORLD_ZONES, overworldZone, connectorPairs } from './world-map.js'; // (Phase 4) rudimentary world map
 import { perceives, facingOf, VERDICT } from './perception.js';               // (threat overlay) the SAME vision the chase AI uses
+import { PHASE, threatPhase, alertWatchers } from './threat-phase.js';        // (threat overlay) attention as a state
 import { isSafe } from './defeat-scenarios.js';   // (defeat legibility) mark safe-floor items
 import { buyPrice, sellPrice, bribeStepCost, mood, canTrade, band, BRIBE_STEP } from './trade.js'; // (trade slice 1) pricing + mood smiley; band feeds the offer meter's multiplier readout
 import { isHunting } from './ai.js'; // one spelling of "actively hunting the player"
@@ -631,7 +632,6 @@ export class Renderer {
 
     _drawTiles(game) {
         const { ctx, half, sprites } = this;
-        const sheet = sprites?.sewerTiles;
         const pad = 2;
         // Car (tile 19) is painted as ONE 2×2 sprite, not a 2×2 grid of four
         // 32px cars. The map keeps all four cells as id 19 (so the block stays a
@@ -679,7 +679,7 @@ export class Renderer {
                         }
                     } else {
                         // Grid-based (for sewer tileset)
-                        const tileSheet = ref.sheet ? sprites?.[ref.sheet] : sheet;
+                        const tileSheet = sprites?.[ref.sheet];
                         if (tileSheet?.loaded) {
                             ok = tileSheet.drawFrame(ctx, ref.col, ref.row, px, py, TILE_PX, TILE_PX);
                         }
@@ -2582,6 +2582,36 @@ export class Renderer {
         ctx.restore();
     }
 
+    // The stipple, pre-rendered once per (colour, density) and cached.
+    //
+    // It used to be sixteen fillRects per tile per frame at TILE_PX/4 = 8 logical
+    // px a cell. An art pixel is 2 logical px, so that grain was four times coarser
+    // than the art it sat on — which is why it read as a broken tile rather than
+    // shading. The cell is one art pixel now, and the tile is one fill.
+    _ditherPattern(color, density) {
+        const key = `${color}@${density}`;
+        this._ditherCache ??= new Map();
+        if (this._ditherCache.has(key)) return this._ditherCache.get(key);
+
+        const CELL = 2;             // logical px — exactly one art pixel
+        const N    = 4;             // 4x4 Bayer
+        const SIZE = CELL * N;      // 8 logical px per pattern tile
+        const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+
+        const c = document.createElement('canvas');
+        c.width = c.height = SIZE * SS;         // match the backing-store scale
+        const cx = c.getContext('2d');
+        cx.scale(SS, SS);
+        cx.fillStyle = color;
+        for (let i = 0; i < 16; i++) {
+            if (BAYER[i] >= density) continue;
+            cx.fillRect((i % N) * CELL, Math.floor(i / N) * CELL, CELL, CELL);
+        }
+        const pat = this.ctx.createPattern(c, 'repeat');
+        this._ditherCache.set(key, pat);
+        return pat;
+    }
+
     // ── Threat overlay ───────────────────────────────────────────────────────
     //
     // Replaces the old aggro overlay, which drew a full CIRCLE at full sightRange
@@ -2598,24 +2628,46 @@ export class Renderer {
     // So this one is not an approximation: it calls the SAME perceives() the
     // chase AI calls. What you see is what they see.
     //
-    // Three channels, so the dither is never the only signal:
-    //   1. the threat field (a Bayer stipple — see below)
+    // But "always on" was its own bug. The watcher filter used to be alive +
+    // not-ally + has-eyes, full stop — in the opening town square that selected
+    // nine watchers, eight of them idle townsfolk (two of THOSE vendors at +18
+    // disposition), against one actually hostile NPC, and shaded 43% of the
+    // walkable floor because the shopkeeper could see you. Attention is a STATE
+    // now (threat-phase.js), and the field draws only when that state says to:
+    //
+    //   QUIET  nobody alert, no theft being aimed        -> draw nothing
+    //   HAZE   a suspicious/searching watcher, or you're -> safe ground darkens
+    //          lining up a theft
+    //   ALARM  a chasing watcher, or one holding you in  -> inverts: the seen
+    //          a DIRECT cone right now                      ground goes hot
+    //
+    // HAZE -> ALARM is the "you've been made" signal, which is why it inverts
+    // instead of shifting tone: hold the old phase, swap, then ease the new one
+    // in (~120ms, skipped under reduceMotion) — never cross-fade the two
+    // polarities through a muddy middle.
+    //
+    // Four channels, so the field is never the only signal:
+    //   1. the threat field — a cached dither pattern, see _ditherPattern above
     //   2. a facing chevron on each watcher
     //   3. an awareness pip: · calm  ? suspicious  ! searching  !! chasing
+    //   4. the DIRECT thread — a dashed line while a watcher currently sees you
     //
     // A STIPPLE, not a translucent fill. The screen already carries a day/night
     // multiply pass, a combat-arena dim and the Wilderness blackout; a fourth
     // smooth alpha layer is how you get mud. An ordered dither composites over
-    // all of them without shifting their tone, and reads as deliberately retro.
+    // all of them without shifting their tone, and reads as deliberately retro —
+    // now a single cached CanvasPattern fill per tile instead of sixteen
+    // fillRects, at one art pixel a cell instead of four.
     //
-    // Rebuilt once per world beat — nobody's perception changes between beats,
-    // and the player's render-side slide does not invalidate it.
+    // Rebuilt on a world beat, as before, but the cache key now also carries the
+    // phase and the alert-watcher count: a phase can flip WITHOUT a turn passing
+    // (aiming or dropping a theft, getting spotted mid-beat), and the field's
+    // contents depend on which watchers are alert and which polarity of tile
+    // gets painted, not just on the raw watcher count.
     _drawThreatOverlay(game) {
         const { ctx, half } = this;
         const now = performance.now();
         const reduce = (typeof Settings !== 'undefined') && Settings.get && Settings.get('reduceMotion');
-        const style = (typeof Settings !== 'undefined' && Settings.get)
-            ? (Settings.get('threatStyle') || 'shadow') : 'shadow';
 
         // Anyone with working eyes who is not on your side. Note this is NOT
         // gated on isHunting: the whole point is to show where you can be seen
@@ -2624,74 +2676,127 @@ export class Renderer {
         const watchers = game.enemies.filter(e =>
             e.entity?.isAlive?.() && !e._ally && (e.sightRange || 0) > 0);
 
-        // Cache the field on the world beat. Facing changes only on a beat too,
-        // so the turn counter plus the watcher count is a sufficient key.
-        if (this._threatTurn !== game.turn || this._threatCount !== watchers.length) {
-            this._threatTurn = game.turn;
-            this._threatCount = watchers.length;
-            this._threatField = new Map();
+        // Does anyone hold a DIRECT verdict on the player RIGHT NOW? Computed
+        // once here for the phase gate; channel 4 below asks the same question
+        // per-watcher to place its thread, so the two always agree.
+        const spotted = watchers.some(w => perceives(game.map, w, game.playerX, game.playerY) === VERDICT.DIRECT);
+
+        // Aiming a theft: wheel.aiming is set true by wheel-model's drill() the
+        // instant a leaf with aimType !== 'none' is selected, and selectedNode()
+        // (the same helper main.js drills with) returns exactly that leaf while
+        // aiming — so the thieve sub-verbs (coin/kit/gear, wheel-model.js:70)
+        // show up as its .key, a stable id, never the display label.
+        const aimedNode = game.wheel?.aiming ? selectedNode(game.wheel) : null;
+        const aimingTheft = !!aimedNode && (aimedNode.key === 'coin' || aimedNode.key === 'kit' || aimedNode.key === 'gear');
+
+        const phase = threatPhase(watchers, { inCombat: game._inCombat(), aimingTheft, spotted });
+
+        // Phase-change ease: hold, swap, then ease the NEW phase's alpha in from
+        // 0 over ~120ms. The swap itself is instant (the paint loop below always
+        // reads the current `phase`), so the two polarities never cross-fade
+        // through a muddy middle — only the alpha of the already-swapped field
+        // ramps in.
+        if (phase !== this._threatPhase) {
+            this._threatPhase = phase;
+            this._threatPhaseAt = now;
+        }
+        const phaseT = reduce ? 1 : easeOutCubic(Math.min(1, (now - (this._threatPhaseAt ?? now)) / 120));
+
+        if (phase !== PHASE.QUIET) {
+            // Scope the field to the watchers who actually justify this phase —
+            // not to every watcher with eyes. This is the one change that empties
+            // the town square: an idle vendor no longer contributes a tile.
+            const field = alertWatchers(watchers, phase, { aimingTheft });
+
+            if (this._threatTurn !== game.turn || this._threatFieldPhase !== phase || this._threatCount !== field.length) {
+                this._threatTurn = game.turn;
+                this._threatFieldPhase = phase;
+                this._threatCount = field.length;
+                this._threatField = new Map();
+                for (let vy = 0; vy < VIEW_TILES; vy++) {
+                    for (let vx = 0; vx < VIEW_TILES; vx++) {
+                        const tx = game.playerX - half + vx;
+                        const ty = game.playerY - half + vy;
+                        let worst = VERDICT.NONE;
+                        for (const w of field) {
+                            const v = perceives(game.map, w, tx, ty);
+                            if (v === VERDICT.DIRECT) { worst = v; break; }   // can't get worse
+                            if (v === VERDICT.PERIPHERAL) worst = v;
+                        }
+                        this._threatField.set(`${tx},${ty}`, worst);
+                    }
+                }
+            }
+
+            // Polarity: HAZE darkens safe ground, ALARM heats the seen ground.
+            // Same cached pattern shape and density either way; only the colour
+            // and which verdict gets painted flip.
+            const pattern = phase === PHASE.ALARM
+                ? this._ditherPattern('rgb(204,68,34)', 4)
+                : this._ditherPattern('rgb(2,2,8)', 4);
+
+            ctx.save();
+            ctx.globalAlpha = 0.20 * phaseT;
+            ctx.fillStyle = pattern;
+            // Pin the pattern to world space. A CanvasPattern samples the
+            // LITERAL coordinates a fillRect is called with — not the ambient
+            // transform — so filling at (vx*TILE_PX - _scrollX) would sample a
+            // different slice of the pattern every frame of a walk animation and
+            // the stipple would crawl against the art beneath it (confirmed
+            // against a live canvas, not assumed). Applying the scroll as a
+            // ctx.translate instead, while keeping the fillRect arguments
+            // grid-aligned (a multiple of the tile size, itself a multiple of
+            // the pattern's 8px period), keeps the sampled phase CONSTANT per
+            // tile; the translate alone slides the whole tile+pattern as one
+            // rigid unit, exactly like the sprite drawn under it.
+            ctx.translate(-this._scrollX, -this._scrollY);
             for (let vy = 0; vy < VIEW_TILES; vy++) {
                 for (let vx = 0; vx < VIEW_TILES; vx++) {
                     const tx = game.playerX - half + vx;
                     const ty = game.playerY - half + vy;
-                    let worst = VERDICT.NONE;
-                    for (const w of watchers) {
-                        const v = perceives(game.map, w, tx, ty);
-                        if (v === VERDICT.DIRECT) { worst = v; break; }   // can't get worse
-                        if (v === VERDICT.PERIPHERAL) worst = v;
-                    }
-                    this._threatField.set(`${tx},${ty}`, worst);
+
+                    // Only ground you could actually stand on. A wall is trivially
+                    // "safe" — nobody can see you there because you cannot be there —
+                    // so stippling it says nothing and costs a lot: in town the
+                    // buildings and the brick surround are most of the screen, and
+                    // shading them buries the one thing the field is for, which is
+                    // where the sightlines fall on walkable floor.
+                    if (!game.map.isWalkable(tx, ty)) continue;
+
+                    const v = this._threatField.get(`${tx},${ty}`) ?? VERDICT.NONE;
+                    if (phase === PHASE.HAZE  && v !== VERDICT.NONE) continue; // safe tiles are the dark ones
+                    if (phase === PHASE.ALARM && v === VERDICT.NONE) continue; // watched tiles are the hot ones
+
+                    ctx.fillRect(vx * TILE_PX, vy * TILE_PX, TILE_PX, TILE_PX);
                 }
             }
+            ctx.restore();
         }
 
-        // 4x4 Bayer matrix, normalised 0..15 — the stipple's threshold pattern.
-        const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
-
-        ctx.save();
-        for (let vy = 0; vy < VIEW_TILES; vy++) {
-            for (let vx = 0; vx < VIEW_TILES; vx++) {
-                const tx = game.playerX - half + vx;
-                const ty = game.playerY - half + vy;
-
-                // Only ground you could actually stand on. A wall is trivially
-                // "safe" — nobody can see you there because you cannot be there —
-                // so stippling it says nothing and costs a lot: in town the
-                // buildings and the brick surround are most of the screen, and
-                // shading them buries the one thing the field is for, which is
-                // where the sightlines fall on walkable floor.
-                if (!game.map.isWalkable(tx, ty)) continue;
-
-                const v = this._threatField.get(`${tx},${ty}`) ?? VERDICT.NONE;
-
-                // Which tiles get painted, and in what, depends on the treatment.
-                let color = null, density = 0;
-                if (style === 'shadow') {
-                    if (v !== VERDICT.NONE) continue;              // safe tiles are the dark ones
-                    color = '2,2,8'; density = 10;
-                } else {
-                    if (v === VERDICT.NONE) continue;              // watched tiles are the tinted ones
-                    color = v === VERDICT.DIRECT ? '204,68,34' : '212,185,106';
-                    density = v === VERDICT.DIRECT ? 10 : 5;
-                }
-
-                const px = vx * TILE_PX - this._scrollX;
-                const py = vy * TILE_PX - this._scrollY;
-                ctx.fillStyle = `rgba(${color},0.55)`;
-                // One 4x4 Bayer cell tiled across the tile; `density` of the 16
-                // sub-cells are filled, so the pattern is stable and never crawls.
-                const S = TILE_PX / 4;
-                for (let i = 0; i < 16; i++) {
-                    if (BAYER[i] >= density) continue;
-                    ctx.fillRect(px + (i % 4) * S, py + Math.floor(i / 4) * S, S, S);
-                }
-            }
+        // Combat vignette — rides the SAME _arenaLevel ramp _drawArena uses
+        // (main.js drives it toward 1 in combat and 0 otherwise; no second timer
+        // here). Framing, not information: a plain radial edge-darken, additive
+        // to whichever phase applied above, carrying no per-tile data.
+        const arenaLevel = this._arenaLevel ?? 0;
+        if (arenaLevel > 0.001) {
+            const vcx = half * TILE_PX + TILE_PX / 2;
+            const vcy = half * TILE_PX + TILE_PX / 2;
+            const vr = Math.hypot(CANVAS_PX / 2, CANVAS_PX / 2);   // reaches the corners
+            const grd = ctx.createRadialGradient(vcx, vcy, 0, vcx, vcy, vr);
+            grd.addColorStop(0, 'rgba(0,0,0,0)');
+            grd.addColorStop(1, `rgba(0,0,0,${0.35 * arenaLevel})`);
+            ctx.save();
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, CANVAS_PX, CANVAS_PX);
+            ctx.restore();
         }
-        ctx.restore();
 
         // Channels 2 and 3 — per watcher, so the field is never the only signal.
         // A colour-blind player, or one who has turned the field off in their head
         // after an hour, still gets facing and alarm from the sprites themselves.
+        // Unchanged: still tied to every watcher with eyes, not just the alert
+        // ones — and it matters more now that the field itself is absent more
+        // often.
         const PIP = { idle: '·', suspicious: '?', searching: '!', chasing: '!!', returning: '·' };
         const breath = reduce ? 0.5 : (0.5 + 0.5 * Math.sin(now / 420));
 
