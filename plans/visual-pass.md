@@ -318,3 +318,13 @@ Per `CLAUDE.md`, a change is done when the game **runs**, not when the tests pas
 - **4a/4b:** no red boxes and no `?` glyphs in town, bank, casino, diner, downtown, or the bag.
 - `git grep -iE 'violence[ _-]+town' -- ':!CLAUDE.md' ':!plans/item-hotbar-xmb-implementation.md'`
   must return zero lines.
+
+## Out-of-scope note (city-pack re-pointing session, 2026-09-06)
+
+While fixing the stale ENEMY_SPRITES header comment (it claimed the sewer's set was "the four
+Fungi + Rat + Sewer Monster" — Sewer Monster is dead code, and Rat is in fact spawned in the sewer
+by `sewer-setpiece.js`'s escape gauntlet, not just canyon-map.json as assumed), a second, smaller
+instance of the same miscount was spotted immediately below it: the inline comment
+`// Sewer set — six distinct creatures:` directly above the `ENEMY_SPRITES` sewer entries also says
+six where the real count is five. Left as-is — the task was scoped to the one header comment — but
+it is a one-word fix (`six` → `five`) whenever someone is next in that file.

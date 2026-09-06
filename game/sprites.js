@@ -142,9 +142,11 @@ export const TILE_SPRITE_MAP = {
 };
 
 // ── Town tile coords (Tiny Town pack) ───────────────────────────────────────
-// Tiny Town has rich terrain/buildings/fences but ships no urban props
-// (cars, streetlights, manholes, trashcans). Those ids fall back to the
-// closest substitute and are flagged below for a later art pass.
+// Tiny Town has rich terrain/buildings/fences but ships no urban props (cars,
+// streetlights, manholes, trashcans). The packed roguelikeCity atlas has all
+// of them — already registered in SHEETS and fetched on every boot, and
+// already the source of the building-wall pick at 14 below. Ids 16, 18, 20
+// and 21 draw from it too.
 export const TOWN_TILE_SPRITE_MAP = {
     10: null,                                        // town wall edge — dark fallback (frames the map)
     11: { sheet: 'tinyTown', col: 1, row: 9 },       // sidewalk — light gray stone slab
@@ -152,12 +154,12 @@ export const TOWN_TILE_SPRITE_MAP = {
     13: { sheet: 'tinyTown', col: 0, row: 0 },       // grass — plain green
     14: { sheet: 'roguelikeCity', col: 1, row: 6 },  // building wall — red-brick city facade (world-dressing; was tinyTown tan brick)
     15: { sheet: 'tinyTown', col: 1, row: 7 },       // door — brown door in wood facade
-    16: { sheet: 'tinyTown', col: 7, row: 8 },       // sewer entry — stone well opening (manhole proxy)
+    16: { sheet: 'roguelikeCity', col: 9, row: 24 }, // sewer entry — round manhole cover set in the pavement
     17: { sheet: 'tinyTown', col: 9, row: 3 },       // fence — vertical wood plank
-    18: { sheet: 'tinyTown', col: 11, row: 6 },      // streetlight — sign-on-post (no lamp in pack)
+    18: { sheet: 'roguelikeCity', col: 19, row: 13 }, // streetlight — lamp post, lit head viewed from above
     19: { sheet: 'car', col: 0, row: 0 },            // car — Kenney roguelikeCity beater (world-dressing; was the wooden-bucket placeholder)
-    20: { sheet: 'tinyTown', col: 9, row: 6 },       // bench — horizontal wood rail
-    21: { sheet: 'tinyTown', col: 11, row: 8 },      // trash can — pot/cauldron (cylinder proxy)
+    20: { sheet: 'roguelikeCity', col: 15, row: 15 }, // bench — wooden park bench, slatted seat on two legs
+    21: { sheet: 'roguelikeCity', col: 0, row: 17 }, // trash can — green wheeled bin
 };
 
 // ── Item sprites (Tiny packs) ───────────────────────────────────────────────
@@ -210,11 +212,16 @@ export const ITEM_SPRITES = {
 // Tiny sprites are single-cell (no facing/animation frames), so every entry
 // is `static: true`. See _drawEnemies in renderer.js for the static draw.
 //
-// The six enemies that can share a sewer screen (the four Fungi + Rat + Sewer
-// Monster) are mapped to SIX DISTINCT creature cells so they never look alike.
-// Zone-exclusive enemies (Greedy Green / Clown / Skeleton, in Factory / Circus
-// / Graveyard) may reuse a creature read since they can't co-occur with the
-// sewer set. Tiny Dungeon ships no literal mushroom / clown / skeleton sprite —
+// The sewer's creature set is five types, not six — Violet/Red/Ghost Fungus
+// and the Fungus King, placed by sewer-map.json, plus Rat, which
+// sewer-setpiece.js spawns in the other three's place once the "escape the
+// sewer" gauntlet starts (only the King survives that conversion). An earlier
+// version of this note also counted a "Sewer Monster"; nothing in the
+// codebase spawns one any more. All five are mapped to distinct creature
+// cells so they never look alike. Zone-exclusive enemies (Greedy Green /
+// Clown / Skeleton, in Factory / Circus / Graveyard) may reuse a creature
+// read since they can't co-occur with the sewer set. Tiny Dungeon ships no
+// literal mushroom / clown / skeleton sprite —
 // those are flagged compromises (see the overhaul notes / verify in-browser).
 
 export const ENEMY_SPRITES = {
@@ -313,8 +320,10 @@ export const EMOTE_SPRITES = {
 // against `game.renderer.sprites[sheet]`. Every entry must name a sheet explicitly.
 
 export const ZONE_TILE_SPRITE_MAP = {
-    // Circus — Tiny Town terrain. No striped tent/awning art exists; red roof
-    // shingles stand in for TENT_STRIPE (flagged compromise).
+    // Circus — Tiny Town terrain. Striped awning art does exist — green/white
+    // and orange/white awnings in roguelikeCity_packed.png — but swapping it
+    // in is out of scope for this pass; red roof shingles still stand in for
+    // TENT_STRIPE (flagged compromise).
     30: { sheet: 'tinyTown', col: 1, row: 2 },   // CIRCUS_GROUND — packed dirt/sand
     31: { sheet: 'tinyTown', col: 4, row: 4 },   // TENT_STRIPE   — red roof shingles (awning proxy)
     32: { sheet: 'tinyTown', col: 2, row: 0 },   // CONFETTI      — grass dotted with orange flowers

@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""Generate a labeled contact sheet from a packed Kenney Tiny tilemap.
+"""Generate a labeled contact sheet from a packed Kenney tilemap.
 
 Upscales each 16x16 cell by SCALE with a grid + (col,row) label overlay so
 sprite coords can be picked precisely without counting pixels. Mirrors the
 sprite-picker.html workflow but produces a static, agent-readable PNG.
 
 Usage:
+    python tools/gen_contact_sheet.py                          # regenerate all DEFAULT_SHEETS
     python tools/gen_contact_sheet.py <packed_png> <out_png> [cols] [rows]
 
-Defaults to the Tiny pack geometry: 12 cols x 11 rows, 16px cells, no gutter.
+With no arguments, regenerates a contact sheet for every entry in
+DEFAULT_SHEETS (currently the two Tiny packs plus the packed roguelikeCity
+atlas). Pass explicit arguments to render one sheet on its own; cols/rows
+default to the Tiny pack geometry (12x11) when omitted.
 """
 import sys
 from PIL import Image, ImageDraw, ImageFont
@@ -18,6 +22,15 @@ SCALE = 9          # upscale factor per cell
 PAD = 2            # padding inside each cell box for the source sprite
 LABEL_H = 12       # label strip height above each cell
 GUTTER = 0         # packed sheets are gutter-free
+
+# (source PNG, output contact sheet, cols, rows) — run with no arguments to
+# regenerate all of these in one pass. Every sheet here is the *packed*
+# (gutter-free) variant, so GUTTER stays 0 for all of them.
+DEFAULT_SHEETS = [
+    ('game/assets-placeholder/kenney/tiny/dungeon/tinyDungeon_packed.png', 'tools/contact_tinyDungeon.png', 12, 11),
+    ('game/assets-placeholder/kenney/tiny/town/tinyTown_packed.png', 'tools/contact_tinyTown.png', 12, 11),
+    ('game/assets-placeholder/kenney/roguelikeCity_packed.png', 'tools/contact_roguelikeCity.png', 37, 28),
+]
 
 
 def load_font(size):
@@ -29,14 +42,7 @@ def load_font(size):
     return ImageFont.load_default()
 
 
-def main():
-    if len(sys.argv) < 3:
-        print(__doc__)
-        sys.exit(1)
-    src_path, out_path = sys.argv[1], sys.argv[2]
-    cols = int(sys.argv[3]) if len(sys.argv) > 3 else 12
-    rows = int(sys.argv[4]) if len(sys.argv) > 4 else 11
-
+def render(src_path, out_path, cols, rows):
     sheet = Image.open(src_path).convert("RGBA")
     stride = CELL + GUTTER
 
@@ -79,6 +85,21 @@ def main():
 
     out.convert("RGB").save(out_path)
     print(f"wrote {out_path} ({out_w}x{out_h}) from {src_path} [{cols}x{rows}]")
+
+
+def main():
+    if len(sys.argv) == 1:
+        for src_path, out_path, cols, rows in DEFAULT_SHEETS:
+            render(src_path, out_path, cols, rows)
+        return
+
+    if len(sys.argv) < 3:
+        print(__doc__)
+        sys.exit(1)
+    src_path, out_path = sys.argv[1], sys.argv[2]
+    cols = int(sys.argv[3]) if len(sys.argv) > 3 else 12
+    rows = int(sys.argv[4]) if len(sys.argv) > 4 else 11
+    render(src_path, out_path, cols, rows)
 
 
 if __name__ == "__main__":
