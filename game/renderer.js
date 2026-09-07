@@ -11,7 +11,7 @@ import { TILE_PX, VIEW_TILES, CANVAS_PX, SAFE_SLOTS } from './data.js';
 // ctx.setTransform(SS,…) at the top of each frame; tap input maps via
 // CANVAS_INTERNAL_PX (608) independently, so it's unaffected.
 const SS = 2;
-import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, CONTAINER_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES, spriteVariant, idHash } from './sprites.js';
+import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, CONTAINER_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES, MARK_SPRITES, spriteVariant, idHash } from './sprites.js';
 import { UI, ITEM_COLORS, drawPanelBig, drawPanelSmall, drawInset } from './ui-sprites.js';
 import { ROOT, selectedNode, activeRing, activeIndex, decisionPath, previewChildren, affectedTiles, verbApplies, isCombatActive, flapperDeflection, defaultVerb } from './wheel-model.js'; // (sunburst wheel) + the bump telegraph
 import {
@@ -1408,7 +1408,7 @@ export class Renderer {
     // (color = damage type) carrying the number, with a per-type animation and
     // a directional/omni fan. Cheap canvas transforms; deterministic per hit.
     _drawHitSplat(game, dn, age) {
-        const { ctx, half } = this;
+        const { ctx, half, sprites } = this;
         const m = this._hitSplatMotion(dn, age);
         const a = Math.max(0, Math.min(1, m.alpha));
         if (a <= 0.01) return;
@@ -1462,6 +1462,26 @@ export class Renderer {
                 shadow: `rgba(0,0,0,${a * 0.7})`,
             });
         }
+
+        // (manga-impact-marks) Bare-symbol impact mark — star/stars/drops/anger/
+        // swirl per Game._pickHitMark. Drawn last (on top, like the ambient
+        // emote balloon) just outside the badge's upper-right edge so it never
+        // overlaps the centered digits. It's still inside this function's
+        // translate+scale(m.scale) transform, so it pops and fades in lockstep
+        // with the badge/number using the SAME `m` from _hitSplatMotion — no
+        // separate motion curve, and reduceMotion's damping (already baked into
+        // m.ox/m.oy/m.scale) applies to it for free.
+        const markSheet = sprites?.marks;
+        const markCol = dn.mark ? MARK_SPRITES[dn.mark] : null;
+        if (markSheet?.loaded && markCol != null) {
+            const msz = 14 * big;
+            const mcx = r * 0.75;
+            const mcy = -r * 0.75;
+            ctx.globalAlpha = a;
+            markSheet.drawFrame(ctx, markCol, 0, mcx - msz / 2, mcy - msz / 2, msz, msz);
+            ctx.globalAlpha = 1;
+        }
+
         ctx.restore();
     }
 

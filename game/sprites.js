@@ -120,6 +120,19 @@ export const SHEETS = {
     // (no gutter), padding 0.
     emotes:       { src: `${K}/emotes_style1.png`, frameW: 16, frameH: 16 },
 
+    // Kenney Emote Pack (Pixel, Style 8) — manga impact marks (animation pass
+    // §1). A star inside Style 1's white balloon reads as someone SAYING
+    // "star", so hit-marks need the bare glyph instead. Style 5 was the
+    // planned pick, but pixel-checked against Style 8 it turned out NOT to be
+    // bare in this copy of the pack — only 47/256px transparent (an opaque
+    // card, same as Style 1's 40/256) vs. Style 8's 212/256 (genuinely
+    // mostly-transparent art, the only style in the pack that is). Style 8
+    // also carries a thin dark outline, which reads better against busy tile
+    // art than a flat fill would. Horizontal strip packed by
+    // tools/gen_emote_sheet.py --style 8 --marks; column order = MARK_SPRITES
+    // below. Packed (no gutter), padding 0.
+    marks:        { src: `${K}/emotes_marks.png`, frameW: 16, frameH: 16 },
+
     // Alias for the hardcoded renderer reference:
     //   • renderer._drawPlayer reads `sprites.player` directly.
     player:       { src: TINY_DUNGEON, frameW: 16, frameH: 16 },
@@ -385,6 +398,23 @@ export const EMOTE_SPRITES = {
     dots1: 0, dots2: 1, dots3: 2, question: 3, exclamation: 4, sleep: 5,
     music: 6, anger: 7, heart: 8, idea: 9, laugh: 10, star: 11,
     drop: 12, faceHappy: 13, faceAngry: 14, faceSad: 15, alert: 16, swirl: 17,
+};
+
+// ── Impact marks (Kenney Emote Pack, Pixel Style 8) ─────────────────────────
+// Column index into the `marks` strip (game/assets-placeholder/kenney/
+// emotes_marks.png, packed by tools/gen_emote_sheet.py --style 8 --marks).
+// Bare symbol, no balloon — see the `marks` SHEETS entry above for why Style 8
+// rather than the originally-planned Style 5. Drawn beside a hit-splat's
+// damage number as a manga impact mark; see Game._pickHitMark / _spawnHitSplat
+// (main.js) and Renderer._drawHitSplat (renderer.js). KEEP IN SYNC with
+// gen_emote_sheet.py's MARKS_ORDER list.
+//
+// Not every column has a call site: `drop`, `cross` and `exclamation` are
+// unused today (parity with the full mark set the sheet ships, same dormant-
+// but-correct status as SPLAT_COLOR.miss in renderer.js — no code path
+// produces a miss, or these three, and that's fine).
+export const MARK_SPRITES = {
+    star: 0, stars: 1, anger: 2, drop: 3, drops: 4, cross: 5, swirl: 6, exclamation: 7,
 };
 
 // ── Zone tile coords (Circus / Factory / Graveyard) ─────────────────────────
