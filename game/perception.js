@@ -51,6 +51,39 @@ export function facingOf(watcher) {
     return { fx, fy };
 }
 
+// Facing as one of the four cardinal directions — the single answer to "which
+// way is this character facing" for sprite/frame lookups (sprites.js's
+// spriteFrame), instead of each caller picking its own compass out of
+// whichever of three parallel fields it happens to hold:
+//   _lastDx/_lastDy (vector)  — stamped by stepEntity on every step; also what
+//                               facingOf() above and the AI cone read.
+//   _faceLeft (boolean)       — the enemy sprite's horizontal-flip flag.
+//   .facing (string)          — the player's input-driven facing (main.js).
+// Vector first, since it's the live, per-step truth; falling back to
+// _faceLeft, then to a `facing` string field, for a caller that carries
+// neither. A diagonal vector collapses the same way main.js's _faceOf already
+// resolves the player's 8-way input to a 4-way facing: vertical wins whenever
+// dy is nonzero, horizontal only when dy is exactly 0 — so a diagonal chaser
+// reads as facing up/down, matching the convention already on screen for the
+// player, rather than inventing a second tie-break rule.
+//
+// Do NOT delete _faceLeft or .facing for this — too much still reads them
+// directly (the enemy flip, the player flip, bump targeting). This just gives
+// new code one place to ask instead of each picking its own field; retiring
+// the old fields is a separate change.
+export function dirOf(entity) {
+    const fx = entity?._lastDx ?? 0;
+    const fy = entity?._lastDy ?? 0;
+    if (fx !== 0 || fy !== 0) {
+        if (fy < 0) return 'up';
+        if (fy > 0) return 'down';
+        return fx < 0 ? 'left' : 'right';
+    }
+    if (typeof entity?._faceLeft === 'boolean') return entity._faceLeft ? 'left' : 'down';
+    if (entity?.facing) return entity.facing;
+    return 'down';
+}
+
 // The verdict for one watcher against one tile.
 export function perceives(map, watcher, tx, ty) {
     if (!watcher) return VERDICT.NONE;

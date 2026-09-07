@@ -53,7 +53,9 @@ served at `http://localhost:3001/foo.html`.
 
 **Node is installed here** — `node v24.18.0`, `npm 11.16.0`. `npm test` runs the whole suite locally
 via `node --test`; a single file is `node --test tests/<name>.test.js`. Baseline as of 2026-08-23:
-**404 tests, 87 suites, 0 failures, ~400ms.**
+**1131 tests, 204 suites, 0 failures, ~900ms** (re-measured 2026-09-06; the line here said
+404/87 as of 2026-08-23 and was badly stale — the suite has nearly tripled since. Re-measure
+rather than quoting this number in a plan.)
 
 Several older docs — `plans/defeat-scenarios*.md`, `plans/remembrance-rings*.md`,
 `plans/pd3-ai-consolidation*.md`, `plans/ring-builds-ability-axis.md`,
@@ -84,7 +86,7 @@ Both exclusions are files that *quote the rule itself* rather than violate it.
 
 ## Recent infrastructure (since v0.8.0)
 
-- **Bitmap pixel font** at `game/assets/font_8x8.png` rendered via `game/bitmap-font.js` (`BitmapFont.drawText(ctx, text, x, y, opts)`). Loaded once on init, stashed on `renderer.font`. Plain ASCII 32–126.
+- **Text is VT323**, a webfont at `game/assets/fonts/VT323.ttf` (SIL OFL, licence in `assets/fonts/OFL.txt`), loaded in `game/bitmap-font.js` and stashed on `renderer.font`. `BitmapFont.drawText(ctx, text, x, y, opts)` is unchanged. The former 8×8 bitmap atlas was retired — it read as the least-legible thing on screen — and `tools/gen_font.py` is kept only for reference.
 - **Procedural 9-slice ornate panel** at `game/assets/ui_panel.png` (48×144, three variants: base / dark / glow). `drawPanelBig` / `drawPanelSmall` in `game/ui-sprites.js` consume it. Pass `this.uiSheet` when calling so panels render with the chrome instead of the flat fallback.
 - **Sprite picker** at `game/sprite-picker.html` — open in browser, pick a Kenney sheet, click any cell to copy `{ col, row }` to clipboard. Use this when adding/swapping sprite picks instead of counting pixels in an image viewer.
 - **Kenney roguelike sheets carry a 1px gutter between cells.** The `SpriteSheet` class in `game/sprites.js` already honors this via the `padding` constructor arg (default 1 for every roguelike sheet, 0 for the packed City sheet). When adding new SpriteSheet entries from a roguelike pack, set `padding: ROGUELIKE_PAD`. The `(col, row)` coords are picked against this corrected stride.

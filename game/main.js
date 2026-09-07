@@ -3,6 +3,7 @@
 // Bump-to-attack. 1-9 select item, Space uses with canvas overlay.
 
 import { Renderer } from './renderer.js';
+import { pickCanvasCss } from './canvas-fit.js';
 import { loadMap } from './map.js';
 import { loadAllSprites } from './sprites.js';
 import { BitmapFont } from './bitmap-font.js';
@@ -170,6 +171,11 @@ const MP_REGEN = 2;                // MP recovered per world-turn — FIGHT → 
 const RING_THUMB_DISPOSITION = 70;   // above EVERY authored NPC baseline (the friendliest, Puck, starts at 60) so the thumb reveal must be EARNED by raising someone, not tripped just by walking up to a cheerful vendor
 const RING_PINKY_GP          = 500;
 const RING_IGNITE_DAMAGE     = 6;
+
+// (manga-impact-marks) Damage at/above which a physical hit-splat is "heavy"
+// — shared by combatAttack's screenshake trigger AND _spawnHitSplat's mark
+// pick (star vs stars), so the two can't drift into disagreeing thresholds.
+const HEAVY_HIT_DAMAGE = 15;
 
 // ── Radial menu (Omnitrix-style combat wheel) ───────────────────────────────
 
@@ -501,6 +507,15 @@ class Game {
 
         const canvas = document.getElementById('game-canvas');
         this.renderer = new Renderer(canvas);
+        this._fitCanvas();
+        window.addEventListener('resize', () => this._fitCanvas());
+        // devicePixelRatio changes (zoom, or dragging to another monitor) do not fire
+        // `resize` reliably; a one-shot media query that re-arms is the standard trick.
+        const watchDpr = () => {
+            matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
+                .addEventListener('change', () => { this._fitCanvas(); watchDpr(); }, { once: true });
+        };
+        watchDpr();
 
         const spriteResult = await loadAllSprites();
         this.renderer.sprites = spriteResult.sheets;
@@ -888,6 +903,20 @@ class Game {
         const qe = this.questEngine; if (!qe) return;
         if (qe.state.activeId || qe.isComplete('deliver_burger')) return;
         qe.start('deliver_burger');
+    }
+
+    // ── Canvas fit ───────────────────────────────────────────────────────────
+
+    // Size the canvas so one art pixel is a whole number of device pixels.
+    // Called on boot, on resize, and when the window moves between displays of
+    // different DPR (a browser zoom does the same thing).
+    _fitCanvas() {
+        const canvas = this.renderer?.canvas;
+        if (!canvas) return;
+        const avail = Math.min(window.innerHeight - 16, window.innerWidth - 16, 1024);
+        const css = pickCanvasCss(avail, window.devicePixelRatio);
+        canvas.style.width  = `${css}px`;
+        canvas.style.height = `${css}px`;
     }
 
     // ── Splash ───────────────────────────────────────────────────────────────
@@ -4213,7 +4242,7 @@ class Game {
         // 3×3 burst) pass opts.omni so it bursts around the target instead.
         const splatDir = { dx: enemyObj.x - this.playerX, dy: enemyObj.y - this.playerY };
         this._spawnHitSplat(enemyObj.x, enemyObj.y, `-${result.dealt}`, opts.type || 'physical',
-            { dir: splatDir, omni: !!opts.omni, crit: !!opts.crit });
+            { dir: splatDir, omni: !!opts.omni, crit: !!opts.crit, killed: !!result.killed });
 
         // Hit flash + stagger — Phase C, polished in B6. Flash duration
         // and stagger distance now scale with damage so light taps feel
@@ -4233,12 +4262,12 @@ class Game {
         enemyObj._staggerDy = len > 0 ? (dy / len) * pushPx : 0;
         this._ensureParticleLoop(); // keep rendering through the 100ms window
 
-        // Screen shake on heavy hits or kills — Phase F. Threshold is 15
-        // damage given the small-numbers cosmology (HP 100-200, damage
-        // mostly 5-30). Kills shake regardless of damage magnitude since
-        // a killing blow is a milestone event worth a beat.
-        if (result.dealt >= 15 || result.killed) {
-            const mag = result.killed ? 5 : 3 + Math.min(4, (result.dealt - 15) / 5);
+        // Screen shake on heavy hits or kills — Phase F. Threshold is
+        // HEAVY_HIT_DAMAGE given the small-numbers cosmology (HP 100-200,
+        // damage mostly 5-30). Kills shake regardless of damage magnitude
+        // since a killing blow is a milestone event worth a beat.
+        if (result.dealt >= HEAVY_HIT_DAMAGE || result.killed) {
+            const mag = result.killed ? 5 : 3 + Math.min(4, (result.dealt - HEAVY_HIT_DAMAGE) / 5);
             this._triggerScreenShake(150, mag);
         }
 
@@ -4402,7 +4431,7 @@ class Game {
                 const finalDmg = computeHit({ base: ally.damage });
                 const result = attack(ally.entity, target.entity, finalDmg);
                 if (result) {
-                    this._spawnHitSplat(target.x, target.y, `-${result.dealt}`, 'physical', { omni: true });
+                    this._spawnHitSplat(target.x, target.y, `-${result.dealt}`, 'physical', { omni: true, killed: !!result.killed });
                     target._hitFlashUntil = performance.now() + 120;
                     this._ensureParticleLoop();
                     if (result.killed) this._handleEnemyDeath(target);
@@ -4586,9 +4615,10 @@ class Game {
             const igniteDmg = computeHit({ base: RING_IGNITE_DAMAGE, elemental: elementalMult('fire', enemyObj) });
             if (igniteDmg > 0) {
                 const dealt = enemyObj.entity.takeDamage(igniteDmg);
-                this._spawnHitSplat(enemyObj.x, enemyObj.y, `-${dealt}`, 'fire', { omni: true });
+                const killed = enemyObj.entity.isDead();
+                this._spawnHitSplat(enemyObj.x, enemyObj.y, `-${dealt}`, 'fire', { omni: true, killed });
                 this._log('[Cinders catch — it burns.]', 'combat');
-                if (enemyObj.entity.isDead()) this._handleEnemyDeath(enemyObj);
+                if (killed) this._handleEnemyDeath(enemyObj);
             }
         }
     }
@@ -4673,7 +4703,7 @@ class Game {
         // (combat-feel-pass) Typed hit-splat, omni burst — the player's attacker
         // isn't tracked (any adjacent enemy may have landed it), so the splat
         // sprays around the player rather than from a single direction.
-        this._spawnHitSplat(this.playerX, this.playerY, `-${dmg}`, 'physical', { omni: true });
+        this._spawnHitSplat(this.playerX, this.playerY, `-${dmg}`, 'physical', { omni: true, killed: this.playerHp <= 0 });
 
         // Hit flash + stagger on the player — Phase C. Stagger direction
         // is randomized for the player (any adjacent enemy might have
@@ -5049,13 +5079,35 @@ class Game {
     // screen-space each frame so particles track the camera if the player
     // moves mid-particle (rare but possible during animation overlap).
 
+    // (manga-impact-marks) Which bare-symbol MARK_SPRITES key (if any) pops
+    // beside a hit-splat's badge. A kill outranks the type-based pick — the
+    // same "milestone beat" precedence _triggerScreenShake already gives
+    // kills above — so a poisoned killing blow still reads as a KO, not a
+    // drip. Heals, and any damage type not listed, get no mark at all: a
+    // star over a heal reads as damage, and an unmapped element (cold,
+    // energy, fear) hasn't been asked for one.
+    _pickHitMark(type, amount, killed) {
+        if (killed) return 'swirl';
+        switch (type) {
+            case 'physical': return amount >= HEAVY_HIT_DAMAGE ? 'stars' : 'star';
+            case 'poison':
+            case 'sludge':   return 'drops';
+            case 'fire':     return 'anger';
+            default:         return null;
+        }
+    }
+
     // (combat-feel-pass) RuneScape-style typed hit-splat. `type` picks the
     // color + per-type animation in the renderer; `opts.dir` ({dx,dy}) makes the
     // splat fan in the direction of the blow (a swing / a throw came from
     // somewhere), while omitting it (or opts.omni) bursts it around the target
     // (an AoE, or a hit with no tracked source). Simultaneous bits on one tile
     // get incrementing `slot`s so they pre-separate instead of stacking —
-    // deterministic, so the same hit always looks the same.
+    // deterministic, so the same hit always looks the same. `opts.killed`
+    // (manga-impact-marks) additionally picks a bare-symbol mark to pop
+    // alongside the number — it rides this SAME particle, so it lives and
+    // dies with the number it's attached to and needs no render loop or
+    // scheduling of its own (see _hasActiveEffects / _ensureParticleLoop).
     _spawnHitSplat(tileX, tileY, text, type = 'physical', opts = {}) {
         const born = performance.now();
         let slot = 0;
@@ -5067,9 +5119,11 @@ class Game {
             const len = Math.hypot(opts.dir.dx, opts.dir.dy) || 1;
             dir = { x: opts.dir.dx / len, y: opts.dir.dy / len };
         }
+        const amount = Math.abs(parseInt(text, 10)) || 0;
         this._damageNumbers.push({
             tileX, tileY, text, type,
             crit: !!opts.crit,
+            mark: this._pickHitMark(type, amount, !!opts.killed),
             dir, slot,
             bornAt: born,
             maxAge: 620,
