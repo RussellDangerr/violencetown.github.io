@@ -11,8 +11,9 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { ENEMY_SPRITES, ITEM_SPRITES } from '../game/sprites.js';
+import { ENEMY_SPRITES, ITEM_SPRITES, spriteFrame } from '../game/sprites.js';
 import { ALL_ITEM_IDS } from '../game/item-registry.js';
+import { dirOf } from '../game/perception.js';
 
 const GAME_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'game');
 
@@ -77,6 +78,17 @@ describe('sprite coverage', () => {
         // one — any entity of that type could render as any of them, so every
         // variant cell counts toward the collision check. A clash on any one
         // of them is a real clash, same as for a plain single-cell entry.
+        //
+        // BASE cells only (animation pass §4). Violencian additionally carries
+        // `dirCols`/`walkRows` (spriteFrame, sprites.js) so it also renders
+        // across 3 more columns and 2 more rows per variant at draw time — but
+        // a facing frame is not a distinct identity, so those cells deliberately
+        // do NOT get enumerated into this check. Two characters that both
+        // happen to be facing left are not a collision; this must stay reading
+        // only `v.col`/`v.row` (the identity cell each variant is authored
+        // with) rather than expanding through dirCols/walkRows. If a future
+        // entry needs that expansion, that is a deliberate design change, not a
+        // "fix" of this comment being out of date.
         const cellsFor = (s) => (s.variants?.length ? s.variants : [s]).map(v => `${s.sheet}:${v.col},${v.row}`);
 
         const collisions = [];
@@ -160,5 +172,103 @@ describe('item sprite coverage', () => {
         assert.ok(poitions.length >= 6, `only found ${poitions.length} poitions`);
         const bare = poitions.filter(id => !ITEM_SPRITES[id]);
         assert.deepEqual(bare, [], `poitions with no icon: ${bare.join(', ')}`);
+    });
+});
+
+// ── Facing + walk-frame resolution (animation pass §4) ──────────────────────
+//
+// dirOf (perception.js) and spriteFrame (sprites.js) are both pure given
+// explicit inputs — no clock, no DOM, no globals — so they're covered here
+// with plain unit tests rather than only through a screenshot. Per the plan,
+// this is worth more than a visual check when the renderer's rAF can't be
+// observed.
+
+describe('dirOf', () => {
+    test('a vector picks the matching cardinal direction', () => {
+        assert.equal(dirOf({ _lastDx: 0, _lastDy: -1 }), 'up');
+        assert.equal(dirOf({ _lastDx: 0, _lastDy: 1 }), 'down');
+        assert.equal(dirOf({ _lastDx: -1, _lastDy: 0 }), 'left');
+        assert.equal(dirOf({ _lastDx: 1, _lastDy: 0 }), 'right');
+    });
+
+    test('a diagonal vector collapses to vertical, matching _faceOf (main.js)', () => {
+        assert.equal(dirOf({ _lastDx: 1, _lastDy: -1 }), 'up');    // NE
+        assert.equal(dirOf({ _lastDx: -1, _lastDy: -1 }), 'up');   // NW
+        assert.equal(dirOf({ _lastDx: 1, _lastDy: 1 }), 'down');   // SE
+        assert.equal(dirOf({ _lastDx: -1, _lastDy: 1 }), 'down');  // SW
+    });
+
+    test('the vector wins even over a stale/contradictory _faceLeft', () => {
+        assert.equal(dirOf({ _lastDx: 1, _lastDy: 0, _faceLeft: true }), 'right');
+    });
+
+    test('falls back to _faceLeft when there is no vector', () => {
+        assert.equal(dirOf({ _lastDx: 0, _lastDy: 0, _faceLeft: true }), 'left');
+        assert.equal(dirOf({ _lastDx: 0, _lastDy: 0, _faceLeft: false }), 'down');
+        assert.equal(dirOf({ _faceLeft: true }), 'left'); // no vector fields at all
+    });
+
+    test('falls back to a .facing string when there is neither a vector nor _faceLeft', () => {
+        assert.equal(dirOf({ facing: 'right' }), 'right');
+    });
+
+    test('a bare entity with none of the three fields defaults to down', () => {
+        assert.equal(dirOf({}), 'down');
+        assert.equal(dirOf(undefined), 'down');
+    });
+});
+
+describe('spriteFrame', () => {
+    // Violencian is the one entry carrying dirCols/walkRows; Pike is a plain
+    // {sheet,col,row,static} entry with neither — the fixture the analogous
+    // spriteVariant test ("an entry with no variants is returned unchanged")
+    // uses for the same reason.
+    const info = ENEMY_SPRITES['Violencian'];
+    const plain = ENEMY_SPRITES['Pike'];
+
+    test('an entry with no dirCols is returned unchanged, not copied', () => {
+        assert.equal(plain.dirCols, undefined, 'test fixture assumption: Pike has no dirCols');
+        const result = spriteFrame(plain, { id: 'anything' }, {});
+        assert.equal(result, plain, 'expected the exact same object back, not a copy');
+    });
+
+    test('each of the four directions resolves to its measured column', () => {
+        // Measured against tools/contact_rpgUrban.png (see the ENEMY_SPRITES
+        // comment): 23 left, 24 down, 25 up, 26 right.
+        const up    = spriteFrame(info, { _lastDx: 0, _lastDy: -1 }, {});
+        const down  = spriteFrame(info, { _lastDx: 0, _lastDy: 1 }, {});
+        const left  = spriteFrame(info, { _lastDx: -1, _lastDy: 0 }, {});
+        const right = spriteFrame(info, { _lastDx: 1, _lastDy: 0 }, {});
+        assert.equal(up.col, 25);
+        assert.equal(down.col, 24);
+        assert.equal(left.col, 23);
+        assert.equal(right.col, 26);
+        // Facing must not perturb which character (row) is drawn.
+        for (const frame of [up, down, left, right]) assert.equal(frame.row, info.row);
+    });
+
+    test('mid-step, the walk frame advances with slide progress', () => {
+        const early = spriteFrame(info, { _lastDx: 0, _lastDy: 1 }, { animating: true, progress: 0 });
+        const late  = spriteFrame(info, { _lastDx: 0, _lastDy: 1 }, { animating: true, progress: 0.99 });
+        assert.notEqual(early.row, info.row, 'mid-step should leave the resting row');
+        assert.notEqual(late.row, info.row, 'mid-step should leave the resting row');
+        assert.notEqual(early.row, late.row, 'the two stride frames must differ across the slide');
+    });
+
+    test('at rest, the walk frame alternates on the desynced idle tick (two-frame minimum)', () => {
+        const a = spriteFrame(info, { _lastDx: 0, _lastDy: 1 }, { animating: false, idleTick: 0, phase: 0 });
+        const b = spriteFrame(info, { _lastDx: 0, _lastDy: 1 }, { animating: false, idleTick: 1, phase: 0 });
+        assert.notEqual(a.row, b.row, 'idle frame never advances — desync/idle tick is not reaching spriteFrame');
+    });
+
+    test('is pure — identical explicit inputs yield identical output on repeat calls', () => {
+        const entity = { _lastDx: -1, _lastDy: 0 };
+        const anim = { animating: true, progress: 0.4 };
+        const first = spriteFrame(info, entity, anim);
+        for (let i = 0; i < 5; i++) {
+            const again = spriteFrame(info, entity, anim);
+            assert.equal(again.col, first.col);
+            assert.equal(again.row, first.row);
+        }
     });
 });

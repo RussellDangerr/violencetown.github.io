@@ -11,7 +11,7 @@ import { TILE_PX, VIEW_TILES, CANVAS_PX, SAFE_SLOTS } from './data.js';
 // ctx.setTransform(SS,…) at the top of each frame; tap input maps via
 // CANVAS_INTERNAL_PX (608) independently, so it's unaffected.
 const SS = 2;
-import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, CONTAINER_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES, MARK_SPRITES, spriteVariant, idHash } from './sprites.js';
+import { TILE_SPRITE_MAP, TOWN_TILE_SPRITE_MAP, ZONE_TILE_SPRITE_MAP, ENEMY_SPRITES, ITEM_SPRITES, CONTAINER_SPRITES, PLAYER_SPRITE, PROP_SPRITES, EMOTE_SPRITES, MARK_SPRITES, spriteVariant, spriteFrame, idHash } from './sprites.js';
 import { UI, ITEM_COLORS, drawPanelBig, drawPanelSmall, drawInset } from './ui-sprites.js';
 import { ROOT, selectedNode, activeRing, activeIndex, decisionPath, previewChildren, affectedTiles, verbApplies, isCombatActive, flapperDeflection, defaultVerb } from './wheel-model.js'; // (sunburst wheel) + the bump telegraph
 import {
@@ -1090,19 +1090,32 @@ export class Renderer {
         // enemy carries its own idHash-derived idle phase so the whole cast
         // doesn't breathe in lockstep off the one shared global idle tick.
         const sliding = isAlive && e._slideStart != null && (now - e._slideStart) < (e._slideMs || 0);
+        const slideProgress = sliding ? Math.min(1, (now - e._slideStart) / (e._slideMs || 1)) : 0;
         const ea = isAlive
-            ? walkAnim(sliding, sliding ? Math.min(1, (now - e._slideStart) / (e._slideMs || 1)) : 0, e._stepIndex || 0, game._idleTick, idHash(e))
+            ? walkAnim(sliding, slideProgress, e._stepIndex || 0, game._idleTick, idHash(e))
             : { bob: 0, rot: 0 };
-        const eFlip = (isAlive && e._faceLeft) ? -1 : 1;
+        const info = spriteVariant(ENEMY_SPRITES[e.type], e);
+        // Facing/walk-frame resolution — a separate axis from the identity pick
+        // above (spriteFrame's doc comment in sprites.js has the full story).
+        // Corpses freeze on the resting frame (idleTick/phase pinned to 0)
+        // rather than continuing to breathe, matching "Corpses stay still"
+        // above; dirOf still reads whichever way the entity was last moving,
+        // so a corpse doesn't spin to face the camera on death.
+        const frame = spriteFrame(info, e, isAlive
+            ? { animating: sliding, progress: slideProgress, idleTick: game._idleTick, phase: idHash(e) }
+            : { animating: false, idleTick: 0, phase: 0 });
+        // The pre-existing _faceLeft mirror-flip is for characters with only
+        // ONE drawn facing (every Tiny Dungeon cell) — it stays exactly as it
+        // was for those. An entry with real left/right art (info.dirCols) must
+        // NOT also be mirrored: col 23 (left) and col 26 (right) are already
+        // distinct, hand-drawn, non-symmetric cells, so flipping on top of
+        // spriteFrame's choice would render them backwards.
+        const eFlip = (isAlive && e._faceLeft && !info?.dirCols) ? -1 : 1;
         const ecx = px + TILE_PX / 2, ecy = py + TILE_PX / 2;
         let ok = false;
-        const info = spriteVariant(ENEMY_SPRITES[e.type], e);
         withWalk(ctx, ecx, ecy, { bob: ea.bob, rot: ea.rot, flipX: eFlip }, () => {
-            if (info && sprites?.[info.sheet]?.loaded) {
-                const col = info.static
-                    ? info.col
-                    : (((game._idleTick || 0) % 2 === 0) ? 0 : 2);
-                ok = sprites[info.sheet].drawFrame(ctx, col, info.row, px + 4, py + 4, TILE_PX - 8, TILE_PX - 8);
+            if (frame && sprites?.[frame.sheet]?.loaded) {
+                ok = sprites[frame.sheet].drawFrame(ctx, frame.col, frame.row, px + 4, py + 4, TILE_PX - 8, TILE_PX - 8);
             }
             if (!ok) {
                 ctx.fillStyle = isAlive ? '#cc4433' : '#555';

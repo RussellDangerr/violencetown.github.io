@@ -9,6 +9,8 @@
 // destH upscale params, so the 2× nearest-neighbor scale happens at draw
 // time without pre-processing.
 
+import { dirOf } from './perception.js';
+
 export class SpriteSheet {
     // `padding` is the gap (in source pixels) between adjacent cells. Kenney's
     // roguelike packs ship with a 1-pixel gutter between every 16×16 cell —
@@ -244,7 +246,12 @@ export const ITEM_SPRITES = {
 //
 // ── Enemy/character sprites (Tiny Dungeon pack) ─────────────────────────────
 // Tiny sprites are single-cell (no facing/animation frames), so every entry
-// is `static: true`. See _drawEnemies in renderer.js for the static draw.
+// carries `static: true`. As of the animation pass (visual-pass §4) that field
+// is no longer read by the renderer — _drawEnemySprite resolves the draw cell
+// through spriteFrame() (below) now, which returns col/row untouched for any
+// entry with no `dirCols`, i.e. every entry in this table except Violencian.
+// `static` stays put on each entry as inert historical data; there is no live
+// branch left that flipping it would change.
 //
 // The sewer's creature set is five types, not six — Violet/Red/Ghost Fungus
 // and the Fungus King, placed by sewer-map.json, plus Rat, which
@@ -294,6 +301,21 @@ export const ENEMY_SPRITES = {
     // working.
     'Violencian': {
         sheet: 'rpgUrban', col: 24, row: 0, static: true,
+        // 4 facings x 3 walk-cycle rows per character (visual-pass §4). Verified
+        // 2026-09-06 against a labelled contact sheet (tools/gen_contact_sheet.py
+        // -> tools/contact_rpgUrban.png), not assumed: col 23 = left, 24 =
+        // down/front (the cell every variant below already used), 25 = up/back
+        // (solid hair, no face — the prior guess that this was the back row
+        // checked out), 26 = right. Each base row's own +0 row is the standing
+        // pose already in use; +1/+2 are the two stride frames (confirmed by
+        // eye — feet apart, mirrored between the two).
+        //
+        // This is a SEPARATE axis from the variant pool below, resolved by
+        // spriteFrame() at draw time, not by enumerating more variant cells —
+        // every variants[] entry still only ever names its down-facing (col 24)
+        // identity cell, same as before this pass.
+        dirCols: [25, 24, 23, 26], // [up, down, left, right]
+        walkRows: 3,
         variants: [
             { col: 24, row: 0 },  // auburn hair, green shirt
             { col: 24, row: 3 },  // auburn hair, red shirt, blue jeans
@@ -357,6 +379,57 @@ export function spriteVariant(info, entity) {
     if (!info?.variants?.length) return info;
     const v = info.variants[idHash(entity) % info.variants.length];
     return { ...info, col: v.col, row: v.row };
+}
+
+// Facing column + walk-frame row — a SEPARATE axis from spriteVariant above,
+// applied AFTER it. spriteVariant answers "who are you": a pure, time-
+// invariant hash of the entity's id (tests/sprite-variants.test.js locks that
+// down, correctly — it's a cosmetic identity, not a frame clock). spriteFrame
+// answers "how are you standing right now": facing + walk phase, which is
+// expected to change from one call to the next as the entity moves. Keeping
+// these separate is deliberate, not an oversight — don't fold one into the
+// other.
+//
+// Entries opt in with two fields, present only on the rpgUrban civilians:
+//   dirCols:  [up, down, left, right] sheet columns for each facing.
+//   walkRows: how many rows, starting at the entry's own `row`, form a walk
+//             cycle. row+0 is the standing pose already in use before this
+//             pass; row+1.. are the additional stride frames.
+// An entry with no `dirCols` (every Tiny Dungeon character) is returned
+// UNTOUCHED, so it keeps rendering exactly the single cell it always has.
+//
+// `anim` is `{ animating, progress, idleTick, phase }`:
+//   - mid-step (`animating`): `progress` is the same 0->1 slide position
+//     walkAnim() already receives, so the stride frames trade off across the
+//     tile crossing instead of freezing on one foot.
+//   - at rest: `idleTick` + `phase` are game._idleTick and the entity's
+//     idHash-derived offset — the same desync walkAnim's idle bob uses
+//     (commit 97198d8) — so a crowd's stance shifts out of step the same way
+//     its breathing already does, instead of every character flickering in
+//     lockstep.
+// Two frames is the floor in either regime; with walkRows >= 3 the mid-step
+// regime additionally reaches the third row, so idle and walking don't have
+// to share their frame pair.
+const DIR_COL_INDEX = { up: 0, down: 1, left: 2, right: 3 };
+
+export function spriteFrame(info, entity, anim = {}) {
+    if (!info?.dirCols) return info;
+
+    const col = info.dirCols[DIR_COL_INDEX[dirOf(entity)]];
+    const n = Math.max(1, info.walkRows || 1);
+    const strideRows = Math.max(1, n - 1);
+
+    let frame;
+    if (anim.animating && n > 1) {
+        const t = Math.max(0, Math.min(1, anim.progress ?? 0));
+        frame = 1 + Math.min(strideRows - 1, Math.floor(t * strideRows));
+    } else {
+        // Two-frame idle flicker (row+0 / row+1), desynced per entity so the
+        // whole cast doesn't shift its weight in lockstep.
+        frame = n > 1 ? ((anim.idleTick ?? 0) + (anim.phase ?? 0)) % 2 : 0;
+    }
+
+    return { ...info, col, row: info.row + frame };
 }
 
 // Containers — replaces the procedural brown box in _drawContainers, which
