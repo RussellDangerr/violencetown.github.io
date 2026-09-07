@@ -161,20 +161,58 @@ export const SHEETS = {
     // every other packed sheet. Don't "fix" this to padding: 1 by analogy
     // with the raw source's gutter; this is a separate, already-packed file.
     outlined:     { src: `${K}/rlOutlined_packed.png`, frameW: 16, frameH: 16 },
+
+    // Kenney roguelikeDungeon pack (zone-identity.md Item 2) — bundled since
+    // early in the project (game/assets-placeholder/kenney/
+    // roguelikeDungeon_transparent.png) but never registered until now.
+    // Registered to give Sewer its own WALL and a wet-floor accent, so it
+    // stops rendering 100% from tinyDungeon like Factory does.
+    //
+    // UNLIKE every sheet above, this one carries Kenney's native 1px gutter
+    // between cells — 492x305px = 29x18 cells at stride 17, not packed. It is
+    // the first gutter sheet actually registered in SHEETS (`outlined` above
+    // LOOKS like a roguelike sheet but tools/gen_outlined_sheet.py re-packs
+    // its output specifically to avoid this). padding: 1 is required — see
+    // the SpriteSheet constructor docstring above for the exact "deep rows
+    // drift up and render two half-cells stacked" bug that skipping it
+    // causes. Coordinates below were checked against a labeled contact sheet
+    // generated at this stride, not eyeballed at a packed one.
+    roguelikeDungeon: { src: `${K}/roguelikeDungeon_transparent.png`, frameW: 16, frameH: 16, padding: 1 },
 };
 
-// ── Sewer/dungeon tile coords (Tiny Dungeon pack) ───────────────────────────
+// ── Sewer/dungeon tile coords (Tiny Dungeon + roguelikeDungeon packs) ──────
 // Tiny Dungeon: tan dungeon floors, gray stone-brick, iron grates, doors,
-// banner/torch accents. All entries name `tinyDungeon` explicitly.
-
+// banner/torch accents. WALL (0) and SLUDGE (2) come from roguelikeDungeon
+// instead (zone-identity.md Item 2 — see that SHEETS entry above for why the
+// sheet needs padding: 1). Every other entry below still names `tinyDungeon`.
+//
+// WALL used to be `null` — a flat #1c1510 fallback — over 47% of this map.
+// This file used to call that "intentional, frames the room," which is
+// defensible at a map's edge and not at half its area, so it now renders
+// real brick: roguelikeDungeon (8,0), a plain grey block. The alternative
+// alcove variant at (9,1) reads busy/repetitive once tiled across dozens of
+// contiguous wall cells (checked by tiling both 5x5); plain brick holds up
+// better at the scale Sewer's corridors need.
+//
+// CAUTION: id 0 is not Sewer-exclusive — canyon-map.json also uses it, for
+// its outer border only (31% of that map, not interior walls; renderer.js
+// resolves this table purely by numeric id, with no per-zone override). This
+// brick renders there too. Checked in tools/_zonecheck.png: it reads fine as
+// an outdoor boundary rather than a constructed room, so shipped as-is — but
+// a future change to WALL's art changes Canyon's border along with it.
+//
+// SLUDGE used to be tinyDungeon (8,2), byte-identical to Factory's
+// GOO_VISUAL (id 42 below) — the two zones drew the exact same ooze-hatch
+// pixels. It's now roguelikeDungeon (6,11), a bordered teal pool, so Sewer's
+// signature hazard tile no longer doubles as Factory's.
 export const TILE_SPRITE_MAP = {
-    0: null,                                      // wall  — dark fallback (intentional, frames the room)
+    0: { sheet: 'roguelikeDungeon', col: 8, row: 0 },  // wall — plain grey brick
     1: { sheet: 'tinyDungeon', col: 0, row: 4 },  // floor — clean tan dungeon stone
-    2: { sheet: 'tinyDungeon', col: 8, row: 2 },  // sludge — stone hatch leaking green ooze
+    2: { sheet: 'roguelikeDungeon', col: 6, row: 11 }, // sludge — bordered teal pool
     3: { sheet: 'tinyDungeon', col: 4, row: 4 },  // gap — speckled tan floor variant
     4: { sheet: 'tinyDungeon', col: 0, row: 3 },  // grate — horizontal iron bars
     5: { sheet: 'tinyDungeon', col: 6, row: 3 },  // drain — floor with 4-square stone inset
-    6: { sheet: 'tinyDungeon', col: 9, row: 4 },  // boss floor — clean gray stone-brick slab
+    6: { sheet: 'tinyDungeon', col: 9, row: 4 },  // boss floor — clean gray stone-brick slab (still shared with Factory's FACTORY_FLOOR; only 2 of this map's 400 cells, not addressed by this pass)
     7: { sheet: 'tinyDungeon', col: 5, row: 2 },  // boss trigger — red banner on stone (accent)
     22: { sheet: 'tinyDungeon', col: 5, row: 3 }, // PORTCULLIS — spiked vertical gate
     23: { sheet: 'tinyDungeon', col: 3, row: 5 }, // BARRICADE — wooden crate front (destructible)
@@ -571,11 +609,44 @@ export const ZONE_TILE_SPRITE_MAP = {
     32: { sheet: 'tinyTown', col: 2, row: 0 },   // CONFETTI      — grass dotted with orange flowers
     33: { sheet: 'tinyTown', col: 4, row: 3 },   // SAWDUST       — packed tan dirt
 
-    // Factory — Tiny Dungeon gray stone. No conveyor art; wood slats proxy it.
-    40: { sheet: 'tinyDungeon', col: 9, row: 4 }, // FACTORY_FLOOR — clean gray stone slab
-    41: { sheet: 'tinyDungeon', col: 4, row: 3 }, // FACTORY_WALL  — gray brick wall
-    42: { sheet: 'tinyDungeon', col: 8, row: 2 }, // GOO_VISUAL    — green ooze hatch
-    43: { sheet: 'tinyDungeon', col: 4, row: 6 }, // CONVEYOR_VIS  — wood slats (belt proxy)
+    // Factory — needed no new sheet (zone-identity.md Item 2). WALL moves to
+    // roguelikeCity's chain-link fencing so Factory reads industrial rather
+    // than dungeon-brick; CONVEYOR_VIS moves to a tinyDungeon rail-and-
+    // crosstie motif. FLOOR and GOO_VISUAL stay put — the defect there was
+    // Sewer sharing them (SLUDGE, id 2 in TILE_SPRITE_MAP above, moved off
+    // GOO_VISUAL's cell; BOSS_FLOOR did not move off FACTORY_FLOOR's, see the
+    // note on id 6 above — a much smaller, 2-cell overlap this pass leaves
+    // alone), not the tiles themselves.
+    //
+    // WALL: roguelikeCity (16,17), a continuous chain-link weave. (15,17)
+    // alongside it frames each cell with its own post, which tiles as a
+    // visibly repeated post-and-panel wall rather than one continuous fence
+    // across Factory's long wall runs (checked by tiling both 5x5) — this
+    // map's WALL is 300 of 900 cells, mostly long straight runs, so the
+    // seamless weave holds up better at that scale.
+    //
+    // CONVEYOR_VIS corrects a false claim: this comment used to say "No
+    // conveyor art; wood slats proxy it." Surveyed and untrue — tinyDungeon
+    // (7,6) is a rail-and-crosstie motif, three cells from the wood-slat
+    // proxy it replaces here. (tinyDungeon (6,6), listed alongside it in an
+    // earlier survey as a second candidate, turned out on inspection to be a
+    // color-matched variant of the SAME wood-slat/ladder family as the old
+    // proxy — not a conveyor motif at all; pixel-diffed against (7,6)/(8,6)
+    // before picking (7,6) instead of trusting the survey.) This is the
+    // third false "no art exists" claim found in this file: awnings (false —
+    // the art exists, see the Circus TENT_STRIPE note above) and iron
+    // railings (genuine — see IRON_FENCE below) were the first two.
+    //
+    // Other unused industrial art surveyed while here, left for a later
+    // pass: tinyDungeon has a segmented pipe-loop at (9-11, 5-7) — a fixed
+    // 3x3 decorative frame (corners + straight runs), not a freely tileable
+    // single cell. rpgUrban has L/T pipe fittings at (1,6)/(2,6)/(3,6-7), a
+    // pipe wrench at (1,7), and hazard barriers at (5,8)/(6,8) — all unused,
+    // already loaded (no new SHEETS entry needed to use any of it).
+    40: { sheet: 'tinyDungeon', col: 9, row: 4 },     // FACTORY_FLOOR — clean gray stone slab
+    41: { sheet: 'roguelikeCity', col: 16, row: 17 }, // FACTORY_WALL  — chain-link fencing
+    42: { sheet: 'tinyDungeon', col: 8, row: 2 },     // GOO_VISUAL    — green ooze hatch
+    43: { sheet: 'tinyDungeon', col: 7, row: 6 },     // CONVEYOR_VIS  — rail-and-crosstie belt motif
 
     // Graveyard — Tiny Town dirt/foliage + Tiny Dungeon stone cross.
     50: { sheet: 'tinyTown',    col: 1, row: 1 }, // GRAVE_DIRT    — brown dirt patch
